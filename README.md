@@ -1,4 +1,4 @@
 # Vape V4
-**A script that I have maintained for 5 years, mostly known for bedwars.**
+hi im bored rlellelelelleel
 
-I will not allow selling my code in any capacity, this mean's customs that profit off of my work.
+i will sell it for 41423423412343214514321$ 😎
