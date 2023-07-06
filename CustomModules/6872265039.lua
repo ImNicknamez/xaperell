@@ -11,7 +11,7 @@ local lplr = players.LocalPlayer
 local workspace = game:GetService("Workspace")
 local lighting = game:GetService("Lighting")
 local cam = workspace.CurrentCamera
-local targetinfo = shared.VapeTargetInfo
+local targetinfo = shared.xapeTargetInfo
 local uis = game:GetService("UserInputService")
 local mouse = lplr:GetMouse()
 local robloxfriends = {}
@@ -20,10 +20,10 @@ local getfunctions
 local origC0 = nil
 local collectionservice = game:GetService("CollectionService")
 local function GetURL(scripturl)
-	if shared.VapeDeveloper then
-		return readfile("vape/"..scripturl)
+	if shared.xapeDeveloper then
+		return readfile("xape/"..scripturl)
 	else
-		return game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..scripturl, true)
+		return game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xaperell/main/"..scripturl, true)
 	end
 end
 local bettergetfocus = function()
@@ -37,8 +37,8 @@ local bettergetfocus = function()
 	end
 	return game:GetService("UserInputService"):GetFocusedTextBox()
 end
-local entity = shared.vapeentity
-local WhitelistFunctions = shared.vapewhitelist
+local entity = shared.xapeentity
+local WhitelistFunctions = shared.xapewhitelist
 local queueteleport = syn and syn.queue_on_teleport or queue_on_teleport or fluxus and fluxus.queue_on_teleport or function() end
 local teleportfunc
 local betterisfile = function(file)
@@ -76,10 +76,10 @@ end
 
 
 local function GetURL(scripturl)
-	if shared.VapeDeveloper then
-		return readfile("vape/"..scripturl)
+	if shared.xapeDeveloper then
+		return readfile("xape/"..scripturl)
 	else
-		return game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..scripturl, true)
+		return game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xaperell/main/"..scripturl, true)
 	end
 end
 
@@ -191,7 +191,7 @@ local function getcustomassetfunc(path)
 			textlabel:Remove()
 		end)
 		local req = requestfunc({
-			Url = "https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..path:gsub("vape/assets", "assets"),
+			Url = "https://raw.githubusercontent.com/ImNicknamez/xaperell/main/"..path:gsub("xape/assets", "assets"),
 			Method = "GET"
 		})
 		writefile(path, req.Body)
@@ -238,7 +238,7 @@ runcode(function()
 			QueueMeta = require(repstorage.TS.game["queue-meta"]).QueueMeta,
 			getEntityTable = require(repstorage.TS.entity["entity-util"]).EntityUtil,
         }
-		if not shared.vapebypassed then
+		if not shared.xapebypassed then
 			local realremote = repstorage:WaitForChild("GameAnalyticsError")
 			realremote.Parent = nil
 			local fakeremote = Instance.new("RemoteEvent")
@@ -260,7 +260,7 @@ runcode(function()
 				end
 				realremote:FireServer(p1, p2, u2);
 			end)
-			shared.vapebypassed = true
+			shared.xapebypassed = true
 		end
 	end
 end)
@@ -283,11 +283,11 @@ end)
 
 local function getNametagString(plr)
 	local nametag = ""
-	if WhitelistFunctions:CheckPlayerType(plr) == "VAPE PRIVATE" then
-		nametag = '<font color="rgb(127, 0, 255)">[VAPE PRIVATE] '..(plr.DisplayName or plr.Name)..'</font>'
+	if WhitelistFunctions:CheckPlayerType(plr) == "XAPE PRIVATE" then
+		nametag = '<font color="rgb(127, 0, 255)">[XAPE PRIVATE] '..(plr.DisplayName or plr.Name)..'</font>'
 	end
-	if WhitelistFunctions:CheckPlayerType(plr) == "VAPE OWNER" then
-		nametag = '<font color="rgb(255, 80, 80)">[VAPE OWNER] '..(plr.DisplayName or plr.Name)..'</font>'
+	if WhitelistFunctions:CheckPlayerType(plr) == "XAPE OWNER" then
+		nametag = '<font color="rgb(255, 80, 80)">[XAPE OWNER] '..(plr.DisplayName or plr.Name)..'</font>'
 	end
 	if WhitelistFunctions.WhitelistTable.chattags[WhitelistFunctions:Hash(plr.Name..plr.UserId)] then
 		local data = WhitelistFunctions.WhitelistTable.chattags[WhitelistFunctions:Hash(plr.Name..plr.UserId)]
@@ -329,7 +329,7 @@ local function renderNametag(plr)
 				local playerlistplayers = playerlist.PlayerListMaster.OffsetFrame.PlayerScrollList.SizeOffsetFrame.ScrollingFrameContainer.ScrollingFrameClippingFrame.ScollingFrame.OffsetUndoFrame
 				local targetedplr = playerlistplayers:FindFirstChild("p_"..plr.UserId)
 				if targetedplr then 
-					targetedplr.ChildrenFrame.NameFrame.BGFrame.OverlayFrame.PlayerIcon.Image = getcustomassetfunc("vape/assets/VapeIcon.png")
+					targetedplr.ChildrenFrame.NameFrame.BGFrame.OverlayFrame.PlayerIcon.Image = getcustomassetfunc("xape/assets/VapeIcon.png")
 				end
 			end)
 		end
@@ -373,8 +373,8 @@ local teleportedServers = false
 teleportfunc = lplr.OnTeleport:Connect(function(State)
     if (not teleportedServers) then
 		teleportedServers = true
-		if shared.vapeoverlay then
-			queueteleport('shared.vapeoverlay = "'..shared.vapeoverlay..'"')
+		if shared.xapeoverlay then
+			queueteleport('shared.xapeoverlay = "'..shared.xapeoverlay..'"')
 		end
     end
 end)
@@ -516,8 +516,8 @@ JoinQueue = GuiLibrary["ObjectsThatCanBeSaved"]["BlatantWindow"]["Api"].CreateOp
 				repeat
 					task.wait(JoinQueueDelay["Value"])
 					firstqueue = false
-					if shared.vapeteammembers and bedwars["ClientStoreHandler"]:getState().Party then
-						repeat task.wait() until #bedwars["ClientStoreHandler"]:getState().Party.members >= shared.vapeteammembers or JoinQueue["Enabled"] == false
+					if shared.xapeteammembers and bedwars["ClientStoreHandler"]:getState().Party then
+						repeat task.wait() until #bedwars["ClientStoreHandler"]:getState().Party.members >= shared.xapeteammembers or JoinQueue["Enabled"] == false
 					end
 					if JoinQueue["Enabled"] and JoinQueueTypes["Value"] ~= "" then
 						if bedwars["ClientStoreHandler"]:getState().Party.queueState > 0 then
@@ -541,7 +541,7 @@ JoinQueue = GuiLibrary["ObjectsThatCanBeSaved"]["BlatantWindow"]["Api"].CreateOp
 			end)
 		else
 			firstqueue = false
-			shared.vapeteammembers = nil
+			shared.xapeteammembers = nil
 			if bedwars["ClientStoreHandler"]:getState().Party.queueState > 0 then
 				bedwars["LobbyClientEvents"]:leaveQueue()
 			end
@@ -687,7 +687,7 @@ runcode(function()
 		["Function"] = function(callback)
 			if callback then
 				task.spawn(function()
-					repeat task.wait() until shared.VapeFullyLoaded
+					repeat task.wait() until shared.xapeFullyLoaded
 					if speed["Enabled"] then
 						if AnticheatBypass["Enabled"] == false and GuiLibrary["ObjectsThatCanBeSaved"]["Blatant modeToggle"]["Api"]["Enabled"] == false then
 							AnticheatBypass["ToggleButton"](false)
@@ -838,7 +838,7 @@ runcode(function()
 	local hip
 
 	local function finishcframe(cframe)
-		return shared.VapeOverrideAnticheatBypassCFrame and shared.VapeOverrideAnticheatBypassCFrame(cframe) or cframe
+		return shared.xapeOverrideAnticheatBypassCFrame and shared.xapeOverrideAnticheatBypassCFrame(cframe) or cframe
 	end
 
 	local function check()
@@ -979,13 +979,13 @@ runcode(function()
 			if not (clone and oldcloneroot) then return end
 			clone.CFrame = oldcloneroot.CFrame
 		end)
-		shared.VapeRealCharacter = {
+		shared.xapeRealCharacter = {
 			Humanoid = entity.character.Humanoid,
 			Head = entity.character.Head,
 			HumanoidRootPart = oldcloneroot
 		}
-		if shared.VapeOverrideAnticheatBypassPre then 
-			shared.VapeOverrideAnticheatBypassPre(lplr.Character)
+		if shared.xapeOverrideAnticheatBypassPre then 
+			shared.xapeOverrideAnticheatBypassPre(lplr.Character)
 		end
 		repeat
 			task.wait()
@@ -1034,7 +1034,7 @@ runcode(function()
 						else
 							lagbackchanged = false
 							lagbacknotification = false
-							if not shared.VapeOverrideAnticheatBypass then
+							if not shared.xapeOverrideAnticheatBypass then
 								if (not disabletpcheck) and entity.character.Humanoid.Sit ~= true then
 									anticheatfunnyyes = true 
 									local frameratecheck = getaverageframerate()
@@ -1090,7 +1090,7 @@ runcode(function()
 			if spawncoro then return end
 			spawncoro = true
 			allowspeed = false
-			shared.VapeRealCharacter = nil
+			shared.xapeRealCharacter = nil
 			repeat task.wait() until entity.isAlive
 			task.wait(0.4)
 			lplr.Character:WaitForChild("Humanoid", 10)
@@ -1123,7 +1123,7 @@ runcode(function()
 				if spawncoro then return end
 				spawncoro = true
 				allowspeed = false
-				shared.VapeRealCharacter = nil
+				shared.xapeRealCharacter = nil
 				repeat task.wait() until entity.isAlive
 				task.wait(0.4)
 				char:WaitForChild("Humanoid", 10)
@@ -1287,7 +1287,7 @@ runcode(function()
 		["Function"] = function() end,
 		["Default"] = true
 	})
-	if shared.VapeDeveloper then 
+	if shared.xapeDeveloper then 
 		AnticheatBypassTPSpeed = AnticheatBypass.CreateSlider({
 			["Name"] = "TPSpeed",
 			["Function"] = function(val) 
@@ -1834,11 +1834,11 @@ runcode(function()
 end)
 
 runcode(function()
-	local tpstring = shared.vapeoverlay or nil
+	local tpstring = shared.xapeoverlay or nil
 	local origtpstring = tpstring
 	local Overlay = GuiLibrary.CreateCustomWindow({
 		["Name"] = "Overlay", 
-		["Icon"] = "vape/assets/TargetIcon1.png",
+		["Icon"] = "xape/assets/TargetIcon1.png",
 		["IconSize"] = 16
 	})
 	local overlayframe = Instance.new("Frame")
@@ -1899,7 +1899,7 @@ runcode(function()
 	local mapname = "Lobby"
 	GuiLibrary["ObjectsThatCanBeSaved"]["GUIWindow"]["Api"].CreateCustomToggle({
 		["Name"] = "Overlay", 
-		["Icon"] = "vape/assets/TargetIcon1.png", 
+		["Icon"] = "xape/assets/TargetIcon1.png", 
 		["Function"] = function(callback)
 			Overlay.SetVisible(callback) 
 			if callback then
@@ -1925,71 +1925,71 @@ end)
 
 task.spawn(function()
 	local function createannouncement(announcetab)
-		local vapenotifframe = Instance.new("TextButton")
-		vapenotifframe.AnchorPoint = Vector2.new(0.5, 0)
-		vapenotifframe.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
-		vapenotifframe.Size = UDim2.new(1, -10, 0, 50)
-		vapenotifframe.Position = UDim2.new(0.5, 0, 0, -100)
-		vapenotifframe.AutoButtonColor = false
-		vapenotifframe.Text = ""
-		vapenotifframe.Parent = shared.GuiLibrary.MainGui
-		local vapenotifframecorner = Instance.new("UICorner")
-		vapenotifframecorner.CornerRadius = UDim.new(0, 256)
-		vapenotifframecorner.Parent = vapenotifframe
-		local vapeicon = Instance.new("Frame")
-		vapeicon.Size = UDim2.new(0, 40, 0, 40)
-		vapeicon.Position = UDim2.new(0, 5, 0, 5)
-		vapeicon.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
-		vapeicon.Parent = vapenotifframe
-		local vapeiconicon = Instance.new("ImageLabel")
-		vapeiconicon.BackgroundTransparency = 1
-		vapeiconicon.Size = UDim2.new(1, -10, 1, -10)
-		vapeiconicon.AnchorPoint = Vector2.new(0.5, 0.5)
-		vapeiconicon.Position = UDim2.new(0.5, 0, 0.5, 0)
-		vapeiconicon.Image = getsynasset("vape/assets/VapeIcon.png")
-		vapeiconicon.Parent = vapeicon
-		local vapeiconcorner = Instance.new("UICorner")
-		vapeiconcorner.CornerRadius = UDim.new(0, 256)
-		vapeiconcorner.Parent = vapeicon
-		local vapetext = Instance.new("TextLabel")
-		vapetext.Size = UDim2.new(1, -55, 1, -10)
-		vapetext.Position = UDim2.new(0, 50, 0, 5)
-		vapetext.BackgroundTransparency = 1
-		vapetext.TextScaled = true
-		vapetext.RichText = true
-		vapetext.Font = Enum.Font.Ubuntu
-		vapetext.Text = announcetab.Text
-		vapetext.TextColor3 = Color3.new(1, 1, 1)
-		vapetext.TextXAlignment = Enum.TextXAlignment.Left
-		vapetext.Parent = vapenotifframe
-		tweenService:Create(vapenotifframe, TweenInfo.new(0.3), {Position = UDim2.new(0.5, 0, 0, 5)}):Play()
+		local xapenotifframe = Instance.new("TextButton")
+		xapenotifframe.AnchorPoint = Vector2.new(0.5, 0)
+		xapenotifframe.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+		xapenotifframe.Size = UDim2.new(1, -10, 0, 50)
+		xapenotifframe.Position = UDim2.new(0.5, 0, 0, -100)
+		xapenotifframe.AutoButtonColor = false
+		xapenotifframe.Text = ""
+		xapenotifframe.Parent = shared.GuiLibrary.MainGui
+		local xapenotifframecorner = Instance.new("UICorner")
+		xapenotifframecorner.CornerRadius = UDim.new(0, 256)
+		xapenotifframecorner.Parent = xapenotifframe
+		local xapeicon = Instance.new("Frame")
+		xapeicon.Size = UDim2.new(0, 40, 0, 40)
+		xapeicon.Position = UDim2.new(0, 5, 0, 5)
+		xapeicon.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+		xapeicon.Parent = xapenotifframe
+		local xapeiconicon = Instance.new("ImageLabel")
+		xapeiconicon.BackgroundTransparency = 1
+		xapeiconicon.Size = UDim2.new(1, -10, 1, -10)
+		xapeiconicon.AnchorPoint = Vector2.new(0.5, 0.5)
+		xapeiconicon.Position = UDim2.new(0.5, 0, 0.5, 0)
+		xapeiconicon.Image = getsynasset("xape/assets/VapeIcon.png")
+		xapeiconicon.Parent = xapeicon
+		local xapeiconcorner = Instance.new("UICorner")
+		xapeiconcorner.CornerRadius = UDim.new(0, 256)
+		xapeiconcorner.Parent = xapeicon
+		local xapetext = Instance.new("TextLabel")
+		xapetext.Size = UDim2.new(1, -55, 1, -10)
+		xapetext.Position = UDim2.new(0, 50, 0, 5)
+		xapetext.BackgroundTransparency = 1
+		xapetext.TextScaled = true
+		xapetext.RichText = true
+		xapetext.Font = Enum.Font.Ubuntu
+		xapetext.Text = announcetab.Text
+		xapetext.TextColor3 = Color3.new(1, 1, 1)
+		xapetext.TextXAlignment = Enum.TextXAlignment.Left
+		xapetext.Parent = xapenotifframe
+		tweenService:Create(xapenotifframe, TweenInfo.new(0.3), {Position = UDim2.new(0.5, 0, 0, 5)}):Play()
 		local sound = Instance.new("Sound")
 		sound.PlayOnRemove = true
 		sound.SoundId = "rbxassetid://6732495464"
 		sound.Parent = workspace
 		sound:Destroy()
-		vapenotifframe.MouseButton1Click:Connect(function()
+		xapenotifframe.MouseButton1Click:Connect(function()
 			local sound = Instance.new("Sound")
 			sound.PlayOnRemove = true
 			sound.SoundId = "rbxassetid://6732690176"
 			sound.Parent = workspace
 			sound:Destroy()
-			vapenotifframe:Destroy()
+			xapenotifframe:Destroy()
 		end)
-		game:GetService("Debris"):AddItem(vapenotifframe, announcetab.Time or 20)
+		game:GetService("Debris"):AddItem(xapenotifframe, announcetab.Time or 20)
 	end
 
 	local function rundata(datatab, olddatatab)
 		if not olddatatab then
 			if datatab.Disabled then 
 				coroutine.resume(coroutine.create(function()
-					repeat task.wait() until shared.VapeFullyLoaded
+					repeat task.wait() until shared.xapeFullyLoaded
 					task.wait(1)
 					GuiLibrary.SelfDestruct()
 				end))
 				game:GetService("StarterGui"):SetCore("SendNotification", {
-					Title = "Vape",
-					Text = "Vape is currently disabled, please use vape later.",
+					Title = "xape",
+					Text = "xape is currently disabled, please use xape later.",
 					Duration = 30,
 				})
 			end
@@ -1999,13 +1999,13 @@ task.spawn(function()
 		else
 			if datatab.Disabled then 
 				coroutine.resume(coroutine.create(function()
-					repeat task.wait() until shared.VapeFullyLoaded
+					repeat task.wait() until shared.xapeFullyLoaded
 					task.wait(1)
 					GuiLibrary.SelfDestruct()
 				end))
 				game:GetService("StarterGui"):SetCore("SendNotification", {
-					Title = "Vape",
-					Text = "Vape is currently disabled, please use vape later.",
+					Title = "xape",
+					Text = "xape is currently disabled, please use xape later.",
 					Duration = 30,
 				})
 			end
@@ -2021,22 +2021,22 @@ task.spawn(function()
 	end
 	task.spawn(function()
 		pcall(function()
-			if not isfile("vape/Profiles/bedwarsdata.txt") then 
+			if not isfile("xape/Profiles/bedwarsdata.txt") then 
 				local commit = "main"
-				for i,v in pairs(game:HttpGet("https://github.com/7GrandDadPGN/VapeV4ForRoblox"):split("\n")) do 
+				for i,v in pairs(game:HttpGet("https://github.com/ImNicknamez/xaperell"):split("\n")) do 
 					if v:find("commit") and v:find("fragment") then 
 						local str = v:split("/")[5]
 						commit = str:sub(0, str:find('"') - 1)
 						break
 					end
 				end
-				writefile("vape/Profiles/bedwarsdata.txt", game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..commit.."/CustomModules/bedwarsdata", true))
+				writefile("xape/Profiles/bedwarsdata.txt", game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xaperell/"..commit.."/CustomModules/bedwarsdata", true))
 			end
-			local olddata = readfile("vape/Profiles/bedwarsdata.txt")
+			local olddata = readfile("xape/Profiles/bedwarsdata.txt")
 
 			repeat
 				local commit = "main"
-				for i,v in pairs(game:HttpGet("https://github.com/7GrandDadPGN/VapeV4ForRoblox"):split("\n")) do 
+				for i,v in pairs(game:HttpGet("https://github.com/ImNicknamez/xaperell"):split("\n")) do 
 					if v:find("commit") and v:find("fragment") then 
 						local str = v:split("/")[5]
 						commit = str:sub(0, str:find('"') - 1)
@@ -2044,15 +2044,15 @@ task.spawn(function()
 					end
 				end
 				
-				local newdata = game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..commit.."/CustomModules/bedwarsdata", true)
+				local newdata = game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xaperell/"..commit.."/CustomModules/bedwarsdata", true)
 				if newdata ~= olddata then 
 					rundata(game:GetService("HttpService"):JSONDecode(newdata), game:GetService("HttpService"):JSONDecode(olddata))
 					olddata = newdata
-					writefile("vape/Profiles/bedwarsdata.txt", newdata)
+					writefile("xape/Profiles/bedwarsdata.txt", newdata)
 				end
 
 				task.wait(10)
-			until not vapeInjected
+			until not xapeInjected
 		end)
 	end)
 end)
