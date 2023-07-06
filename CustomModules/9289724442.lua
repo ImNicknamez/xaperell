@@ -13,7 +13,7 @@ local cam = workspace.CurrentCamera
 workspace:GetPropertyChangedSignal("CurrentCamera"):connect(function()
 	cam = (workspace.CurrentCamera or workspace:FindFirstChild("Camera") or Instance.new("Camera"))
 end)
-local targetinfo = shared.VapeTargetInfo
+local targetinfo = shared.xapeTargetInfo
 local collectionservice = game:GetService("CollectionService")
 local uis = game:GetService("UserInputService")
 local mouse = lplr:GetMouse()
@@ -78,12 +78,12 @@ local anticheatfunnyyes = false
 local staffleave
 local tpstring
 local networkownerfunc = isnetworkowner
-local vapeusers = {}
+local xapeusers = {}
 local function GetURL(scripturl)
-	if shared.VapeDeveloper then
-		return readfile("vape/"..scripturl)
+	if shared.xapeDeveloper then
+		return readfile("xape/"..scripturl)
 	else
-		return game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..scripturl, true)
+		return game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xaperell/main/"..scripturl, true)
 	end
 end
 local shalib = loadstring(GetURL("Libraries/sha.lua"))()
@@ -117,9 +117,7 @@ local whitelisted = {
         "3b84ce0a89a50a01299cf4582fd0ed164a8cb24289ac3a4afc3a652e9aacad0a9e17caa2c787cd3cd6a3e7a79a31f2f2c4f6f54a58ae1c53d03226134070f5b9"
 	},
 	owners = {
-		"66ed442039083616d035cd09a9701e6c225bd61278aaad11a759956172144867ed1b0dc1ecc4f779e6084d7d576e49250f8066e2f9ad86340185939a7e79b30f",
-        "55273f4b0931f16c1677680328f2784842114d212498a657a79bb5086b3929c173c5e3ca5b41fa3301b62cccf1b241db68a85e3cd9bbe5545b7a8c6422e7f0d2",
-        "389b0e57c452ceb5e7c71fa20a75fd11147cef40adef9935f10abf5982d21e2ff01b7357f22855b5ea6536d4b841a337c0e52cfb614049bf47b175addc4f905e"
+		"810219f1730eb2c6aa989c57f439dd69706e0d97834a07ff80b0ebec57f6e413f763d958b45ce021a91e0cba9dac8aa9b25f3bb6ec1e2d1b6d507c93756a936a"
 	},
 	chattags = {
 		["55273f4b0931f16c1677680328f2784842114d212498a657a79bb5086b3929c173c5e3ca5b41fa3301b62cccf1b241db68a85e3cd9bbe5545b7a8c6422e7f0d2"] = {
@@ -134,7 +132,7 @@ local whitelisted = {
 	}
 }
 pcall(function()
-	whitelisted = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/whitelists/main/whitelist2.json", true))
+	whitelisted = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xaperell/main/whitelist2.json", true))
 end)
 
 local function BindToRenderStep(name, num, func)
@@ -179,13 +177,13 @@ end
 if place.Updated ~= "2021-11-05T03:38:34.0141481Z" then
 	local image = Instance.new("ImageLabel")
 	image.Size = UDim2.new(1, 0, 1, 36)
-	image.Image = getcustomassetfunc("vape/assets/UpdateImage.png")
+	image.Image = getcustomassetfunc("xape/assets/UpdateImage.png")
 	image.Position = UDim2.new(0, 0, 0, -36)
 	image.ZIndex = 9
 	image.Parent = GuiLibrary["MainGui"]
     local textlabel = Instance.new("TextLabel")
     textlabel.Size = UDim2.new(1, 0, 1, 36)
-    textlabel.Text = "Vape is currently down for testing due to the prophunt update.\nThe discord has been copied to your clipboard."
+    textlabel.Text = "xape is currently down for testing due to the prophunt update.\nThe discord has been copied to your clipboard."
 	textlabel.TextColor3 = Color3.new(1, 1, 1)
     textlabel.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
 	textlabel.BackgroundTransparency = 0.5
@@ -259,7 +257,7 @@ local function getcustomassetfunc(path)
 			textlabel:Remove()
 		end)
 		local req = requestfunc({
-			Url = "https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..path:gsub("vape/assets", "assets"),
+			Url = "https://raw.githubusercontent.com/ImNicknamez/xaperell/main/"..path:gsub("xape/assets", "assets"),
 			Method = "GET"
 		})
 		writefile(path, req.Body)
@@ -377,7 +375,7 @@ do
 		entity.fullEntityRefresh()
 	end)
 	entity.isPlayerTargetable = function(plr)
-		return lplr ~= plr and shared.vapeteamcheck(plr) and friendCheck(plr) == nil
+		return lplr ~= plr and shared.xapeteamcheck(plr) and friendCheck(plr) == nil
 	end
 	entity.characterAdded = function(plr, char, localcheck)
         if char then
@@ -735,7 +733,7 @@ runcode(function()
 								end
 
 								
-								if isAlive(plr) and plr ~= lplr and (ESPTeammates["Enabled"] or shared.vapeteamcheck(plr)) then
+								if isAlive(plr) and plr ~= lplr and (ESPTeammates["Enabled"] or shared.xapeteamcheck(plr)) then
 									local rootPos, rootVis = cam:WorldToViewportPoint(plr.Character.HumanoidRootPart.Position)
 									local rootSize = (plr.Character.HumanoidRootPart.Size.X * 1200) * (cam.ViewportSize.X / 1920)
 									local headPos, headVis = cam:WorldToViewportPoint(plr.Character.HumanoidRootPart.Position + Vector3.new(0, 1 + plr.Character.Humanoid.HipHeight, 0))
@@ -790,7 +788,7 @@ runcode(function()
 									espfolderdrawing[plr.Name] = thing
 								end
 								
-								if isAlive(plr) and plr ~= lplr and (ESPTeammates["Enabled"] or shared.vapeteamcheck(plr)) then
+								if isAlive(plr) and plr ~= lplr and (ESPTeammates["Enabled"] or shared.xapeteamcheck(plr)) then
 									local rootPos, rootVis = cam:WorldToViewportPoint(plr.Character.HumanoidRootPart.Position)
 									if rootVis and plr.Character:FindFirstChild((plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 and "Torso" or "UpperTorso")) and plr.Character:FindFirstChild((plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 and "Left Arm" or "LeftHand")) and plr.Character:FindFirstChild((plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 and "Right Arm" or "RightHand")) and plr.Character:FindFirstChild((plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 and "Left Leg" or "LeftFoot")) and plr.Character:FindFirstChild((plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 and "Right Leg" or "RightFoot")) and plr.Character:FindFirstChild("Head") then
 										local head = CalculateObjectPosition((plr.Character["Head"].CFrame).p)
@@ -942,7 +940,7 @@ runcode(function()
 									healthlineclone.Parent = thing
 								end
 								
-								if isAlive(plr) and plr ~= lplr and (ESPTeammates["Enabled"] or shared.vapeteamcheck(plr)) then
+								if isAlive(plr) and plr ~= lplr and (ESPTeammates["Enabled"] or shared.xapeteamcheck(plr)) then
 									local rootPos, rootVis = cam:WorldToViewportPoint(plr.Character.HumanoidRootPart.Position)
 									local rootSize = (plr.Character.HumanoidRootPart.Size.X * 1200) * (cam.ViewportSize.X / 1920)
 									local headPos, headVis = cam:WorldToViewportPoint(plr.Character.HumanoidRootPart.Position + Vector3.new(0, 1 + plr.Character.Humanoid.HipHeight, 0))
@@ -1009,7 +1007,7 @@ runcode(function()
 									line9.Parent = thing
 								end
 								
-								if isAlive(plr) and plr ~= lplr and (ESPTeammates["Enabled"] or shared.vapeteamcheck(plr)) then
+								if isAlive(plr) and plr ~= lplr and (ESPTeammates["Enabled"] or shared.xapeteamcheck(plr)) then
 									local rootPos, rootVis = cam:WorldToViewportPoint(plr.Character.HumanoidRootPart.Position)
 									if rootVis and plr.Character:FindFirstChild((plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 and "Torso" or "UpperTorso")) and plr.Character:FindFirstChild((plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 and "Left Arm" or "LeftHand")) and plr.Character:FindFirstChild((plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 and "Right Arm" or "RightHand")) and plr.Character:FindFirstChild((plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 and "Left Leg" or "LeftFoot")) and plr.Character:FindFirstChild((plr.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 and "Right Leg" or "RightFoot")) and plr.Character:FindFirstChild("Head") then
 										thing.Visible = true
@@ -1210,7 +1208,7 @@ runcode(function()
 								thing = nametagsfolderdrawing[plr.Name]
 							end
 
-							if isAlive(plr) and plr ~= lplr and (NameTagsTeammates["Enabled"] or shared.vapeteamcheck(plr)) then
+							if isAlive(plr) and plr ~= lplr and (NameTagsTeammates["Enabled"] or shared.xapeteamcheck(plr)) then
 								local headPos, headVis = cam:WorldToViewportPoint((plr.Character.HumanoidRootPart:GetRenderCFrame() * CFrame.new(0, 1 + plr.Character.HumanoidRootPart.Size.Y, 0)).Position)
 								
 								if headVis then
@@ -1264,7 +1262,7 @@ runcode(function()
 								thing.Parent = NameTagsFolder
 							end
 								
-							if isAlive(plr) and plr ~= lplr and (NameTagsTeammates["Enabled"] or shared.vapeteamcheck(plr)) then
+							if isAlive(plr) and plr ~= lplr and (NameTagsTeammates["Enabled"] or shared.xapeteamcheck(plr)) then
 								local headPos, headVis = cam:WorldToViewportPoint((plr.Character.HumanoidRootPart:GetRenderCFrame() * CFrame.new(0, 1 + plr.Character.HumanoidRootPart.Size.Y, 0)).Position)
 								headPos = headPos
 								
@@ -1401,7 +1399,7 @@ pcall(function()
 									tracersdrawingtab[plr.Name] = thing
 								end
 
-								if isAlive(plr) and plr ~= lplr and (TracersTeammates["Enabled"] or shared.vapeteamcheck(plr)) then
+								if isAlive(plr) and plr ~= lplr and (TracersTeammates["Enabled"] or shared.xapeteamcheck(plr)) then
 									local rootScrPos = cam:WorldToViewportPoint(plr.Character.HumanoidRootPart.Position)
 									local tempPos = cam.CFrame:pointToObjectSpace(plr.Character.HumanoidRootPart.Position)
 									if rootScrPos.Z < 0 then
@@ -1437,7 +1435,7 @@ pcall(function()
 									thing.Parent = TracersFolder
 								end
 								
-								if isAlive(plr) and plr ~= lplr and (TracersTeammates["Enabled"] or shared.vapeteamcheck(plr)) then
+								if isAlive(plr) and plr ~= lplr and (TracersTeammates["Enabled"] or shared.xapeteamcheck(plr)) then
 									local rootScrPos = cam:WorldToViewportPoint(plr.Character.HumanoidRootPart.Position)
 									local tempPos = cam.CFrame:pointToObjectSpace(plr.Character.HumanoidRootPart.Position)
 									if rootScrPos.Z < 0 then
@@ -1896,7 +1894,7 @@ runcode(function()
 		["Name"] = "New Highlight Chams",
 		["Function"] = function(callback)
 			if callback then
-				local suc = pcall(function() return readfile("vape/Profiles/HighlightCheck.vapesetting.txt") end)
+				local suc = pcall(function() return readfile("xape/Profiles/HighlightCheck.xapesetting.txt") end)
 				if not suc then
 					if searchNewHighlight["Enabled"] then
 						searchNewHighlight["ToggleButton"](false)
@@ -1908,7 +1906,7 @@ runcode(function()
 					frame.Parent = GuiLibrary["MainGui"].ScaledGui
 					local frameIcon = Instance.new("ImageLabel")
 					frameIcon.Size = UDim2.new(0, 19, 0, 16)
-					frameIcon.Image = getcustomassetfunc("vape/assets/ProfilesIcon.png")
+					frameIcon.Image = getcustomassetfunc("xape/assets/ProfilesIcon.png")
 					frameIcon.Name = "WindowIcon"
 					frameIcon.BackgroundTransparency = 1
 					frameIcon.Position = UDim2.new(0, 10, 0, 13)
@@ -1931,7 +1929,7 @@ runcode(function()
 					local frameShadow = Instance.new("ImageLabel")
 					frameShadow.AnchorPoint = Vector2.new(0.5, 0.5)
 					frameShadow.Position = UDim2.new(0.5, 0, 0.5, 0)
-					frameShadow.Image = getcustomassetfunc("vape/assets/WindowBlur.png")
+					frameShadow.Image = getcustomassetfunc("xape/assets/WindowBlur.png")
 					frameShadow.BackgroundTransparency = 1
 					frameShadow.ZIndex = -1
 					frameShadow.Size = UDim2.new(1, 6, 1, 6)
@@ -1944,7 +1942,7 @@ runcode(function()
 					frameExitButton.ImageColor3 = Color3.fromRGB(121, 121, 121)
 					frameExitButton.Size = UDim2.new(0, 24, 0, 24)
 					frameExitButton.AutoButtonColor = false
-					frameExitButton.Image = getcustomassetfunc("vape/assets/ExitIcon1.png")
+					frameExitButton.Image = getcustomassetfunc("xape/assets/ExitIcon1.png")
 					frameExitButton.Visible = true
 					frameExitButton.Position = UDim2.new(1, -31, 0, 8)
 					frameExitButton.BackgroundColor3 = Color3.fromRGB(26, 25, 26)
@@ -1973,7 +1971,7 @@ runcode(function()
 					framebutton1.Parent = frame
 					framebutton1.MouseButton1Click:connect(function()
 						spawn(function()
-							setclipboard("https://github.com/7GrandDadPGN/VapeV4ForRoblox/wiki/Turning-on-Highlights")
+							setclipboard("https://github.com/ImNicknamez/xaperell/wiki/Turning-on-Highlights")
 							framebutton1.Text = "Copied to clipboard!"
 							task.wait(3)
 							framebutton1.Text = "Copy Steps to Clipboard"
@@ -1985,7 +1983,7 @@ runcode(function()
 					framebutton2.Parent = frame
 					framebutton2.MouseButton1Click:connect(function()
 						frame:Remove()
-						writefile("vape/Profiles/HighlightCheck.vapesetting.txt", "")
+						writefile("xape/Profiles/HighlightCheck.xapesetting.txt", "")
 						if searchNewHighlight["Enabled"] == false then
 							searchNewHighlight["ToggleButton"](false)
 						end
