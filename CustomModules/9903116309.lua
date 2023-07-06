@@ -8,7 +8,7 @@ local workspace = game:GetService("Workspace")
 local lighting = game:GetService("Lighting")
 local collectionservice = game:GetService("CollectionService")
 local cam = workspace.CurrentCamera
-local targetinfo = shared.VapeTargetInfo
+local targetinfo = shared.xapeTargetInfo
 local uis = game:GetService("UserInputService")
 local localmouse = lplr:GetMouse()
 local requestfunc = syn and syn.request or http and http.request or http_request or fluxus and fluxus.request or getgenv().request or request
@@ -91,7 +91,7 @@ local function getcustomassetfunc(path)
 			textlabel:Remove()
 		end)
 		local req = requestfunc({
-			Url = "https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..path:gsub("vape/assets", "assets"),
+			Url = "https://raw.githubusercontent.com/ImNicknamez/xaperell/main/"..path:gsub("xape/assets", "assets"),
 			Method = "GET"
 		})
 		writefile(path, req.Body)
@@ -99,7 +99,7 @@ local function getcustomassetfunc(path)
 	return getasset(path) 
 end
 
-shared.vapeteamcheck = function(plr)
+shared.xapeteamcheck = function(plr)
 	return (GuiLibrary["ObjectsThatCanBeSaved"]["Teams by colorToggle"]["Api"]["Enabled"] and (plr.Team ~= lplr.Team or (lplr.Team == nil or #lplr.Team:GetPlayers() == #game:GetService("Players"):GetChildren())) or GuiLibrary["ObjectsThatCanBeSaved"]["Teams by colorToggle"]["Api"]["Enabled"] == false)
 end
 
@@ -117,7 +117,7 @@ local function isAlive(plr)
 end
 
 local function isPlayerTargetable(plr, target, friend)
-    return plr ~= lplr and plr and (friend and friendCheck(plr) == nil or (not friend)) and isAlive(plr) and targetCheck(plr, target) and shared.vapeteamcheck(plr)
+    return plr ~= lplr and plr and (friend and friendCheck(plr) == nil or (not friend)) and isAlive(plr) and targetCheck(plr, target) and shared.xapeteamcheck(plr)
 end
 
 local function vischeck(char, part)
@@ -973,7 +973,7 @@ runcode(function()
 							thing.AnchorPoint = Vector2.new(0.5, 0.5)
 							thing.Position = UDim2.new(0.5, 0, 0.5, 0)
 							thing.Visible = false
-							thing.Image = getcustomassetfunc("vape/assets/ArrowIndicator.png")
+							thing.Image = getcustomassetfunc("xape/assets/ArrowIndicator.png")
 							thing.Name = plr.Name
 							thing.Parent = ArrowsFolder
 						end
