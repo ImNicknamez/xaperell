@@ -1,7 +1,7 @@
 repeat task.wait() until game:IsLoaded()
 local GuiLibrary
-local baseDirectory = (shared.VapePrivate and "vapeprivate/" or "vape/")
-local vapeInjected = true
+local baseDirectory = (shared.xapePrivate and "xapeprivate/" or "xape/")
+local xapeInjected = true
 local oldRainbow = false
 local errorPopupShown = false
 local redownloadedAssets = false
@@ -17,73 +17,73 @@ local isfile = isfile or function(file)
 end
 local setidentity = syn and syn.set_thread_identity or set_thread_identity or setidentity or setthreadidentity or function() end
 local getidentity = syn and syn.get_thread_identity or get_thread_identity or getidentity or getthreadidentity or function() return 0 end
-local vapeAssetTable = {
-	["vape/assets/AddItem.png"] = "rbxassetid://13350763121",
-	["vape/assets/AddRemoveIcon1.png"] = "rbxassetid://13350764147",
-	["vape/assets/ArrowIndicator.png"] = "rbxassetid://13350766521",
-	["vape/assets/BackIcon.png"] = "rbxassetid://13350767223",
-	["vape/assets/BindBackground.png"] = "rbxassetid://13350767577",
-	["vape/assets/BlatantIcon.png"] = "rbxassetid://13350767943",
-	["vape/assets/CircleListBlacklist.png"] = "rbxassetid://13350768647",
-	["vape/assets/CircleListWhitelist.png"] = "rbxassetid://13350769066",
-	["vape/assets/ColorSlider1.png"] = "rbxassetid://13350769439",
-	["vape/assets/ColorSlider2.png"] = "rbxassetid://13350769842",
-	["vape/assets/CombatIcon.png"] = "rbxassetid://13350770192",
-	["vape/assets/DownArrow.png"] = "rbxassetid://13350770749",
-	["vape/assets/ExitIcon1.png"] = "rbxassetid://13350771140",
-	["vape/assets/FriendsIcon.png"] = "rbxassetid://13350771464",
-	["vape/assets/HoverArrow.png"] = "rbxassetid://13350772201",
-	["vape/assets/HoverArrow2.png"] = "rbxassetid://13350772588",
-	["vape/assets/HoverArrow3.png"] = "rbxassetid://13350773014",
-	["vape/assets/HoverArrow4.png"] = "rbxassetid://13350773643",
-	["vape/assets/InfoNotification.png"] = "rbxassetid://13350774006",
-	["vape/assets/KeybindIcon.png"] = "rbxassetid://13350774323",
-	["vape/assets/LegitModeIcon.png"] = "rbxassetid://13436400428",
-	["vape/assets/MoreButton1.png"] = "rbxassetid://13350775005",
-	["vape/assets/MoreButton2.png"] = "rbxassetid://13350775731",
-	["vape/assets/MoreButton3.png"] = "rbxassetid://13350776241",
-	["vape/assets/NotificationBackground.png"] = "rbxassetid://13350776706",
-	["vape/assets/NotificationBar.png"] = "rbxassetid://13350777235",
-	["vape/assets/OnlineProfilesButton.png"] = "rbxassetid://13350777717",
-	["vape/assets/PencilIcon.png"] = "rbxassetid://13350778187",
-	["vape/assets/PinButton.png"] = "rbxassetid://13350778654",
-	["vape/assets/ProfilesIcon.png"] = "rbxassetid://13350779149",
-	["vape/assets/RadarIcon1.png"] = "rbxassetid://13350779545",
-	["vape/assets/RadarIcon2.png"] = "rbxassetid://13350779992",
-	["vape/assets/RainbowIcon1.png"] = "rbxassetid://13350780571",
-	["vape/assets/RainbowIcon2.png"] = "rbxassetid://13350780993",
-	["vape/assets/RightArrow.png"] = "rbxassetid://13350781908",
-	["vape/assets/SearchBarIcon.png"] = "rbxassetid://13350782420",
-	["vape/assets/SettingsWheel1.png"] = "rbxassetid://13350782848",
-	["vape/assets/SettingsWheel2.png"] = "rbxassetid://13350783258",
-	["vape/assets/SliderArrow1.png"] = "rbxassetid://13350783794",
-	["vape/assets/SliderArrowSeperator.png"] = "rbxassetid://13350784477",
-	["vape/assets/SliderButton1.png"] = "rbxassetid://13350785680",
-	["vape/assets/TargetIcon.png"] = "rbxassetid://13350786128",
-	["vape/assets/TargetIcon1.png"] = "rbxassetid://13350786776",
-	["vape/assets/TargetIcon2.png"] = "rbxassetid://13350787228",
-	["vape/assets/TargetIcon3.png"] = "rbxassetid://13350787729",
-	["vape/assets/TargetIcon4.png"] = "rbxassetid://13350788379",
-	["vape/assets/TargetInfoIcon1.png"] = "rbxassetid://13350788860",
-	["vape/assets/TargetInfoIcon2.png"] = "rbxassetid://13350789239",
-	["vape/assets/TextBoxBKG.png"] = "rbxassetid://13350789732",
-	["vape/assets/TextBoxBKG2.png"] = "rbxassetid://13350790229",
-	["vape/assets/TextGUIIcon1.png"] = "rbxassetid://13350790634",
-	["vape/assets/TextGUIIcon2.png"] = "rbxassetid://13350791175",
-	["vape/assets/TextGUIIcon3.png"] = "rbxassetid://13350791758",
-	["vape/assets/TextGUIIcon4.png"] = "rbxassetid://13350792279",
-	["vape/assets/ToggleArrow.png"] = "rbxassetid://13350792786",
-	["vape/assets/UpArrow.png"] = "rbxassetid://13350793386",
-	["vape/assets/UtilityIcon.png"] = "rbxassetid://13350793918",
-	["vape/assets/WarningNotification.png"] = "rbxassetid://13350794868",
-	["vape/assets/WindowBlur.png"] = "rbxassetid://13350795660",
-	["vape/assets/WorldIcon.png"] = "rbxassetid://13350796199",
-	["vape/assets/VapeIcon.png"] = "rbxassetid://13350808582",
-	["vape/assets/RenderIcon.png"] = "rbxassetid://13350832775",
-	["vape/assets/VapeLogo1.png"] = "rbxassetid://13350860863",
-	["vape/assets/VapeLogo3.png"] = "rbxassetid://13350872035",
-	["vape/assets/VapeLogo2.png"] = "rbxassetid://13350876307",
-	["vape/assets/VapeLogo4.png"] = "rbxassetid://13350877564"
+local xapeAssetTable = {
+	["xape/assets/AddItem.png"] = "rbxassetid://13350763121",
+	["xape/assets/AddRemoveIcon1.png"] = "rbxassetid://13350764147",
+	["xape/assets/ArrowIndicator.png"] = "rbxassetid://13350766521",
+	["xape/assets/BackIcon.png"] = "rbxassetid://13350767223",
+	["xape/assets/BindBackground.png"] = "rbxassetid://13350767577",
+	["xape/assets/BlatantIcon.png"] = "rbxassetid://13350767943",
+	["xape/assets/CircleListBlacklist.png"] = "rbxassetid://13350768647",
+	["xape/assets/CircleListWhitelist.png"] = "rbxassetid://13350769066",
+	["xape/assets/ColorSlider1.png"] = "rbxassetid://13350769439",
+	["xape/assets/ColorSlider2.png"] = "rbxassetid://13350769842",
+	["xape/assets/CombatIcon.png"] = "rbxassetid://13350770192",
+	["xape/assets/DownArrow.png"] = "rbxassetid://13350770749",
+	["xape/assets/ExitIcon1.png"] = "rbxassetid://13350771140",
+	["xape/assets/FriendsIcon.png"] = "rbxassetid://13350771464",
+	["xape/assets/HoverArrow.png"] = "rbxassetid://13350772201",
+	["xape/assets/HoverArrow2.png"] = "rbxassetid://13350772588",
+	["xape/assets/HoverArrow3.png"] = "rbxassetid://13350773014",
+	["xape/assets/HoverArrow4.png"] = "rbxassetid://13350773643",
+	["xape/assets/InfoNotification.png"] = "rbxassetid://13350774006",
+	["xape/assets/KeybindIcon.png"] = "rbxassetid://13350774323",
+	["xape/assets/LegitModeIcon.png"] = "rbxassetid://13436400428",
+	["xape/assets/MoreButton1.png"] = "rbxassetid://13350775005",
+	["xape/assets/MoreButton2.png"] = "rbxassetid://13350775731",
+	["xape/assets/MoreButton3.png"] = "rbxassetid://13350776241",
+	["xape/assets/NotificationBackground.png"] = "rbxassetid://13350776706",
+	["xape/assets/NotificationBar.png"] = "rbxassetid://13350777235",
+	["xape/assets/OnlineProfilesButton.png"] = "rbxassetid://13350777717",
+	["xape/assets/PencilIcon.png"] = "rbxassetid://13350778187",
+	["xape/assets/PinButton.png"] = "rbxassetid://13350778654",
+	["xape/assets/ProfilesIcon.png"] = "rbxassetid://13350779149",
+	["xape/assets/RadarIcon1.png"] = "rbxassetid://13350779545",
+	["xape/assets/RadarIcon2.png"] = "rbxassetid://13350779992",
+	["xape/assets/RainbowIcon1.png"] = "rbxassetid://13350780571",
+	["xape/assets/RainbowIcon2.png"] = "rbxassetid://13350780993",
+	["xape/assets/RightArrow.png"] = "rbxassetid://13350781908",
+	["xape/assets/SearchBarIcon.png"] = "rbxassetid://13350782420",
+	["xape/assets/SettingsWheel1.png"] = "rbxassetid://13350782848",
+	["xape/assets/SettingsWheel2.png"] = "rbxassetid://13350783258",
+	["xape/assets/SliderArrow1.png"] = "rbxassetid://13350783794",
+	["xape/assets/SliderArrowSeperator.png"] = "rbxassetid://13350784477",
+	["xape/assets/SliderButton1.png"] = "rbxassetid://13350785680",
+	["xape/assets/TargetIcon.png"] = "rbxassetid://13350786128",
+	["xape/assets/TargetIcon1.png"] = "rbxassetid://13350786776",
+	["xape/assets/TargetIcon2.png"] = "rbxassetid://13350787228",
+	["xape/assets/TargetIcon3.png"] = "rbxassetid://13350787729",
+	["xape/assets/TargetIcon4.png"] = "rbxassetid://13350788379",
+	["xape/assets/TargetInfoIcon1.png"] = "rbxassetid://13350788860",
+	["xape/assets/TargetInfoIcon2.png"] = "rbxassetid://13350789239",
+	["xape/assets/TextBoxBKG.png"] = "rbxassetid://13350789732",
+	["xape/assets/TextBoxBKG2.png"] = "rbxassetid://13350790229",
+	["xape/assets/TextGUIIcon1.png"] = "rbxassetid://13350790634",
+	["xape/assets/TextGUIIcon2.png"] = "rbxassetid://13350791175",
+	["xape/assets/TextGUIIcon3.png"] = "rbxassetid://13350791758",
+	["xape/assets/TextGUIIcon4.png"] = "rbxassetid://13350792279",
+	["xape/assets/ToggleArrow.png"] = "rbxassetid://13350792786",
+	["xape/assets/UpArrow.png"] = "rbxassetid://13350793386",
+	["xape/assets/UtilityIcon.png"] = "rbxassetid://13350793918",
+	["xape/assets/WarningNotification.png"] = "rbxassetid://13350794868",
+	["xape/assets/WindowBlur.png"] = "rbxassetid://13350795660",
+	["xape/assets/WorldIcon.png"] = "rbxassetid://13350796199",
+	["xape/assets/VapeIcon.png"] = "rbxassetid://13350808582",
+	["xape/assets/RenderIcon.png"] = "rbxassetid://13350832775",
+	["xape/assets/VapeLogo1.png"] = "rbxassetid://13350860863",
+	["xape/assets/VapeLogo3.png"] = "rbxassetid://13350872035",
+	["xape/assets/VapeLogo2.png"] = "rbxassetid://13350876307",
+	["xape/assets/VapeLogo4.png"] = "rbxassetid://13350877564"
 }
 if inputService:GetPlatform() ~= Enum.Platform.Windows then 
 	--mobile exploit fix
@@ -93,7 +93,7 @@ if inputService:GetPlatform() ~= Enum.Platform.Windows then
 	getsynasset = nil
 	getcustomasset = nil
 end
-local getcustomasset = getsynasset or getcustomasset or function(location) return vapeAssetTable[location] or "" end
+local getcustomasset = getsynasset or getcustomasset or function(location) return xapeAssetTable[location] or "" end
 local customassetcheck = (getsynasset or getcustomasset) and true
 local queueonteleport = syn and syn.queue_on_teleport or queue_on_teleport or function() end
 local delfile = delfile or function(file) writefile(file, "") end
@@ -105,7 +105,7 @@ local function displayErrorPopup(text, funclist)
 	local prompt = ErrorPrompt.new("Default")
 	prompt._hideErrorCode = true
 	local gui = Instance.new("ScreenGui", game:GetService("CoreGui"))
-	prompt:setErrorTitle("Vape")
+	prompt:setErrorTitle("xape")
 	local funcs
 	if funclist then 
 		funcs = {}
@@ -134,8 +134,8 @@ local function displayErrorPopup(text, funclist)
 	setidentity(oldidentity)
 end
 
-local function vapeGithubRequest(scripturl)
-	if not isfile("vape/"..scripturl) then
+local function xapeGithubRequest(scripturl)
+	if not isfile("xape/"..scripturl) then
 		local suc, res
 		task.delay(15, function()
 			if not res and not errorPopupShown then 
@@ -143,18 +143,18 @@ local function vapeGithubRequest(scripturl)
 				displayErrorPopup("The connection to github is taking a while, Please be patient.")
 			end
 		end)
-		suc, res = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..readfile("vape/commithash.txt").."/"..scripturl, true) end)
+		suc, res = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xaperell/"..readfile("xape/commithash.txt").."/"..scripturl, true) end)
 		if not suc or res == "404: Not Found" then
-			displayErrorPopup("Failed to connect to github : vape/"..scripturl.." : "..res)
+			displayErrorPopup("Failed to connect to github : xape/"..scripturl.." : "..res)
 			error(res)
 		end
 		if scripturl:find(".lua") then res = "--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.\n"..res end
-		writefile("vape/"..scripturl, res)
+		writefile("xape/"..scripturl, res)
 	end
-	return readfile("vape/"..scripturl)
+	return readfile("xape/"..scripturl)
 end
 
-local function downloadVapeAsset(path)
+local function downloadxapeAsset(path)
 	if customassetcheck then
 		if not isfile(path) then
 			task.spawn(function()
@@ -171,7 +171,7 @@ local function downloadVapeAsset(path)
 				repeat task.wait() until isfile(path)
 				textlabel:Destroy()
 			end)
-			local suc, req = pcall(function() return vapeGithubRequest(path:gsub("vape/assets", "assets")) end)
+			local suc, req = pcall(function() return xapeGithubRequest(path:gsub("xape/assets", "assets")) end)
 			if suc and req then
 				writefile(path, req)
 			else
@@ -182,63 +182,63 @@ local function downloadVapeAsset(path)
 	return getcustomasset(path) 
 end
 
-assert(not shared.VapeExecuted, "Vape Already Injected")
-shared.VapeExecuted = true
+assert(not shared.xapeExecuted, "xape Already Injected")
+shared.xapeExecuted = true
 
-for i,v in pairs({baseDirectory:gsub("/", ""), "vape", "vape/Libraries", "vape/CustomModules", "vape/Profiles", baseDirectory.."Profiles", "vape/assets"}) do 
+for i,v in pairs({baseDirectory:gsub("/", ""), "xape", "xape/Libraries", "xape/CustomModules", "xape/Profiles", baseDirectory.."Profiles", "xape/assets"}) do 
 	if not isfolder(v) then makefolder(v) end
 end
 task.spawn(function()
-	local success, assetver = pcall(function() return vapeGithubRequest("assetsversion.txt") end)
-	if not isfile("vape/assetsversion.txt") then writefile("vape/assetsversion.txt", "0") end
-	if success and assetver > readfile("vape/assetsversion.txt") then
+	local success, assetver = pcall(function() return xapeGithubRequest("assetsversion.txt") end)
+	if not isfile("xape/assetsversion.txt") then writefile("xape/assetsversion.txt", "0") end
+	if success and assetver > readfile("xape/assetsversion.txt") then
 		redownloadedAssets = true
-		if isfolder("vape/assets") and not shared.VapeDeveloper then
+		if isfolder("xape/assets") and not shared.xapeDeveloper then
 			if delfolder then
-				delfolder("vape/assets")
-				makefolder("vape/assets")
+				delfolder("xape/assets")
+				makefolder("xape/assets")
 			end
 		end
-		writefile("vape/assetsversion.txt", assetver)
+		writefile("xape/assetsversion.txt", assetver)
 	end
 end)
-if not isfile("vape/CustomModules/cachechecked.txt") then
+if not isfile("xape/CustomModules/cachechecked.txt") then
 	local isNotCached = false
-	for i,v in pairs({"vape/Universal.lua", "vape/MainScript.lua", "vape/GuiLibrary.lua"}) do 
+	for i,v in pairs({"xape/Universal.lua", "xape/MainScript.lua", "xape/GuiLibrary.lua"}) do 
 		if isfile(v) and not readfile(v):find("--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.") then
 			isNotCached = true
 		end 
 	end
-	if isfolder("vape/CustomModules") then 
-		for i,v in pairs(listfiles("vape/CustomModules")) do 
+	if isfolder("xape/CustomModules") then 
+		for i,v in pairs(listfiles("xape/CustomModules")) do 
 			if isfile(v) and not readfile(v):find("--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.") then
 				isNotCached = true
 			end 
 		end
 	end
-	if isNotCached and not shared.VapeDeveloper then
-		displayErrorPopup("Vape has detected uncached files, If you have CustomModules click no, else click yes.", {No = function() end, Yes = function()
-			for i,v in pairs({"vape/Universal.lua", "vape/MainScript.lua", "vape/GuiLibrary.lua"}) do 
+	if isNotCached and not shared.xapeDeveloper then
+		displayErrorPopup("xape has detected uncached files, If you have CustomModules click no, else click yes.", {No = function() end, Yes = function()
+			for i,v in pairs({"xape/Universal.lua", "xape/MainScript.lua", "xape/GuiLibrary.lua"}) do 
 				if isfile(v) and not readfile(v):find("--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.") then
 					delfile(v)
 				end 
 			end
-			for i,v in pairs(listfiles("vape/CustomModules")) do 
+			for i,v in pairs(listfiles("xape/CustomModules")) do 
 				if isfile(v) and not readfile(v):find("--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.") then
 					local last = v:split('\\')
 					last = last[#last]
-					local suc, publicrepo = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..readfile("vape/commithash.txt").."/CustomModules/"..last) end)
+					local suc, publicrepo = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xaperell/"..readfile("xape/commithash.txt").."/CustomModules/"..last) end)
 					if suc and publicrepo and publicrepo ~= "404: Not Found" then
-						writefile("vape/CustomModules/"..last, "--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.\n"..publicrepo)
+						writefile("xape/CustomModules/"..last, "--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.\n"..publicrepo)
 					end
 				end 
 			end
 		end})
 	end
-	writefile("vape/CustomModules/cachechecked.txt", "verified")
+	writefile("xape/CustomModules/cachechecked.txt", "verified")
 end
 
-GuiLibrary = loadstring(vapeGithubRequest("GuiLibrary.lua"))()
+GuiLibrary = loadstring(xapeGithubRequest("GuiLibrary.lua"))()
 shared.GuiLibrary = GuiLibrary
 
 local saveSettingsLoop = coroutine.create(function()
@@ -246,12 +246,12 @@ local saveSettingsLoop = coroutine.create(function()
 	repeat
 		GuiLibrary.SaveSettings()
         task.wait(10)
-	until not vapeInjected or not GuiLibrary
+	until not xapeInjected or not GuiLibrary
 end)
 
 task.spawn(function()
 	local image = Instance.new("ImageLabel")
-	image.Image = downloadVapeAsset("vape/assets/CombatIcon.png")
+	image.Image = downloadxapeAsset("xape/assets/CombatIcon.png")
 	image.Position = UDim2.new()
 	image.BackgroundTransparency = 1
 	image.Size = UDim2.fromOffset(100, 100)
@@ -263,10 +263,10 @@ task.spawn(function()
     end)
 	task.spawn(function()
 		task.wait(15)
-		if image and image.ContentImageSize == Vector2.zero and (not errorPopupShown) and (not redownloadedAssets) and (not isfile("vape/assets/check3.txt")) then 
+		if image and image.ContentImageSize == Vector2.zero and (not errorPopupShown) and (not redownloadedAssets) and (not isfile("xape/assets/check3.txt")) then 
             errorPopupShown = true
             displayErrorPopup("Assets failed to load, Try another executor (executor : "..(identifyexecutor and identifyexecutor() or "Unknown")..")", {OK = function()
-                writefile("vape/assets/check3.txt", "")
+                writefile("xape/assets/check3.txt", "")
             end})
         end
 	end)
@@ -275,73 +275,73 @@ end)
 local GUI = GuiLibrary.CreateMainWindow()
 local Combat = GuiLibrary.CreateWindow({
 	Name = "Combat", 
-	Icon = "vape/assets/CombatIcon.png", 
+	Icon = "xape/assets/CombatIcon.png", 
 	IconSize = 15
 })
 local Blatant = GuiLibrary.CreateWindow({
 	Name = "Blatant", 
-	Icon = "vape/assets/BlatantIcon.png", 
+	Icon = "xape/assets/BlatantIcon.png", 
 	IconSize = 16
 })
 local Render = GuiLibrary.CreateWindow({
 	Name = "Render", 
-	Icon = "vape/assets/RenderIcon.png", 
+	Icon = "xape/assets/RenderIcon.png", 
 	IconSize = 17
 })
 local Utility = GuiLibrary.CreateWindow({
 	Name = "Utility", 
-	Icon = "vape/assets/UtilityIcon.png", 
+	Icon = "xape/assets/UtilityIcon.png", 
 	IconSize = 17
 })
 local World = GuiLibrary.CreateWindow({
 	Name = "World", 
-	Icon = "vape/assets/WorldIcon.png", 
+	Icon = "xape/assets/WorldIcon.png", 
 	IconSize = 16
 })
 local Friends = GuiLibrary.CreateWindow2({
 	Name = "Friends", 
-	Icon = "vape/assets/FriendsIcon.png", 
+	Icon = "xape/assets/FriendsIcon.png", 
 	IconSize = 17
 })
 local Targets = GuiLibrary.CreateWindow2({
 	Name = "Targets", 
-	Icon = "vape/assets/FriendsIcon.png", 
+	Icon = "xape/assets/FriendsIcon.png", 
 	IconSize = 17
 })
 local Profiles = GuiLibrary.CreateWindow2({
 	Name = "Profiles", 
-	Icon = "vape/assets/ProfilesIcon.png", 
+	Icon = "xape/assets/ProfilesIcon.png", 
 	IconSize = 19
 })
 GUI.CreateDivider()
 GUI.CreateButton({
 	Name = "Combat", 
 	Function = function(callback) Combat.SetVisible(callback) end, 
-	Icon = "vape/assets/CombatIcon.png", 
+	Icon = "xape/assets/CombatIcon.png", 
 	IconSize = 15
 })
 GUI.CreateButton({
 	Name = "Blatant", 
 	Function = function(callback) Blatant.SetVisible(callback) end, 
-	Icon = "vape/assets/BlatantIcon.png", 
+	Icon = "xape/assets/BlatantIcon.png", 
 	IconSize = 16
 })
 GUI.CreateButton({
 	Name = "Render", 
 	Function = function(callback) Render.SetVisible(callback) end, 
-	Icon = "vape/assets/RenderIcon.png", 
+	Icon = "xape/assets/RenderIcon.png", 
 	IconSize = 17
 })
 GUI.CreateButton({
 	Name = "Utility", 
 	Function = function(callback) Utility.SetVisible(callback) end, 
-	Icon = "vape/assets/UtilityIcon.png", 
+	Icon = "xape/assets/UtilityIcon.png", 
 	IconSize = 17
 })
 GUI.CreateButton({
 	Name = "World", 
 	Function = function(callback) World.SetVisible(callback) end, 
-	Icon = "vape/assets/WorldIcon.png", 
+	Icon = "xape/assets/WorldIcon.png", 
 	IconSize = 16
 })
 GUI.CreateDivider("MISC")
@@ -443,7 +443,7 @@ ProfilesTextList = Profiles.CreateTextList({
 	end, 
 	RemoveFunction = function(profileIndex, profileName) 
 		if profileName ~= "default" and profileName ~= GuiLibrary.CurrentProfile then 
-			pcall(function() delfile(baseDirectory.."Profiles/"..profileName..(shared.CustomSaveVape or game.PlaceId)..".vapeprofile.txt") end)
+			pcall(function() delfile(baseDirectory.."Profiles/"..profileName..(shared.CustomSavexape or game.PlaceId)..".xapeprofile.txt") end)
 			GuiLibrary.Profiles[profileName] = nil
 		else
 			table.insert(ProfilesTextList.ObjectList, profileName)
@@ -469,7 +469,7 @@ ProfilesTextList = Profiles.CreateTextList({
 		bindbkg.Visible = GuiLibrary.Profiles[profileName].Keybind ~= ""
 		bindbkg.Parent = profileObject
 		local bindimg = Instance.new("ImageLabel")
-		bindimg.Image = downloadVapeAsset("vape/assets/KeybindIcon.png")
+		bindimg.Image = downloadxapeAsset("xape/assets/KeybindIcon.png")
 		bindimg.BackgroundTransparency = 1
 		bindimg.Size = UDim2.new(0, 12, 0, 12)
 		bindimg.Position = UDim2.new(0, 4, 0, 5)
@@ -533,14 +533,14 @@ ProfilesTextList = Profiles.CreateTextList({
 			end
 		end)
 		bindbkg.MouseEnter:Connect(function() 
-			bindimg.Image = downloadVapeAsset("vape/assets/PencilIcon.png") 
+			bindimg.Image = downloadxapeAsset("xape/assets/PencilIcon.png") 
 			bindimg.Visible = true
 			bindtext.Visible = false
 			bindbkg.Size = UDim2.new(0, 20, 0, 21)
 			bindbkg.Position = UDim2.new(1, -50, 0, 6)
 		end)
 		bindbkg.MouseLeave:Connect(function() 
-			bindimg.Image = downloadVapeAsset("vape/assets/KeybindIcon.png")
+			bindimg.Image = downloadxapeAsset("xape/assets/KeybindIcon.png")
 			if GuiLibrary.Profiles[profileName].Keybind ~= "" then
 				bindimg.Visible = false
 				bindtext.Visible = true
@@ -594,7 +594,7 @@ local OnlineProfilesButtonImage = Instance.new("ImageLabel")
 OnlineProfilesButtonImage.BackgroundTransparency = 1
 OnlineProfilesButtonImage.Position = UDim2.new(0, 14, 0, 7)
 OnlineProfilesButtonImage.Size = UDim2.new(0, 17, 0, 16)
-OnlineProfilesButtonImage.Image = downloadVapeAsset("vape/assets/OnlineProfilesButton.png")
+OnlineProfilesButtonImage.Image = downloadxapeAsset("xape/assets/OnlineProfilesButton.png")
 OnlineProfilesButtonImage.ImageColor3 = Color3.fromRGB(121, 121, 121)
 OnlineProfilesButtonImage.ZIndex = 1
 OnlineProfilesButtonImage.Active = false
@@ -615,7 +615,7 @@ OnlineProfilesExitButton.Name = "OnlineProfilesExitButton"
 OnlineProfilesExitButton.ImageColor3 = Color3.fromRGB(121, 121, 121)
 OnlineProfilesExitButton.Size = UDim2.new(0, 24, 0, 24)
 OnlineProfilesExitButton.AutoButtonColor = false
-OnlineProfilesExitButton.Image = downloadVapeAsset("vape/assets/ExitIcon1.png")
+OnlineProfilesExitButton.Image = downloadxapeAsset("xape/assets/ExitIcon1.png")
 OnlineProfilesExitButton.Visible = true
 OnlineProfilesExitButton.Position = UDim2.new(1, -31, 0, 8)
 OnlineProfilesExitButton.BackgroundColor3 = Color3.fromRGB(26, 25, 26)
@@ -632,7 +632,7 @@ end)
 local OnlineProfilesFrameShadow = Instance.new("ImageLabel")
 OnlineProfilesFrameShadow.AnchorPoint = Vector2.new(0.5, 0.5)
 OnlineProfilesFrameShadow.Position = UDim2.new(0.5, 0, 0.5, 0)
-OnlineProfilesFrameShadow.Image = downloadVapeAsset("vape/assets/WindowBlur.png")
+OnlineProfilesFrameShadow.Image = downloadxapeAsset("xape/assets/WindowBlur.png")
 OnlineProfilesFrameShadow.BackgroundTransparency = 1
 OnlineProfilesFrameShadow.ZIndex = -1
 OnlineProfilesFrameShadow.Size = UDim2.new(1, 6, 1, 6)
@@ -642,7 +642,7 @@ OnlineProfilesFrameShadow.SliceCenter = Rect.new(10, 10, 118, 118)
 OnlineProfilesFrameShadow.Parent = OnlineProfilesFrame
 local OnlineProfilesFrameIcon = Instance.new("ImageLabel")
 OnlineProfilesFrameIcon.Size = UDim2.new(0, 19, 0, 16)
-OnlineProfilesFrameIcon.Image = downloadVapeAsset("vape/assets/ProfilesIcon.png")
+OnlineProfilesFrameIcon.Image = downloadxapeAsset("xape/assets/ProfilesIcon.png")
 OnlineProfilesFrameIcon.Name = "WindowIcon"
 OnlineProfilesFrameIcon.BackgroundTransparency = 1
 OnlineProfilesFrameIcon.Position = UDim2.new(0, 10, 0, 13)
@@ -711,15 +711,15 @@ OnlineProfilesButton.MouseButton1Click:Connect(function()
 	GuiLibrary.MainGui.ScaledGui.ClickGui.Visible = false
 	if not profilesLoaded then
 		local onlineprofiles = {}
-		local saveplaceid = tostring(shared.CustomSaveVape or game.PlaceId)
+		local saveplaceid = tostring(shared.CustomSavexape or game.PlaceId)
         local success, result = pcall(function()
-            return game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeProfiles/main/Profiles/"..saveplaceid.."/profilelist.txt", true))
+            return game:GetService("HttpService"):JSONDecode(game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xapeProfiles/main/Profiles/"..saveplaceid.."/profilelist.txt", true))
         end)
 		for i,v in pairs(success and result or {}) do 
 			onlineprofiles[i] = v
 		end
 		for i2,v2 in pairs(onlineprofiles) do
-			local profileurl = "https://raw.githubusercontent.com/7GrandDadPGN/VapeProfiles/main/Profiles/"..saveplaceid.."/"..v2.OnlineProfileName
+			local profileurl = "https://raw.githubusercontent.com/ImNicknamez/xapeProfiles/main/Profiles/"..saveplaceid.."/"..v2.OnlineProfileName
 			local profilebox = Instance.new("Frame")
 			profilebox.BackgroundColor3 = Color3.fromRGB(31, 30, 31)
 			profilebox.Parent = OnlineProfilesList
@@ -770,7 +770,7 @@ OnlineProfilesButton.MouseButton1Click:Connect(function()
 				profiledownload.BackgroundColor3 = Color3.fromRGB(31, 30, 31)
 			end)
 			profiledownload.MouseButton1Click:Connect(function()
-				writefile(baseDirectory.."Profiles/"..v2.ProfileName..saveplaceid..".vapeprofile.txt", game:HttpGet(profileurl, true))
+				writefile(baseDirectory.."Profiles/"..v2.ProfileName..saveplaceid..".xapeprofile.txt", game:HttpGet(profileurl, true))
 				GuiLibrary.Profiles[v2.ProfileName] = {Keybind = "", Selected = false}
 				local profiles = {}
 				for i,v in pairs(GuiLibrary.Profiles) do 
@@ -800,13 +800,13 @@ GUI.CreateDivider()
 
 local TextGUI = GuiLibrary.CreateCustomWindow({
 	Name = "Text GUI", 
-	Icon = "vape/assets/TextGUIIcon1.png", 
+	Icon = "xape/assets/TextGUIIcon1.png", 
 	IconSize = 21
 })
 local TextGUICircleObject = {CircleList = {}}
 GUI.CreateCustomToggle({
 	Name = "Text GUI", 
-	Icon = "vape/assets/TextGUIIcon3.png",
+	Icon = "xape/assets/TextGUIIcon3.png",
 	Function = function(callback) TextGUI.SetVisible(callback) end,
 	Priority = 2
 })	
@@ -817,113 +817,113 @@ local TextGUIBackgroundToggle = {Enabled = false}
 local TextGUIObjects = {Logo = {}, Labels = {}, ShadowLabels = {}, Backgrounds = {}}
 local TextGUIConnections = {}
 local TextGUIFormatted = {}
-local VapeLogoFrame = Instance.new("Frame")
-VapeLogoFrame.BackgroundTransparency = 1
-VapeLogoFrame.Size = UDim2.new(1, 0, 1, 0)
-VapeLogoFrame.Parent = TextGUI.GetCustomChildren()
-local VapeLogo = Instance.new("ImageLabel")
-VapeLogo.Parent = VapeLogoFrame
-VapeLogo.Name = "Logo"
-VapeLogo.Size = UDim2.new(0, 100, 0, 27)
-VapeLogo.Position = UDim2.new(1, -140, 0, 3)
-VapeLogo.BackgroundColor3 = Color3.new()
-VapeLogo.BorderSizePixel = 0
-VapeLogo.BackgroundTransparency = 1
-VapeLogo.Visible = true
-VapeLogo.Image = downloadVapeAsset("vape/assets/VapeLogo3.png")
-local VapeLogoV4 = Instance.new("ImageLabel")
-VapeLogoV4.Parent = VapeLogo
-VapeLogoV4.Size = UDim2.new(0, 41, 0, 24)
-VapeLogoV4.Name = "Logo2"
-VapeLogoV4.Position = UDim2.new(1, 0, 0, 1)
-VapeLogoV4.BorderSizePixel = 0
-VapeLogoV4.BackgroundColor3 = Color3.new()
-VapeLogoV4.BackgroundTransparency = 1
-VapeLogoV4.Image = downloadVapeAsset("vape/assets/VapeLogo4.png")
-local VapeLogoShadow = VapeLogo:Clone()
-VapeLogoShadow.ImageColor3 = Color3.new()
-VapeLogoShadow.ImageTransparency = 0.5
-VapeLogoShadow.ZIndex = 0
-VapeLogoShadow.Position = UDim2.new(0, 1, 0, 1)
-VapeLogoShadow.Visible = false
-VapeLogoShadow.Parent = VapeLogo
-VapeLogoShadow.Logo2.ImageColor3 = Color3.new()
-VapeLogoShadow.Logo2.ZIndex = 0
-VapeLogoShadow.Logo2.ImageTransparency = 0.5
-local VapeLogoGradient = Instance.new("UIGradient")
-VapeLogoGradient.Rotation = 90
-VapeLogoGradient.Parent = VapeLogo
-local VapeLogoGradient2 = Instance.new("UIGradient")
-VapeLogoGradient2.Rotation = 90
-VapeLogoGradient2.Parent = VapeLogoV4
-local VapeText = Instance.new("TextLabel")
-VapeText.Parent = VapeLogoFrame
-VapeText.Size = UDim2.new(1, 0, 1, 0)
-VapeText.Position = UDim2.new(1, -154, 0, 35)
-VapeText.TextColor3 = Color3.new(1, 1, 1)
-VapeText.RichText = true
-VapeText.BackgroundTransparency = 1
-VapeText.LineHeight = 1.2
-VapeText.TextXAlignment = Enum.TextXAlignment.Left
-VapeText.TextYAlignment = Enum.TextYAlignment.Top
-VapeText.BorderSizePixel = 0
-VapeText.BackgroundColor3 = Color3.new()
-VapeText.Font = Enum.Font.SourceSans
-VapeText.Text = ""
-VapeText.TextSize = 19
-local VapeTextExtra = Instance.new("TextLabel")
-VapeTextExtra.Name = "ExtraText"
-VapeTextExtra.Parent = VapeText
-VapeTextExtra.LineHeight = 1.2
-VapeTextExtra.Size = UDim2.new(1, 0, 1, 0)
-VapeTextExtra.Position = UDim2.new(0, 1, 0, 1)
-VapeTextExtra.BorderSizePixel = 0
-VapeTextExtra.Visible = false
-VapeTextExtra.ZIndex = 0
-VapeTextExtra.Text = ""
-VapeTextExtra.BackgroundTransparency = 1
-VapeTextExtra.TextTransparency = 0.5
-VapeTextExtra.TextXAlignment = Enum.TextXAlignment.Left
-VapeTextExtra.TextYAlignment = Enum.TextYAlignment.Top
-VapeTextExtra.TextColor3 = Color3.new()
-VapeTextExtra.Font = Enum.Font.SourceSans
-VapeTextExtra.TextSize = 19
-local VapeCustomText = Instance.new("TextLabel")
-VapeCustomText.TextSize = 30
-VapeCustomText.Font = Enum.Font.GothamBold
-VapeCustomText.Size = UDim2.new(1, 0, 1, 0)
-VapeCustomText.BackgroundTransparency = 1
-VapeCustomText.Position = UDim2.new(0, 0, 0, 35)
-VapeCustomText.TextXAlignment = Enum.TextXAlignment.Left
-VapeCustomText.TextYAlignment = Enum.TextYAlignment.Top
-VapeCustomText.Text = ""
-VapeCustomText.Parent = VapeLogoFrame
-local VapeCustomTextShadow = VapeCustomText:Clone()
-VapeCustomTextShadow.ZIndex = -1
-VapeCustomTextShadow.Size = UDim2.new(1, 0, 1, 0)
-VapeCustomTextShadow.TextTransparency = 0.5
-VapeCustomTextShadow.TextColor3 = Color3.new()
-VapeCustomTextShadow.Position = UDim2.new(0, 1, 0, 1)
-VapeCustomTextShadow.Parent = VapeCustomText
-VapeCustomText:GetPropertyChangedSignal("TextXAlignment"):Connect(function()
-	VapeCustomTextShadow.TextXAlignment = VapeCustomText.TextXAlignment
+local xapeLogoFrame = Instance.new("Frame")
+xapeLogoFrame.BackgroundTransparency = 1
+xapeLogoFrame.Size = UDim2.new(1, 0, 1, 0)
+xapeLogoFrame.Parent = TextGUI.GetCustomChildren()
+local xapeLogo = Instance.new("ImageLabel")
+xapeLogo.Parent = xapeLogoFrame
+xapeLogo.Name = "Logo"
+xapeLogo.Size = UDim2.new(0, 100, 0, 27)
+xapeLogo.Position = UDim2.new(1, -140, 0, 3)
+xapeLogo.BackgroundColor3 = Color3.new()
+xapeLogo.BorderSizePixel = 0
+xapeLogo.BackgroundTransparency = 1
+xapeLogo.Visible = true
+xapeLogo.Image = downloadxapeAsset("xape/assets/VapeLogo3.png")
+local xapeLogoV4 = Instance.new("ImageLabel")
+xapeLogoV4.Parent = xapeLogo
+xapeLogoV4.Size = UDim2.new(0, 41, 0, 24)
+xapeLogoV4.Name = "Logo2"
+xapeLogoV4.Position = UDim2.new(1, 0, 0, 1)
+xapeLogoV4.BorderSizePixel = 0
+xapeLogoV4.BackgroundColor3 = Color3.new()
+xapeLogoV4.BackgroundTransparency = 1
+xapeLogoV4.Image = downloadxapeAsset("xape/assets/VapeLogo4.png")
+local xapeLogoShadow = xapeLogo:Clone()
+xapeLogoShadow.ImageColor3 = Color3.new()
+xapeLogoShadow.ImageTransparency = 0.5
+xapeLogoShadow.ZIndex = 0
+xapeLogoShadow.Position = UDim2.new(0, 1, 0, 1)
+xapeLogoShadow.Visible = false
+xapeLogoShadow.Parent = xapeLogo
+xapeLogoShadow.Logo2.ImageColor3 = Color3.new()
+xapeLogoShadow.Logo2.ZIndex = 0
+xapeLogoShadow.Logo2.ImageTransparency = 0.5
+local xapeLogoGradient = Instance.new("UIGradient")
+xapeLogoGradient.Rotation = 90
+xapeLogoGradient.Parent = xapeLogo
+local xapeLogoGradient2 = Instance.new("UIGradient")
+xapeLogoGradient2.Rotation = 90
+xapeLogoGradient2.Parent = xapeLogoV4
+local xapeText = Instance.new("TextLabel")
+xapeText.Parent = xapeLogoFrame
+xapeText.Size = UDim2.new(1, 0, 1, 0)
+xapeText.Position = UDim2.new(1, -154, 0, 35)
+xapeText.TextColor3 = Color3.new(1, 1, 1)
+xapeText.RichText = true
+xapeText.BackgroundTransparency = 1
+xapeText.LineHeight = 1.2
+xapeText.TextXAlignment = Enum.TextXAlignment.Left
+xapeText.TextYAlignment = Enum.TextYAlignment.Top
+xapeText.BorderSizePixel = 0
+xapeText.BackgroundColor3 = Color3.new()
+xapeText.Font = Enum.Font.SourceSans
+xapeText.Text = ""
+xapeText.TextSize = 19
+local xapeTextExtra = Instance.new("TextLabel")
+xapeTextExtra.Name = "ExtraText"
+xapeTextExtra.Parent = xapeText
+xapeTextExtra.LineHeight = 1.2
+xapeTextExtra.Size = UDim2.new(1, 0, 1, 0)
+xapeTextExtra.Position = UDim2.new(0, 1, 0, 1)
+xapeTextExtra.BorderSizePixel = 0
+xapeTextExtra.Visible = false
+xapeTextExtra.ZIndex = 0
+xapeTextExtra.Text = ""
+xapeTextExtra.BackgroundTransparency = 1
+xapeTextExtra.TextTransparency = 0.5
+xapeTextExtra.TextXAlignment = Enum.TextXAlignment.Left
+xapeTextExtra.TextYAlignment = Enum.TextYAlignment.Top
+xapeTextExtra.TextColor3 = Color3.new()
+xapeTextExtra.Font = Enum.Font.SourceSans
+xapeTextExtra.TextSize = 19
+local xapeCustomText = Instance.new("TextLabel")
+xapeCustomText.TextSize = 30
+xapeCustomText.Font = Enum.Font.GothamBold
+xapeCustomText.Size = UDim2.new(1, 0, 1, 0)
+xapeCustomText.BackgroundTransparency = 1
+xapeCustomText.Position = UDim2.new(0, 0, 0, 35)
+xapeCustomText.TextXAlignment = Enum.TextXAlignment.Left
+xapeCustomText.TextYAlignment = Enum.TextYAlignment.Top
+xapeCustomText.Text = ""
+xapeCustomText.Parent = xapeLogoFrame
+local xapeCustomTextShadow = xapeCustomText:Clone()
+xapeCustomTextShadow.ZIndex = -1
+xapeCustomTextShadow.Size = UDim2.new(1, 0, 1, 0)
+xapeCustomTextShadow.TextTransparency = 0.5
+xapeCustomTextShadow.TextColor3 = Color3.new()
+xapeCustomTextShadow.Position = UDim2.new(0, 1, 0, 1)
+xapeCustomTextShadow.Parent = xapeCustomText
+xapeCustomText:GetPropertyChangedSignal("TextXAlignment"):Connect(function()
+	xapeCustomTextShadow.TextXAlignment = xapeCustomText.TextXAlignment
 end)
-local VapeBackground = Instance.new("Frame")
-VapeBackground.BackgroundTransparency = 1
-VapeBackground.BorderSizePixel = 0
-VapeBackground.BackgroundColor3 = Color3.new()
-VapeBackground.Size = UDim2.new(1, 0, 1, 0)
-VapeBackground.Visible = false 
-VapeBackground.Parent = VapeLogoFrame
-VapeBackground.ZIndex = 0
-local VapeBackgroundList = Instance.new("UIListLayout")
-VapeBackgroundList.FillDirection = Enum.FillDirection.Vertical
-VapeBackgroundList.SortOrder = Enum.SortOrder.LayoutOrder
-VapeBackgroundList.Padding = UDim.new(0, 0)
-VapeBackgroundList.Parent = VapeBackground
-local VapeBackgroundTable = {}
-local VapeScale = Instance.new("UIScale")
-VapeScale.Parent = VapeLogoFrame
+local xapeBackground = Instance.new("Frame")
+xapeBackground.BackgroundTransparency = 1
+xapeBackground.BorderSizePixel = 0
+xapeBackground.BackgroundColor3 = Color3.new()
+xapeBackground.Size = UDim2.new(1, 0, 1, 0)
+xapeBackground.Visible = false 
+xapeBackground.Parent = xapeLogoFrame
+xapeBackground.ZIndex = 0
+local xapeBackgroundList = Instance.new("UIListLayout")
+xapeBackgroundList.FillDirection = Enum.FillDirection.Vertical
+xapeBackgroundList.SortOrder = Enum.SortOrder.LayoutOrder
+xapeBackgroundList.Padding = UDim.new(0, 0)
+xapeBackgroundList.Parent = xapeBackground
+local xapeBackgroundTable = {}
+local xapeScale = Instance.new("UIScale")
+xapeScale.Parent = xapeLogoFrame
 --why do other platforms do rendering differently
 local TextGUIOffsets = {
 	[Enum.Platform.Android] = {
@@ -941,7 +941,7 @@ local TextGUIOffsets = {
 }
 TextGUIOffsets[Enum.Platform.IOS] = TextGUIOffsets[Enum.Platform.Android]
 local function TextGUIUpdate()
-	local scaledgui = vapeInjected and GuiLibrary.MainGui.ScaledGui
+	local scaledgui = xapeInjected and GuiLibrary.MainGui.ScaledGui
 	if scaledgui and scaledgui.Visible then
 		local formattedText = ""
 		local moduleList = {}
@@ -961,7 +961,7 @@ local function TextGUIUpdate()
 			table.sort(moduleList, function(a, b) return a.Text:lower() < b.Text:lower() end)
 		else
 			table.sort(moduleList, function(a, b) 
-				return textService:GetTextSize(a.Text..a.ExtraText, VapeText.TextSize, VapeText.Font, Vector2.new(1000000, 1000000)).X > textService:GetTextSize(b.Text..b.ExtraText, VapeText.TextSize, VapeText.Font, Vector2.new(1000000, 1000000)).X 
+				return textService:GetTextSize(a.Text..a.ExtraText, xapeText.TextSize, xapeText.Font, Vector2.new(1000000, 1000000)).X > textService:GetTextSize(b.Text..b.ExtraText, xapeText.TextSize, xapeText.Font, Vector2.new(1000000, 1000000)).X 
 			end)
 		end
 
@@ -979,8 +979,8 @@ local function TextGUIUpdate()
 		end
 
 		TextGUIFormatted = moduleList
-		VapeTextExtra.Text = formattedText
-        VapeText.Size = UDim2.fromOffset(154, (formattedText ~= "" and textService:GetTextSize(formattedText, VapeText.TextSize, VapeText.Font, Vector2.new(1000000, 1000000)) or Vector2.zero).Y)
+		xapeTextExtra.Text = formattedText
+        xapeText.Size = UDim2.fromOffset(154, (formattedText ~= "" and textService:GetTextSize(formattedText, xapeText.TextSize, xapeText.Font, Vector2.new(1000000, 1000000)) or Vector2.zero).Y)
 
 		local offsets = TextGUIOffsets[inputService:GetPlatform()] or {
 			5,
@@ -990,25 +990,25 @@ local function TextGUIUpdate()
 		}
         if TextGUI.GetCustomChildren().Parent then
             if (TextGUI.GetCustomChildren().Parent.Position.X.Offset + TextGUI.GetCustomChildren().Parent.Size.X.Offset / 2) >= (gameCamera.ViewportSize.X / 2) then
-                VapeText.TextXAlignment = Enum.TextXAlignment.Right
-                VapeTextExtra.TextXAlignment = Enum.TextXAlignment.Right
-                VapeTextExtra.Position = UDim2.fromOffset(offsets[1], offsets[2])
-                VapeLogo.Position = UDim2.new(1, -142, 0, 8)
-                VapeText.Position = UDim2.new(1, -158, 0, (VapeLogo.Visible and (TextGUIBackgroundToggle.Enabled and 41 or 35) or 5) + 5 + (VapeCustomText.Visible and 25 or 0) - offsets[3])
-                VapeCustomText.Position = UDim2.fromOffset(0, VapeLogo.Visible and 35 or 0)
-                VapeCustomText.TextXAlignment = Enum.TextXAlignment.Right
-                VapeBackgroundList.HorizontalAlignment = Enum.HorizontalAlignment.Right
-                VapeBackground.Position = VapeText.Position + UDim2.fromOffset(-60, -2 + offsets[4])
+                xapeText.TextXAlignment = Enum.TextXAlignment.Right
+                xapeTextExtra.TextXAlignment = Enum.TextXAlignment.Right
+                xapeTextExtra.Position = UDim2.fromOffset(offsets[1], offsets[2])
+                xapeLogo.Position = UDim2.new(1, -142, 0, 8)
+                xapeText.Position = UDim2.new(1, -158, 0, (xapeLogo.Visible and (TextGUIBackgroundToggle.Enabled and 41 or 35) or 5) + 5 + (xapeCustomText.Visible and 25 or 0) - offsets[3])
+                xapeCustomText.Position = UDim2.fromOffset(0, xapeLogo.Visible and 35 or 0)
+                xapeCustomText.TextXAlignment = Enum.TextXAlignment.Right
+                xapeBackgroundList.HorizontalAlignment = Enum.HorizontalAlignment.Right
+                xapeBackground.Position = xapeText.Position + UDim2.fromOffset(-60, -2 + offsets[4])
             else
-                VapeText.TextXAlignment = Enum.TextXAlignment.Left
-                VapeTextExtra.TextXAlignment = Enum.TextXAlignment.Left
-                VapeTextExtra.Position = UDim2.fromOffset(offsets[1], offsets[2])
-                VapeLogo.Position = UDim2.fromOffset(2, 8)
-                VapeText.Position = UDim2.fromOffset(6, (VapeLogo.Visible and (TextGUIBackgroundToggle.Enabled and 41 or 35) or 5) + 5 + (VapeCustomText.Visible and 25 or 0) - offsets[3])
-				VapeCustomText.Position = UDim2.fromOffset(0, VapeLogo.Visible and 35 or 0)
-				VapeCustomText.TextXAlignment = Enum.TextXAlignment.Left
-                VapeBackgroundList.HorizontalAlignment = Enum.HorizontalAlignment.Left
-                VapeBackground.Position = VapeText.Position + UDim2.fromOffset(-4, -2 + offsets[4])
+                xapeText.TextXAlignment = Enum.TextXAlignment.Left
+                xapeTextExtra.TextXAlignment = Enum.TextXAlignment.Left
+                xapeTextExtra.Position = UDim2.fromOffset(offsets[1], offsets[2])
+                xapeLogo.Position = UDim2.fromOffset(2, 8)
+                xapeText.Position = UDim2.fromOffset(6, (xapeLogo.Visible and (TextGUIBackgroundToggle.Enabled and 41 or 35) or 5) + 5 + (xapeCustomText.Visible and 25 or 0) - offsets[3])
+				xapeCustomText.Position = UDim2.fromOffset(0, xapeLogo.Visible and 35 or 0)
+				xapeCustomText.TextXAlignment = Enum.TextXAlignment.Left
+                xapeBackgroundList.HorizontalAlignment = Enum.HorizontalAlignment.Left
+                xapeBackground.Position = xapeText.Position + UDim2.fromOffset(-4, -2 + offsets[4])
             end
         end
         
@@ -1026,28 +1026,28 @@ local function TextGUIUpdate()
 			for i,v in pairs(backgroundList) do 
 				local textdraw = Drawing.new("Text")
 				textdraw.Text = v
-				textdraw.Size = 23 * VapeScale.Scale
+				textdraw.Size = 23 * xapeScale.Scale
 				textdraw.ZIndex = 2
-				textdraw.Position = VapeText.AbsolutePosition + Vector2.new(VapeText.TextXAlignment == Enum.TextXAlignment.Right and (VapeText.AbsoluteSize.X - textdraw.TextBounds.X), ((textdraw.Size - 3) * i) + 6)
+				textdraw.Position = xapeText.AbsolutePosition + Vector2.new(xapeText.TextXAlignment == Enum.TextXAlignment.Right and (xapeText.AbsoluteSize.X - textdraw.TextBounds.X), ((textdraw.Size - 3) * i) + 6)
 				textdraw.Visible = true
 				local textdraw2 = Drawing.new("Text")
 				textdraw2.Text = textdraw.Text
-				textdraw2.Size = 23 * VapeScale.Scale
+				textdraw2.Size = 23 * xapeScale.Scale
 				textdraw2.Position = textdraw.Position + Vector2.new(1, 1)
 				textdraw2.Color = Color3.new()
 				textdraw2.Transparency = 0.5
-				textdraw2.Visible = VapeTextExtra.Visible
+				textdraw2.Visible = xapeTextExtra.Visible
 				table.insert(TextGUIObjects.Labels, textdraw)
 				table.insert(TextGUIObjects.ShadowLabels, textdraw2)
 			end
 		end
 
-        for i,v in pairs(VapeBackground:GetChildren()) do
-			table.clear(VapeBackgroundTable)
+        for i,v in pairs(xapeBackground:GetChildren()) do
+			table.clear(xapeBackgroundTable)
             if v:IsA("Frame") then v:Destroy() end
         end
         for i,v in pairs(backgroundList) do
-            local textsize = textService:GetTextSize(v, VapeText.TextSize, VapeText.Font, Vector2.new(1000000, 1000000))
+            local textsize = textService:GetTextSize(v, xapeText.TextSize, xapeText.Font, Vector2.new(1000000, 1000000))
             local backgroundFrame = Instance.new("Frame")
             backgroundFrame.BorderSizePixel = 0
             backgroundFrame.BackgroundTransparency = 0.62
@@ -1056,10 +1056,10 @@ local function TextGUIUpdate()
             backgroundFrame.ZIndex = 0
             backgroundFrame.LayoutOrder = i
             backgroundFrame.Size = UDim2.fromOffset(textsize.X + 8, textsize.Y + 3)
-            backgroundFrame.Parent = VapeBackground
+            backgroundFrame.Parent = xapeBackground
             local backgroundLineFrame = Instance.new("Frame")
             backgroundLineFrame.Size = UDim2.new(0, 2, 1, 0)
-            backgroundLineFrame.Position = (VapeBackgroundList.HorizontalAlignment == Enum.HorizontalAlignment.Left and UDim2.new() or UDim2.new(1, -2, 0, 0))
+            backgroundLineFrame.Position = (xapeBackgroundList.HorizontalAlignment == Enum.HorizontalAlignment.Left and UDim2.new() or UDim2.new(1, -2, 0, 0))
             backgroundLineFrame.BorderSizePixel = 0
             backgroundLineFrame.Name = "ColorFrame"
             backgroundLineFrame.Parent = backgroundFrame
@@ -1071,7 +1071,7 @@ local function TextGUIUpdate()
             backgroundLineExtra.Size = UDim2.new(1, 0, 0, 2)
             backgroundLineExtra.Position = UDim2.new(0, 0, 1, -1)
             backgroundLineExtra.Parent = backgroundFrame
-			table.insert(VapeBackgroundTable, backgroundFrame)
+			table.insert(xapeBackgroundTable, backgroundFrame)
         end
 		
 		GuiLibrary.UpdateUI(GUIColorSlider.Hue, GUIColorSlider.Sat, GUIColorSlider.Value)
@@ -1080,17 +1080,17 @@ end
 
 TextGUI.GetCustomChildren().Parent:GetPropertyChangedSignal("Position"):Connect(TextGUIUpdate)
 GuiLibrary.UpdateHudEvent.Event:Connect(TextGUIUpdate)
-VapeScale:GetPropertyChangedSignal("Scale"):Connect(function()
+xapeScale:GetPropertyChangedSignal("Scale"):Connect(function()
 	local childrenobj = TextGUI.GetCustomChildren()
 	local check = (childrenobj.Parent.Position.X.Offset + childrenobj.Parent.Size.X.Offset / 2) >= (gameCamera.ViewportSize.X / 2)
-	childrenobj.Position = UDim2.new((check and -(VapeScale.Scale - 1) or 0), (check and 0 or -6 * (VapeScale.Scale - 1)), 1, -6 * (VapeScale.Scale - 1))
+	childrenobj.Position = UDim2.new((check and -(xapeScale.Scale - 1) or 0), (check and 0 or -6 * (xapeScale.Scale - 1)), 1, -6 * (xapeScale.Scale - 1))
 	TextGUIUpdate()
 end)
 TextGUIMode = TextGUI.CreateDropdown({
 	Name = "Mode",
 	List = {"Normal", "Drawing"},
 	Function = function(val)
-		VapeLogoFrame.Visible = val == "Normal"
+		xapeLogoFrame.Visible = val == "Normal"
 		for i,v in pairs(TextGUIConnections) do 
 			v:Disconnect()
 		end
@@ -1102,117 +1102,117 @@ TextGUIMode = TextGUI.CreateDropdown({
 			end
 		end
 		if val == "Drawing" then
-			local VapeLogoDrawing = Drawing.new("Image")
-			VapeLogoDrawing.Data = readfile("vape/assets/VapeLogo3.png")
-			VapeLogoDrawing.Size = VapeLogo.AbsoluteSize
-			VapeLogoDrawing.Position = VapeLogo.AbsolutePosition + Vector2.new(0, 36)
-			VapeLogoDrawing.ZIndex = 2
-			VapeLogoDrawing.Visible = VapeLogo.Visible
-			local VapeLogoV4Drawing = Drawing.new("Image")
-			VapeLogoV4Drawing.Data = readfile("vape/assets/VapeLogo4.png")
-			VapeLogoV4Drawing.Size = VapeLogoV4.AbsoluteSize
-			VapeLogoV4Drawing.Position = VapeLogoV4.AbsolutePosition + Vector2.new(0, 36)
-			VapeLogoV4Drawing.ZIndex = 2
-			VapeLogoV4Drawing.Visible = VapeLogo.Visible
-			local VapeLogoShadowDrawing = Drawing.new("Image")
-			VapeLogoShadowDrawing.Data = readfile("vape/assets/VapeLogo3.png")
-			VapeLogoShadowDrawing.Size = VapeLogo.AbsoluteSize
-			VapeLogoShadowDrawing.Position = VapeLogo.AbsolutePosition + Vector2.new(1, 37)
-			VapeLogoShadowDrawing.Transparency = 0.5
-			VapeLogoShadowDrawing.Visible = VapeLogo.Visible and VapeLogoShadow.Visible
-			local VapeLogo4Drawing = Drawing.new("Image")
-			VapeLogo4Drawing.Data = readfile("vape/assets/VapeLogo4.png")
-			VapeLogo4Drawing.Size = VapeLogoV4.AbsoluteSize
-			VapeLogo4Drawing.Position = VapeLogoV4.AbsolutePosition + Vector2.new(1, 37)
-			VapeLogo4Drawing.Transparency = 0.5
-			VapeLogo4Drawing.Visible = VapeLogo.Visible and VapeLogoShadow.Visible
-			local VapeCustomDrawingText = Drawing.new("Text")
-			VapeCustomDrawingText.Size = 30
-			VapeCustomDrawingText.Text = VapeCustomText.Text
-			VapeCustomDrawingText.Color = VapeCustomText.TextColor3
-			VapeCustomDrawingText.ZIndex = 2
-			VapeCustomDrawingText.Position = VapeCustomText.AbsolutePosition + Vector2.new(VapeText.TextXAlignment == Enum.TextXAlignment.Right and (VapeCustomText.AbsoluteSize.X - VapeCustomDrawingText.TextBounds.X), 32)
-			VapeCustomDrawingText.Visible = VapeCustomText.Visible
-			local VapeCustomDrawingShadow = Drawing.new("Text")
-			VapeCustomDrawingShadow.Size = 30
-			VapeCustomDrawingShadow.Text = VapeCustomText.Text
-			VapeCustomDrawingShadow.Transparency = 0.5
-			VapeCustomDrawingShadow.Color = Color3.new()
-			VapeCustomDrawingShadow.Position = VapeCustomDrawingText.Position + Vector2.new(1, 1)
-			VapeCustomDrawingShadow.Visible = VapeCustomText.Visible and VapeTextExtra.Visible
+			local xapeLogoDrawing = Drawing.new("Image")
+			xapeLogoDrawing.Data = readfile("xape/assets/VapeLogo3.png")
+			xapeLogoDrawing.Size = xapeLogo.AbsoluteSize
+			xapeLogoDrawing.Position = xapeLogo.AbsolutePosition + Vector2.new(0, 36)
+			xapeLogoDrawing.ZIndex = 2
+			xapeLogoDrawing.Visible = xapeLogo.Visible
+			local xapeLogoV4Drawing = Drawing.new("Image")
+			xapeLogoV4Drawing.Data = readfile("xape/assets/xapeLogo4.png")
+			xapeLogoV4Drawing.Size = xapeLogoV4.AbsoluteSize
+			xapeLogoV4Drawing.Position = xapeLogoV4.AbsolutePosition + Vector2.new(0, 36)
+			xapeLogoV4Drawing.ZIndex = 2
+			xapeLogoV4Drawing.Visible = xapeLogo.Visible
+			local xapeLogoShadowDrawing = Drawing.new("Image")
+			xapeLogoShadowDrawing.Data = readfile("xape/assets/xapeLogo3.png")
+			xapeLogoShadowDrawing.Size = xapeLogo.AbsoluteSize
+			xapeLogoShadowDrawing.Position = xapeLogo.AbsolutePosition + Vector2.new(1, 37)
+			xapeLogoShadowDrawing.Transparency = 0.5
+			xapeLogoShadowDrawing.Visible = xapeLogo.Visible and xapeLogoShadow.Visible
+			local xapeLogo4Drawing = Drawing.new("Image")
+			xapeLogo4Drawing.Data = readfile("xape/assets/xapeLogo4.png")
+			xapeLogo4Drawing.Size = xapeLogoV4.AbsoluteSize
+			xapeLogo4Drawing.Position = xapeLogoV4.AbsolutePosition + Vector2.new(1, 37)
+			xapeLogo4Drawing.Transparency = 0.5
+			xapeLogo4Drawing.Visible = xapeLogo.Visible and xapeLogoShadow.Visible
+			local xapeCustomDrawingText = Drawing.new("Text")
+			xapeCustomDrawingText.Size = 30
+			xapeCustomDrawingText.Text = xapeCustomText.Text
+			xapeCustomDrawingText.Color = xapeCustomText.TextColor3
+			xapeCustomDrawingText.ZIndex = 2
+			xapeCustomDrawingText.Position = xapeCustomText.AbsolutePosition + Vector2.new(xapeText.TextXAlignment == Enum.TextXAlignment.Right and (xapeCustomText.AbsoluteSize.X - xapeCustomDrawingText.TextBounds.X), 32)
+			xapeCustomDrawingText.Visible = xapeCustomText.Visible
+			local xapeCustomDrawingShadow = Drawing.new("Text")
+			xapeCustomDrawingShadow.Size = 30
+			xapeCustomDrawingShadow.Text = xapeCustomText.Text
+			xapeCustomDrawingShadow.Transparency = 0.5
+			xapeCustomDrawingShadow.Color = Color3.new()
+			xapeCustomDrawingShadow.Position = xapeCustomDrawingText.Position + Vector2.new(1, 1)
+			xapeCustomDrawingShadow.Visible = xapeCustomText.Visible and xapeTextExtra.Visible
 			pcall(function()
-				VapeLogoShadowDrawing.Color = Color3.new()
-				VapeLogo4Drawing.Color = Color3.new()
-				VapeLogoDrawing.Color = VapeLogoGradient.Color.Keypoints[1].Value
+				xapeLogoShadowDrawing.Color = Color3.new()
+				xapeLogo4Drawing.Color = Color3.new()
+				xapeLogoDrawing.Color = xapeLogoGradient.Color.Keypoints[1].Value
 			end)
-			table.insert(TextGUIObjects.Logo, VapeLogoDrawing)
-			table.insert(TextGUIObjects.Logo, VapeLogoV4Drawing)
-			table.insert(TextGUIObjects.Logo, VapeLogoShadowDrawing)
-			table.insert(TextGUIObjects.Logo, VapeLogo4Drawing)
-			table.insert(TextGUIObjects.Logo, VapeCustomDrawingText)
-			table.insert(TextGUIObjects.Logo, VapeCustomDrawingShadow)
-			table.insert(TextGUIConnections, VapeLogo:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
-				VapeLogoDrawing.Position = VapeLogo.AbsolutePosition + Vector2.new(0, 36)
-				VapeLogoShadowDrawing.Position = VapeLogo.AbsolutePosition + Vector2.new(1, 37)
+			table.insert(TextGUIObjects.Logo, xapeLogoDrawing)
+			table.insert(TextGUIObjects.Logo, xapeLogoV4Drawing)
+			table.insert(TextGUIObjects.Logo, xapeLogoShadowDrawing)
+			table.insert(TextGUIObjects.Logo, xapeLogo4Drawing)
+			table.insert(TextGUIObjects.Logo, xapeCustomDrawingText)
+			table.insert(TextGUIObjects.Logo, xapeCustomDrawingShadow)
+			table.insert(TextGUIConnections, xapeLogo:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
+				xapeLogoDrawing.Position = xapeLogo.AbsolutePosition + Vector2.new(0, 36)
+				xapeLogoShadowDrawing.Position = xapeLogo.AbsolutePosition + Vector2.new(1, 37)
 			end))
-			table.insert(TextGUIConnections, VapeLogo:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
-				VapeLogoDrawing.Size = VapeLogo.AbsoluteSize
-				VapeLogoShadowDrawing.Size = VapeLogo.AbsoluteSize
-				VapeCustomDrawingText.Size = 30 * VapeScale.Scale
-				VapeCustomDrawingShadow.Size = 30 * VapeScale.Scale
+			table.insert(TextGUIConnections, xapeLogo:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+				xapeLogoDrawing.Size = xapeLogo.AbsoluteSize
+				xapeLogoShadowDrawing.Size = xapeLogo.AbsoluteSize
+				xapeCustomDrawingText.Size = 30 * xapeScale.Scale
+				xapeCustomDrawingShadow.Size = 30 * xapeScale.Scale
 			end))
-			table.insert(TextGUIConnections, VapeLogoV4:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
-				VapeLogoV4Drawing.Position = VapeLogoV4.AbsolutePosition + Vector2.new(0, 36)
-				VapeLogo4Drawing.Position = VapeLogoV4.AbsolutePosition + Vector2.new(1, 37)
+			table.insert(TextGUIConnections, xapeLogoV4:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
+				xapeLogoV4Drawing.Position = xapeLogoV4.AbsolutePosition + Vector2.new(0, 36)
+				xapeLogo4Drawing.Position = xapeLogoV4.AbsolutePosition + Vector2.new(1, 37)
 			end))
-			table.insert(TextGUIConnections, VapeLogoV4:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
-				VapeLogoV4Drawing.Size = VapeLogoV4.AbsoluteSize
-				VapeLogo4Drawing.Size = VapeLogoV4.AbsoluteSize
+			table.insert(TextGUIConnections, xapeLogoV4:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+				xapeLogoV4Drawing.Size = xapeLogoV4.AbsoluteSize
+				xapeLogo4Drawing.Size = xapeLogoV4.AbsoluteSize
 			end))
-			table.insert(TextGUIConnections, VapeCustomText:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
-				VapeCustomDrawingText.Position = VapeCustomText.AbsolutePosition + Vector2.new(VapeText.TextXAlignment == Enum.TextXAlignment.Right and (VapeCustomText.AbsoluteSize.X - VapeCustomDrawingText.TextBounds.X), 32)
-				VapeCustomDrawingShadow.Position = VapeCustomDrawingText.Position + Vector2.new(1, 1)
+			table.insert(TextGUIConnections, xapeCustomText:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
+				xapeCustomDrawingText.Position = xapeCustomText.AbsolutePosition + Vector2.new(xapeText.TextXAlignment == Enum.TextXAlignment.Right and (xapeCustomText.AbsoluteSize.X - xapeCustomDrawingText.TextBounds.X), 32)
+				xapeCustomDrawingShadow.Position = xapeCustomDrawingText.Position + Vector2.new(1, 1)
 			end))
-			table.insert(TextGUIConnections, VapeLogoShadow:GetPropertyChangedSignal("Visible"):Connect(function()
-				VapeLogoShadowDrawing.Visible = VapeLogoShadow.Visible
-				VapeLogo4Drawing.Visible = VapeLogoShadow.Visible
+			table.insert(TextGUIConnections, xapeLogoShadow:GetPropertyChangedSignal("Visible"):Connect(function()
+				xapeLogoShadowDrawing.Visible = xapeLogoShadow.Visible
+				xapeLogo4Drawing.Visible = xapeLogoShadow.Visible
 			end))
-			table.insert(TextGUIConnections, VapeTextExtra:GetPropertyChangedSignal("Visible"):Connect(function()
+			table.insert(TextGUIConnections, xapeTextExtra:GetPropertyChangedSignal("Visible"):Connect(function()
 				for i,textdraw in pairs(TextGUIObjects.ShadowLabels) do 
-					textdraw.Visible = VapeTextExtra.Visible
+					textdraw.Visible = xapeTextExtra.Visible
 				end
-				VapeCustomDrawingShadow.Visible = VapeCustomText.Visible and VapeTextExtra.Visible
+				xapeCustomDrawingShadow.Visible = xapeCustomText.Visible and xapeTextExtra.Visible
 			end))
-			table.insert(TextGUIConnections, VapeLogo:GetPropertyChangedSignal("Visible"):Connect(function()
-				VapeLogoDrawing.Visible = VapeLogo.Visible
-				VapeLogoV4Drawing.Visible = VapeLogo.Visible
-				VapeLogoShadowDrawing.Visible = VapeLogo.Visible and VapeTextExtra.Visible
-				VapeLogo4Drawing.Visible = VapeLogo.Visible and VapeTextExtra.Visible
+			table.insert(TextGUIConnections, xapeLogo:GetPropertyChangedSignal("Visible"):Connect(function()
+				xapeLogoDrawing.Visible = xapeLogo.Visible
+				xapeLogoV4Drawing.Visible = xapeLogo.Visible
+				xapeLogoShadowDrawing.Visible = xapeLogo.Visible and xapeTextExtra.Visible
+				xapeLogo4Drawing.Visible = xapeLogo.Visible and xapeTextExtra.Visible
 			end))
-			table.insert(TextGUIConnections, VapeCustomText:GetPropertyChangedSignal("Visible"):Connect(function()
-				VapeCustomDrawingText.Visible = VapeCustomText.Visible
-				VapeCustomDrawingShadow.Visible = VapeCustomText.Visible and VapeTextExtra.Visible
+			table.insert(TextGUIConnections, xapeCustomText:GetPropertyChangedSignal("Visible"):Connect(function()
+				xapeCustomDrawingText.Visible = xapeCustomText.Visible
+				xapeCustomDrawingShadow.Visible = xapeCustomText.Visible and xapeTextExtra.Visible
 			end))
-			table.insert(TextGUIConnections, VapeCustomText:GetPropertyChangedSignal("Text"):Connect(function()
-				VapeCustomDrawingText.Text = VapeCustomText.Text
-				VapeCustomDrawingShadow.Text = VapeCustomText.Text
-				VapeCustomDrawingText.Position = VapeCustomText.AbsolutePosition + Vector2.new(VapeText.TextXAlignment == Enum.TextXAlignment.Right and (VapeCustomText.AbsoluteSize.X - VapeCustomDrawingText.TextBounds.X), 32)
-				VapeCustomDrawingShadow.Position = VapeCustomDrawingText.Position + Vector2.new(1, 1)
+			table.insert(TextGUIConnections, xapeCustomText:GetPropertyChangedSignal("Text"):Connect(function()
+				xapeCustomDrawingText.Text = xapeCustomText.Text
+				xapeCustomDrawingShadow.Text = xapeCustomText.Text
+				xapeCustomDrawingText.Position = xapeCustomText.AbsolutePosition + Vector2.new(xapeText.TextXAlignment == Enum.TextXAlignment.Right and (xapeCustomText.AbsoluteSize.X - xapeCustomDrawingText.TextBounds.X), 32)
+				xapeCustomDrawingShadow.Position = xapeCustomDrawingText.Position + Vector2.new(1, 1)
 			end))
-			table.insert(TextGUIConnections, VapeCustomText:GetPropertyChangedSignal("TextColor3"):Connect(function()
-				VapeCustomDrawingText.Color = VapeCustomText.TextColor3
+			table.insert(TextGUIConnections, xapeCustomText:GetPropertyChangedSignal("TextColor3"):Connect(function()
+				xapeCustomDrawingText.Color = xapeCustomText.TextColor3
 			end))
-			table.insert(TextGUIConnections, VapeText:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
+			table.insert(TextGUIConnections, xapeText:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
 				for i,textdraw in pairs(TextGUIObjects.Labels) do 
-					textdraw.Position = VapeText.AbsolutePosition + Vector2.new(VapeText.TextXAlignment == Enum.TextXAlignment.Right and (VapeText.AbsoluteSize.X - textdraw.TextBounds.X), ((textdraw.Size - 3) * i) + 6)
+					textdraw.Position = xapeText.AbsolutePosition + Vector2.new(xapeText.TextXAlignment == Enum.TextXAlignment.Right and (xapeText.AbsoluteSize.X - textdraw.TextBounds.X), ((textdraw.Size - 3) * i) + 6)
 				end
 				for i,textdraw in pairs(TextGUIObjects.ShadowLabels) do 
-					textdraw.Position = Vector2.new(1, 1) + (VapeText.AbsolutePosition + Vector2.new(VapeText.TextXAlignment == Enum.TextXAlignment.Right and (VapeText.AbsoluteSize.X - textdraw.TextBounds.X), ((textdraw.Size - 3) * i) + 6))
+					textdraw.Position = Vector2.new(1, 1) + (xapeText.AbsolutePosition + Vector2.new(xapeText.TextXAlignment == Enum.TextXAlignment.Right and (xapeText.AbsoluteSize.X - textdraw.TextBounds.X), ((textdraw.Size - 3) * i) + 6))
 				end
 			end))
-			table.insert(TextGUIConnections, VapeLogoGradient:GetPropertyChangedSignal("Color"):Connect(function()
+			table.insert(TextGUIConnections, xapeLogoGradient:GetPropertyChangedSignal("Color"):Connect(function()
 				pcall(function()
-					VapeLogoDrawing.Color = VapeLogoGradient.Color.Keypoints[1].Value
+					xapeLogoDrawing.Color = xapeLogoGradient.Color.Keypoints[1].Value
 				end)
 			end))
 		end
@@ -1239,8 +1239,8 @@ TextGUI.CreateDropdown({
 	Name = "Font",
 	List = TextGUIFonts,
 	Function = function(val)
-		VapeText.Font = Enum.Font[val]
-		VapeTextExtra.Font = Enum.Font[val]
+		xapeText.Font = Enum.Font[val]
+		xapeTextExtra.Font = Enum.Font[val]
 		GuiLibrary.UpdateHudEvent:Fire()
 	end
 })
@@ -1248,8 +1248,8 @@ TextGUI.CreateDropdown({
 	Name = "CustomTextFont",
 	List = TextGUIFonts2,
 	Function = function(val)
-		VapeCustomText.Font = Enum.Font[val]
-		VapeCustomTextShadow.Font = Enum.Font[val]
+		xapeCustomText.Font = Enum.Font[val]
+		xapeCustomTextShadow.Font = Enum.Font[val]
 		GuiLibrary.UpdateHudEvent:Fire()
 	end
 })
@@ -1259,29 +1259,29 @@ TextGUI.CreateSlider({
 	Max = 50,
 	Default = 10,
 	Function = function(val)
-		VapeScale.Scale = val / 10
+		xapeScale.Scale = val / 10
 	end
 })
 TextGUI.CreateToggle({
 	Name = "Shadow", 
 	Function = function(callback) 
-        VapeTextExtra.Visible = callback 
-        VapeLogoShadow.Visible = callback 
+        xapeTextExtra.Visible = callback 
+        xapeLogoShadow.Visible = callback 
     end,
 	HoverText = "Renders shadowed text."
 })
 TextGUI.CreateToggle({
 	Name = "Watermark", 
 	Function = function(callback) 
-		VapeLogo.Visible = callback
+		xapeLogo.Visible = callback
 		GuiLibrary.UpdateHudEvent:Fire()
 	end,
-	HoverText = "Renders a vape watermark"
+	HoverText = "Renders a xape watermark"
 })
 TextGUIBackgroundToggle = TextGUI.CreateToggle({
 	Name = "Render background", 
 	Function = function(callback)
-		VapeBackground.Visible = callback
+		xapeBackground.Visible = callback
 		GuiLibrary.UpdateHudEvent:Fire()
 	end
 })
@@ -1317,7 +1317,7 @@ local CustomText = {Value = "", Object = nil}
 TextGUI.CreateToggle({
 	Name = "Add custom text", 
 	Function = function(callback) 
-		VapeCustomText.Visible = callback
+		xapeCustomText.Visible = callback
 		CustomText.Object.Visible = callback
 		GuiLibrary.UpdateHudEvent:Fire()
 	end,
@@ -1326,8 +1326,8 @@ TextGUI.CreateToggle({
 CustomText = TextGUI.CreateTextBox({
 	Name = "Custom text",
 	FocusLost = function(enter)
-		VapeCustomText.Text = CustomText.Value
-		VapeCustomTextShadow.Text = CustomText.Value
+		xapeCustomText.Text = CustomText.Value
+		xapeCustomTextShadow.Text = CustomText.Value
 	end
 })
 CustomText.Object.Visible = false
@@ -1341,7 +1341,7 @@ end
 
 local TargetInfo = GuiLibrary.CreateCustomWindow({
 	Name = "Target Info",
-	Icon = "vape/assets/TargetInfoIcon1.png",
+	Icon = "xape/assets/TargetInfoIcon1.png",
 	IconSize = 16
 })
 local TargetInfoBackground = {Enabled = false}
@@ -1390,7 +1390,7 @@ TargetInfoHealthBackground.Parent = TargetInfoMainInfo
 local TargetInfoHealthBackgroundShadow = Instance.new("ImageLabel")
 TargetInfoHealthBackgroundShadow.AnchorPoint = Vector2.new(0.5, 0.5)
 TargetInfoHealthBackgroundShadow.Position = UDim2.new(0.5, 0, 0.5, 0)
-TargetInfoHealthBackgroundShadow.Image = downloadVapeAsset("vape/assets/WindowBlur.png")
+TargetInfoHealthBackgroundShadow.Image = downloadxapeAsset("xape/assets/WindowBlur.png")
 TargetInfoHealthBackgroundShadow.BackgroundTransparency = 1
 TargetInfoHealthBackgroundShadow.ImageTransparency = 0.6
 TargetInfoHealthBackgroundShadow.ZIndex = -1
@@ -1463,11 +1463,11 @@ local TargetInfoHealthTween
 TargetInfo.GetCustomChildren().Parent:GetPropertyChangedSignal("Size"):Connect(function()
 	TargetInfoMainInfo.Position = UDim2.fromOffset(0, TargetInfo.GetCustomChildren().Parent.Size ~= UDim2.fromOffset(220, 0) and -5 or 40)
 end)
-shared.VapeTargetInfo = {
+shared.xapeTargetInfo = {
 	UpdateInfo = function(tab, targetsize) 
 		if TargetInfo.GetCustomChildren().Parent then
 			local hasTarget = false
-			for _, v in pairs(shared.VapeTargetInfo.Targets) do
+			for _, v in pairs(shared.xapeTargetInfo.Targets) do
 				hasTarget = true
 				TargetInfoImage.Image = 'rbxthumb://type=AvatarHeadShot&id='..v.Player.UserId..'&w=420&h=420'
 				TargetInfoHealth:TweenSize(UDim2.new(math.clamp(v.Humanoid.Health / v.Humanoid.MaxHealth, 0, 1), 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 0.25, true)
@@ -1486,15 +1486,15 @@ shared.VapeTargetInfo = {
 }
 task.spawn(function()
 	repeat
-		if shared.VapeTargetInfo then
-			shared.VapeTargetInfo.UpdateInfo()
+		if shared.xapeTargetInfo then
+			shared.xapeTargetInfo.UpdateInfo()
 		end
 		task.wait()
-	until not vapeInjected
+	until not xapeInjected
 end)
 GUI.CreateCustomToggle({
 	Name = "Target Info", 
-	Icon = "vape/assets/TargetInfoIcon2.png", 
+	Icon = "xape/assets/TargetInfoIcon2.png", 
 	Function = function(callback) TargetInfo.SetVisible(callback) end,
 	Priority = 1
 })
@@ -1516,7 +1516,7 @@ ModuleSettings.CreateToggle({
 		if callback then
 			MiddleClickInput = inputService.InputBegan:Connect(function(input1)
 				if input1.UserInputType == Enum.UserInputType.MouseButton3 then
-					local entityLibrary = shared.vapeentity
+					local entityLibrary = shared.xapeentity
 					if entityLibrary then 
 						local rayparams = RaycastParams.new()
 						rayparams.FilterType = Enum.RaycastFilterType.Whitelist
@@ -1579,7 +1579,7 @@ local windowSortOrder = {
 }
 local windowSortOrder2 = {"Combat", "Blatant", "Render", "Utility", "World"}
 
-local function getVapeSaturation(val)
+local function getxapeSaturation(val)
 	local sat = 0.9
 	if val < 0.03 then 
 		sat = 0.75 + (0.15 * math.clamp(val / 0.03, 0, 1))
@@ -1599,18 +1599,18 @@ end
 GuiLibrary.UpdateUI = function(h, s, val, bypass)
 	pcall(function()
 		local rainbowGUICheck = GUIColorSlider.RainbowValue
-		local mainRainbowSaturation = rainbowGUICheck and getVapeSaturation(h) or s
+		local mainRainbowSaturation = rainbowGUICheck and getxapeSaturation(h) or s
 		local mainRainbowGradient = h + (rainbowGUICheck and -0.05 or 0)
 		mainRainbowGradient = mainRainbowGradient % 1
 
 		GuiLibrary.ObjectsThatCanBeSaved.GUIWindow.Object.Logo1.Logo2.ImageColor3 = Color3.fromHSV(h, mainRainbowSaturation, rainbowGUICheck and 1 or val)
-		VapeText.TextColor3 = Color3.fromHSV(TextGUIGradient.Enabled and mainRainbowGradient or h, mainRainbowSaturation, rainbowGUICheck and 1 or val)
-		VapeCustomText.TextColor3 = VapeText.TextColor3
-		VapeLogoGradient.Color = ColorSequence.new({
+		xapeText.TextColor3 = Color3.fromHSV(TextGUIGradient.Enabled and mainRainbowGradient or h, mainRainbowSaturation, rainbowGUICheck and 1 or val)
+		xapeCustomText.TextColor3 = xapeText.TextColor3
+		xapeLogoGradient.Color = ColorSequence.new({
 			ColorSequenceKeypoint.new(0, Color3.fromHSV(h, mainRainbowSaturation, rainbowGUICheck and 1 or val)),
-			ColorSequenceKeypoint.new(1, VapeText.TextColor3)
+			ColorSequenceKeypoint.new(1, xapeText.TextColor3)
 		})
-		VapeLogoGradient2.Color = ColorSequence.new({
+		xapeLogoGradient2.Color = ColorSequence.new({
 			ColorSequenceKeypoint.new(0, Color3.fromHSV(h, TextGUIGradient.Enabled and rainbowGUICheck and mainRainbowSaturation or 0, 1)),
 			ColorSequenceKeypoint.new(1, Color3.fromHSV(TextGUIGradient.Enabled and mainRainbowGradient or h, TextGUIGradient.Enabled and rainbowGUICheck and mainRainbowSaturation or 0, 1))
 		})
@@ -1620,7 +1620,7 @@ GuiLibrary.UpdateUI = function(h, s, val, bypass)
 		for i, v in pairs(TextGUIFormatted) do
 			local rainbowcolor = h + (rainbowGUICheck and (-0.025 * (i + (TextGUIGradient.Enabled and 2 or 0))) or 0)
 			rainbowcolor = rainbowcolor % 1
-			local newcolor = Color3.fromHSV(rainbowcolor, rainbowGUICheck and getVapeSaturation(rainbowcolor) or mainRainbowSaturation, rainbowGUICheck and 1 or val)
+			local newcolor = Color3.fromHSV(rainbowcolor, rainbowGUICheck and getxapeSaturation(rainbowcolor) or mainRainbowSaturation, rainbowGUICheck and 1 or val)
 			newTextGUIText = newTextGUIText..'<font color="rgb('..math.floor(newcolor.R * 255)..","..math.floor(newcolor.G * 255)..","..math.floor(newcolor.B * 255)..')">'..v.Text..'</font><font color="rgb(170, 170, 170)">'..v.ExtraText..'</font>\n'
 			backgroundTable[i] = newcolor
 		end
@@ -1634,11 +1634,11 @@ GuiLibrary.UpdateUI = function(h, s, val, bypass)
 		end
 
 		if TextGUIBackgroundToggle.Enabled then
-			for i, v in pairs(VapeBackgroundTable) do
+			for i, v in pairs(xapeBackgroundTable) do
 				v.ColorFrame.BackgroundColor3 = backgroundTable[v.LayoutOrder] or Color3.new()
 			end
 		end
-		VapeText.Text = newTextGUIText
+		xapeText.Text = newTextGUIText
 
 		if (not GuiLibrary.MainGui.ScaledGui.ClickGui.Visible) and (not GuiLibrary.MainGui.ScaledGui.LegitGui.Visible) and (not bypass) then return end
 		GuiLibrary.MainGui.ScaledGui.ClickGui.SearchBar.LegitMode.ImageColor3 = Color3.fromHSV(h, mainRainbowSaturation, rainbowGUICheck and 1 or val)
@@ -1664,7 +1664,7 @@ GuiLibrary.UpdateUI = function(h, s, val, bypass)
 				buttonColorIndex = buttonColorIndex + 1
 				local rainbowcolor = h + (rainbowGUICheck and (-0.025 * windowSortOrder[i]) or 0)
 				rainbowcolor = rainbowcolor % 1
-				local newcolor = Color3.fromHSV(rainbowcolor, rainbowGUICheck and getVapeSaturation(rainbowcolor) or mainRainbowSaturation, rainbowGUICheck and 1 or val)
+				local newcolor = Color3.fromHSV(rainbowcolor, rainbowGUICheck and getxapeSaturation(rainbowcolor) or mainRainbowSaturation, rainbowGUICheck and 1 or val)
 				v.Object.ButtonText.TextColor3 = newcolor
 				if v.Object:FindFirstChild("ButtonIcon") then
 					v.Object.ButtonIcon.ImageColor3 = newcolor
@@ -1677,7 +1677,7 @@ GuiLibrary.UpdateUI = function(h, s, val, bypass)
 						mainRainbowGradient = mainRainbowGradient and (mainRainbowGradient - 1) > 0 and GuiLibrary.ObjectsThatCanBeSaved[windowSortOrder2[mainRainbowGradient - 1].."Window"].SortOrder or 0
 						local rainbowcolor = h + (rainbowGUICheck and (-0.025 * (mainRainbowGradient + v.SortOrder)) or 0)
 						rainbowcolor = rainbowcolor % 1
-						newcolor = Color3.fromHSV(rainbowcolor, rainbowGUICheck and getVapeSaturation(rainbowcolor) or mainRainbowSaturation, rainbowGUICheck and 1 or val)
+						newcolor = Color3.fromHSV(rainbowcolor, rainbowGUICheck and getxapeSaturation(rainbowcolor) or mainRainbowSaturation, rainbowGUICheck and 1 or val)
 					end
 					v.Object.BackgroundColor3 = newcolor
 				end
@@ -1685,7 +1685,7 @@ GuiLibrary.UpdateUI = function(h, s, val, bypass)
 				if v.Api.Enabled then
 					local rainbowcolor = h + (rainbowGUICheck and (-0.025 * buttonColorIndex) or 0)
 					rainbowcolor = rainbowcolor % 1
-					local newcolor = Color3.fromHSV(rainbowcolor, rainbowGUICheck and getVapeSaturation(rainbowcolor) or mainRainbowSaturation, rainbowGUICheck and 1 or val)
+					local newcolor = Color3.fromHSV(rainbowcolor, rainbowGUICheck and getxapeSaturation(rainbowcolor) or mainRainbowSaturation, rainbowGUICheck and 1 or val)
 					v.Object.ImageColor3 = newcolor
 				end
 			elseif (v.Type == "Toggle" or v.Type == "ToggleMain") and v.Api.Enabled then
@@ -1702,7 +1702,7 @@ GuiLibrary.UpdateUI = function(h, s, val, bypass)
 
 		local rainbowcolor = h + (rainbowGUICheck and (-0.025 * buttonColorIndex) or 0)
 		rainbowcolor = rainbowcolor % 1
-		GuiLibrary.ObjectsThatCanBeSaved.GUIWindow.Object.Children.Extras.MainButton.ImageColor3 = (GUI.GetVisibleIcons() > 0 and Color3.fromHSV(rainbowcolor, getVapeSaturation(rainbowcolor), 1) or Color3.fromRGB(199, 199, 199))
+		GuiLibrary.ObjectsThatCanBeSaved.GUIWindow.Object.Children.Extras.MainButton.ImageColor3 = (GUI.GetVisibleIcons() > 0 and Color3.fromHSV(rainbowcolor, getxapeSaturation(rainbowcolor), 1) or Color3.fromRGB(199, 199, 199))
 
 		for i, v in pairs(ProfilesTextList.ScrollingObject.ScrollingFrame:GetChildren()) do
 			if v:IsA("TextButton") and v.ItemText.Text == GuiLibrary.CurrentProfile then
@@ -1788,24 +1788,24 @@ GUISettings.CreateSlider({
 
 local GUIbind = GUI.CreateGUIBind()
 local teleportConnection = playersService.LocalPlayer.OnTeleport:Connect(function(State)
-    if (not teleportedServers) and (not shared.VapeIndependent) then
+    if (not teleportedServers) and (not shared.xapeIndependent) then
 		teleportedServers = true
 		local teleportScript = [[
-			shared.VapeSwitchServers = true 
-			if shared.VapeDeveloper then 
-				loadstring(readfile("vape/NewMainScript.lua"))() 
+			shared.xapeSwitchServers = true 
+			if shared.xapeDeveloper then 
+				loadstring(readfile("xape/NewMainScript.lua"))() 
 			else 
-				loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..readfile("vape/commithash.txt").."/NewMainScript.lua", true))() 
+				loadstring(game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xaperell/"..readfile("xape/commithash.txt").."/NewMainScript.lua", true))() 
 			end
 		]]
-		if shared.VapeDeveloper then
-			teleportScript = 'shared.VapeDeveloper = true\n'..teleportScript
+		if shared.xapeDeveloper then
+			teleportScript = 'shared.xapeDeveloper = true\n'..teleportScript
 		end
-		if shared.VapePrivate then
-			teleportScript = 'shared.VapePrivate = true\n'..teleportScript
+		if shared.xapePrivate then
+			teleportScript = 'shared.xapePrivate = true\n'..teleportScript
 		end
-		if shared.VapeCustomProfile then 
-			teleportScript = "shared.VapeCustomProfile = '"..shared.VapeCustomProfile.."'\n"..teleportScript
+		if shared.xapeCustomProfile then 
+			teleportScript = "shared.xapeCustomProfile = '"..shared.xapeCustomProfile.."'\n"..teleportScript
 		end
 		GuiLibrary.SaveSettings()
 		queueonteleport(teleportScript)
@@ -1818,10 +1818,10 @@ GuiLibrary.SelfDestruct = function()
 	end)
 	if GuiLibrary.ColorStepped then GuiLibrary.ColorStepped:Disconnect() end
 
-	if vapeInjected then 
+	if xapeInjected then 
 		GuiLibrary.SaveSettings()
 	end
-	vapeInjected = false
+	xapeInjected = false
 	inputService.OverrideMouseIconBehavior = Enum.OverrideMouseIconBehavior.None
 
 	for i,v in pairs(GuiLibrary.ObjectsThatCanBeSaved) do
@@ -1842,14 +1842,14 @@ GuiLibrary.SelfDestruct = function()
 	end
 
 	GuiLibrary.SelfDestructEvent:Fire()
-	shared.VapeExecuted = nil
-	shared.VapePrivate = nil
-	shared.VapeFullyLoaded = nil
-	shared.VapeSwitchServers = nil
+	shared.xapeExecuted = nil
+	shared.xapePrivate = nil
+	shared.xapeFullyLoaded = nil
+	shared.xapeSwitchServers = nil
 	shared.GuiLibrary = nil
-	shared.VapeIndependent = nil
-	shared.VapeManualLoad = nil
-	shared.CustomSaveVape = nil
+	shared.xapeIndependent = nil
+	shared.xapeManualLoad = nil
+	shared.CustomSavexape = nil
 	GuiLibrary.KeyInputHandler:Disconnect()
 	GuiLibrary.KeyInputHandler2:Disconnect()
 	if MiddleClickInput then
@@ -1863,17 +1863,17 @@ end
 GeneralSettings.CreateButton2({
 	Name = "RESET CURRENT PROFILE", 
 	Function = function()
-		local vapePrivateCheck = shared.VapePrivate
+		local xapePrivateCheck = shared.xapePrivate
 		GuiLibrary.SelfDestruct()
 		if delfile then
-			delfile(baseDirectory.."Profiles/"..(GuiLibrary.CurrentProfile ~= "default" and GuiLibrary.CurrentProfile or "")..(shared.CustomSaveVape or game.PlaceId)..".vapeprofile.txt")
+			delfile(baseDirectory.."Profiles/"..(GuiLibrary.CurrentProfile ~= "default" and GuiLibrary.CurrentProfile or "")..(shared.CustomSavexape or game.PlaceId)..".xapeprofile.txt")
 		else
-			writefile(baseDirectory.."Profiles/"..(GuiLibrary.CurrentProfile ~= "default" and GuiLibrary.CurrentProfile or "")..(shared.CustomSaveVape or game.PlaceId)..".vapeprofile.txt", "")
+			writefile(baseDirectory.."Profiles/"..(GuiLibrary.CurrentProfile ~= "default" and GuiLibrary.CurrentProfile or "")..(shared.CustomSavexape or game.PlaceId)..".xapeprofile.txt", "")
 		end
-		shared.VapeSwitchServers = true
-		shared.VapeOpenGui = true
-		shared.VapePrivate = vapePrivateCheck
-		loadstring(vapeGithubRequest("NewMainScript.lua"))()
+		shared.xapeSwitchServers = true
+		shared.xapeOpenGui = true
+		shared.xapePrivate = xapePrivateCheck
+		loadstring(xapeGithubRequest("NewMainScript.lua"))()
 	end
 })
 GUISettings.CreateButton2({
@@ -1937,33 +1937,33 @@ GeneralSettings.CreateButton2({
 	Function = GuiLibrary.SelfDestruct
 })
 
-local function loadVape()
-	if not shared.VapeIndependent then
-		loadstring(vapeGithubRequest("Universal.lua"))()
-		if isfile("vape/CustomModules/"..game.PlaceId..".lua") then
-			loadstring(readfile("vape/CustomModules/"..game.PlaceId..".lua"))()
+local function loadxape()
+	if not shared.xapeIndependent then
+		loadstring(xapeGithubRequest("Universal.lua"))()
+		if isfile("xape/CustomModules/"..game.PlaceId..".lua") then
+			loadstring(readfile("xape/CustomModules/"..game.PlaceId..".lua"))()
 		else
-			if not shared.VapeDeveloper then
-				local suc, publicrepo = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..readfile("vape/commithash.txt").."/CustomModules/"..game.PlaceId..".lua") end)
+			if not shared.xapeDeveloper then
+				local suc, publicrepo = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xaperell/"..readfile("xape/commithash.txt").."/CustomModules/"..game.PlaceId..".lua") end)
 				if suc and publicrepo and publicrepo ~= "404: Not Found" then
-					writefile("vape/CustomModules/"..game.PlaceId..".lua", "--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.\n"..publicrepo)
-					loadstring(readfile("vape/CustomModules/"..game.PlaceId..".lua"))()
+					writefile("xape/CustomModules/"..game.PlaceId..".lua", "--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.\n"..publicrepo)
+					loadstring(readfile("xape/CustomModules/"..game.PlaceId..".lua"))()
 				end
 			end
 		end
-		if shared.VapePrivate then
-			if isfile("vapeprivate/CustomModules/"..game.PlaceId..".lua") then
-				loadstring(readfile("vapeprivate/CustomModules/"..game.PlaceId..".lua"))()
+		if shared.xapePrivate then
+			if isfile("xapeprivate/CustomModules/"..game.PlaceId..".lua") then
+				loadstring(readfile("xapeprivate/CustomModules/"..game.PlaceId..".lua"))()
 			end	
 		end
 	else
-		repeat task.wait() until shared.VapeManualLoad
+		repeat task.wait() until shared.xapeManualLoad
 	end
 	if #ProfilesTextList.ObjectList == 0 then
 		table.insert(ProfilesTextList.ObjectList, "default")
 		ProfilesTextList.RefreshValues(ProfilesTextList.ObjectList)
 	end
-	GuiLibrary.LoadSettings(shared.VapeCustomProfile)
+	GuiLibrary.LoadSettings(shared.xapeCustomProfile)
 	local profiles = {}
 	for i,v in pairs(GuiLibrary.Profiles) do 
 		table.insert(profiles, i)
@@ -1973,32 +1973,32 @@ local function loadVape()
 	GUIbind.Reload()
 	TextGUIUpdate()
 	GuiLibrary.UpdateUI(GUIColorSlider.Hue, GUIColorSlider.Sat, GUIColorSlider.Value, true)
-	if not shared.VapeSwitchServers then
+	if not shared.xapeSwitchServers then
 		if BlatantModeToggle.Enabled then
 			pcall(function()
-				local frame = GuiLibrary.CreateNotification("Blatant Enabled", "Vape is now in Blatant Mode.", 5.5, "assets/WarningNotification.png")
+				local frame = GuiLibrary.CreateNotification("Blatant Enabled", "xape is now in Blatant Mode.", 5.5, "assets/WarningNotification.png")
 				frame.Frame.Frame.ImageColor3 = Color3.fromRGB(236, 129, 44)
 			end)
 		end
 		GuiLibrary.LoadedAnimation(welcomeMessage.Enabled)
 	else
-		shared.VapeSwitchServers = nil
+		shared.xapeSwitchServers = nil
 	end
-	if shared.VapeOpenGui then
+	if shared.xapeOpenGui then
 		GuiLibrary.MainGui.ScaledGui.ClickGui.Visible = true
 		GuiLibrary.MainGui.ScaledGui.LegitGui.Visible = false
 		game:GetService("RunService"):SetRobloxGuiFocused(GuiLibrary.MainBlur.Size ~= 0) 
-		shared.VapeOpenGui = nil
+		shared.xapeOpenGui = nil
 	end
 
 	coroutine.resume(saveSettingsLoop)
-	shared.VapeFullyLoaded = true
+	shared.xapeFullyLoaded = true
 end
 
-if shared.VapeIndependent then
-	task.spawn(loadVape)
-	shared.VapeFullyLoaded = true
+if shared.xapeIndependent then
+	task.spawn(loadxape)
+	shared.xapeFullyLoaded = true
 	return GuiLibrary
 else
-	loadVape()
+	loadxape()
 end
