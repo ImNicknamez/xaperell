@@ -14,7 +14,7 @@ local cam = workspace.CurrentCamera
 workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
 	cam = (workspace.CurrentCamera or workspace:FindFirstChildWhichIsA("Camera") or Instance.new("Camera"))
 end)
-local targetinfo = shared.VapeTargetInfo
+local targetinfo = shared.xapeTargetInfo
 local uis = game:GetService("UserInputService")
 local v3check = syn and syn.toast_notification and "V3" or ""
 local networkownertick = tick()
@@ -45,7 +45,7 @@ local requestfunc = syn and syn.request or http and http.request or http_request
 end 
 local queueteleport = syn and syn.queue_on_teleport or queue_on_teleport or fluxus and fluxus.queue_on_teleport or function() end
 local getasset = getsynasset or getcustomasset or function(location) return "rbxasset://"..location end
-local entity = shared.vapeentity
+local entity = shared.xapeentity
 
 local RunLoops = {RenderStepTable = {}, StepTable = {}, HeartTable = {}}
 do
@@ -89,7 +89,7 @@ do
 	end
 end
 
-local WhitelistFunctions = shared.vapewhitelist
+local WhitelistFunctions = shared.xapewhitelist
 
 local function createwarning(title, text, delay)
 	local suc, res = pcall(function()
@@ -231,7 +231,7 @@ local function fireremote(...)
 	if framework.Network and framework.Network.Fire then
 		framework.Network.Fire(...)
 	else
-		createwarning("Vape", "skill issue", 1)
+		createwarning("xape", "skill issue", 1)
 	end
 	setthreadidentity(old)
 end
@@ -242,7 +242,7 @@ local function firefunction(...)
 	if framework.Network and framework.Network.Invoke then 
 		framework.Network.Invoke(...)
 	else
-		createwarning("Vape", "skill issue", 1)
+		createwarning("xape", "skill issue", 1)
 	end
 	setthreadidentity(old)
 end
