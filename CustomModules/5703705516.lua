@@ -6,7 +6,7 @@ local lplr = players.LocalPlayer
 local workspace = game:GetService("Workspace")
 local lighting = game:GetService("Lighting")
 local cam = workspace.CurrentCamera
-local targetinfo = shared.VapeTargetInfo
+local targetinfo = shared.xapeTargetInfo
 local uis = game:GetService("UserInputService")
 local localmouse = lplr:GetMouse()
 local requestfunc = syn and syn.request or http and http.request or http_request or fluxus and fluxus.request or getgenv().request or request
@@ -27,7 +27,7 @@ end
 
 local function createwarning(title, text, delay)
 	pcall(function()
-		local frame = GuiLibrary["CreateNotification"](title, text, delay, "vapeprivate/assets/WarningNotification.png")
+		local frame = GuiLibrary["CreateNotification"](title, text, delay, "xapeprivate/assets/WarningNotification.png")
 		frame.Frame.BackgroundColor3 = Color3.fromRGB(236, 129, 44)
 		frame.Frame.Frame.BackgroundColor3 = Color3.fromRGB(236, 129, 44)
 	end)
@@ -58,7 +58,7 @@ local function getcustomassetfunc(path)
 			textlabel:Remove()
 		end)
 		local req = requestfunc({
-			Url = "https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..path:gsub("vape/assets", "assets"),
+			Url = "https://raw.githubusercontent.com/ImNicknamez/xaperell/main/"..path:gsub("xape/assets", "assets"),
 			Method = "GET"
 		})
 		writefile(path, req.Body)
@@ -66,7 +66,7 @@ local function getcustomassetfunc(path)
 	return getasset(path) 
 end
 
-shared.vapeteamcheck = function(plr)
+shared.xapeteamcheck = function(plr)
 	return (GuiLibrary["ObjectsThatCanBeSaved"]["Teams by colorToggle"]["Api"]["Enabled"] and (plr.Team ~= lplr.Team or (lplr.Team == nil or #lplr.Team:GetPlayers() == #game:GetService("Players"):GetChildren())) or GuiLibrary["ObjectsThatCanBeSaved"]["Teams by colorToggle"]["Api"]["Enabled"] == false)
 end
 
