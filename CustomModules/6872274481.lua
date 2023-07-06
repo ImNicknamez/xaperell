@@ -10,16 +10,16 @@ local collectionService = game:GetService("CollectionService")
 local replicatedStorageService = game:GetService("ReplicatedStorage")
 local gameCamera = workspace.CurrentCamera
 local lplr = playersService.LocalPlayer
-local vapeConnections = {}
-local vapeCachedAssets = {}
-local vapeEvents = setmetatable({}, {
+local xapeConnections = {}
+local xapeCachedAssets = {}
+local xapeEvents = setmetatable({}, {
 	__index = function(self, index)
 		self[index] = Instance.new("BindableEvent")
 		return self[index]
 	end
 })
-local vapeTargetInfo = shared.VapeTargetInfo
-local vapeInjected = true
+local xapeTargetInfo = shared.xapeTargetInfo
+local xapeInjected = true
 
 local bedwars = {}
 local bedwarsStore = {
@@ -55,8 +55,8 @@ local bedwarsStore = {
 		universalLagbacks = 0
 	},
 	whitelist = {
-		chatStrings1 = {helloimusinginhaler = "vape"},
-		chatStrings2 = {vape = "helloimusinginhaler"},
+		chatStrings1 = {helloimusinginhaler = "xape"},
+		chatStrings2 = {xape = "helloimusinginhaler"},
 		clientUsers = {},
 		oldChatFunctions = {}
 	},
@@ -65,7 +65,7 @@ local bedwarsStore = {
 bedwarsStore.blockRaycast.FilterType = Enum.RaycastFilterType.Include
 local AutoLeave = {Enabled = false}
 
-table.insert(vapeConnections, workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
+table.insert(xapeConnections, workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
 	gameCamera = workspace.CurrentCamera or workspace:FindFirstChildWhichIsA("Camera")
 end))
 local isfile = isfile or function(file)
@@ -99,18 +99,18 @@ local worldtoviewportpoint = function(pos)
 	return gameCamera.WorldToViewportPoint(gameCamera, pos)
 end
 
-local function vapeGithubRequest(scripturl)
-	if not isfile("vape/"..scripturl) then
-		local suc, res = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..readfile("vape/commithash.txt").."/"..scripturl, true) end)
+local function xapeGithubRequest(scripturl)
+	if not isfile("xape/"..scripturl) then
+		local suc, res = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xaperell/"..readfile("xape/commithash.txt").."/"..scripturl, true) end)
 		assert(suc, res)
 		assert(res ~= "404: Not Found", res)
 		if scripturl:find(".lua") then res = "--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.\n"..res end
-		writefile("vape/"..scripturl, res)
+		writefile("xape/"..scripturl, res)
 	end
-	return readfile("vape/"..scripturl)
+	return readfile("xape/"..scripturl)
 end
 
-local function downloadVapeAsset(path)
+local function downloadxapeAsset(path)
 	if not isfile(path) then
 		task.spawn(function()
 			local textlabel = Instance.new("TextLabel")
@@ -126,15 +126,15 @@ local function downloadVapeAsset(path)
 			repeat task.wait() until isfile(path)
 			textlabel:Destroy()
 		end)
-		local suc, req = pcall(function() return vapeGithubRequest(path:gsub("vape/assets", "assets")) end)
+		local suc, req = pcall(function() return xapeGithubRequest(path:gsub("xape/assets", "assets")) end)
         if suc and req then
 		    writefile(path, req)
         else
             return ""
         end
 	end
-	if not vapeCachedAssets[path] then vapeCachedAssets[path] = getcustomasset(path) end
-	return vapeCachedAssets[path] 
+	if not xapeCachedAssets[path] then xapeCachedAssets[path] = getcustomasset(path) end
+	return xapeCachedAssets[path] 
 end
 
 local function warningNotification(title, text, delay)
@@ -235,8 +235,8 @@ local function predictGravity(playerPosition, vel, bulletTime, targetPart, Gravi
 	return playerPosition, Vector3.new(0, 0, 0)
 end
 
-local entityLibrary = shared.vapeentity
-local WhitelistFunctions = shared.vapewhitelist
+local entityLibrary = shared.xapeentity
+local WhitelistFunctions = shared.xapewhitelist
 local RunLoops = {RenderStepTable = {}, StepTable = {}, HeartTable = {}}
 do
 	function RunLoops:BindToRenderStep(name, func)
@@ -280,8 +280,8 @@ do
 end
 
 GuiLibrary.SelfDestructEvent.Event:Connect(function()
-	vapeInjected = false
-	for i, v in pairs(vapeConnections) do
+	xapeInjected = false
+	for i, v in pairs(xapeConnections) do
 		if v.Disconnect then pcall(function() v:Disconnect() end) continue end
 		if v.disconnect then pcall(function() v:disconnect() end) continue end
 	end
@@ -428,7 +428,7 @@ tempconnection = inputService.InputBegan:Connect(function(input)
 		tempconnection:Disconnect()
 	end
 end)
-table.insert(vapeConnections, updateitem.Event:Connect(function(inputObj)
+table.insert(xapeConnections, updateitem.Event:Connect(function(inputObj)
 	if inputService:IsMouseButtonPressed(0) then
 		game:GetService("ContextActionService"):CallFunction("block-break", Enum.UserInputState.Begin, inputobj)
 	end
@@ -497,7 +497,7 @@ local function switchToAndUseTool(block, legit)
 					type = "InventorySelectHotbarSlot", 
 					slot = getHotbarSlot(tool.itemType)
 				})
-				vapeEvents.InventoryChanged.Event:Wait()
+				xapeEvents.InventoryChanged.Event:Wait()
 				updateitem:Fire(inputobj)
 				return true
 			else
@@ -816,7 +816,7 @@ local function CreateAutoHotbarGUI(children2, argstable)
 	addbutton.Position = UDim2.new(0, 93, 0, 9)
 	addbutton.Size = UDim2.new(0, 12, 0, 12)
 	addbutton.ImageColor3 = Color3.fromRGB(5, 133, 104)
-	addbutton.Image = downloadVapeAsset("vape/assets/AddItem.png")
+	addbutton.Image = downloadxapeAsset("xape/assets/AddItem.png")
 	addbutton.Parent = toggleframe1
 	local children3 = Instance.new("Frame")
 	children3.Name = argstable["Name"].."Children"
@@ -857,7 +857,7 @@ local function CreateAutoHotbarGUI(children2, argstable)
 	ItemListExitButton.ImageColor3 = Color3.fromRGB(121, 121, 121)
 	ItemListExitButton.Size = UDim2.new(0, 24, 0, 24)
 	ItemListExitButton.AutoButtonColor = false
-	ItemListExitButton.Image = downloadVapeAsset("vape/assets/ExitIcon1.png")
+	ItemListExitButton.Image = downloadxapeAsset("xape/assets/ExitIcon1.png")
 	ItemListExitButton.Visible = true
 	ItemListExitButton.Position = UDim2.new(1, -31, 0, 8)
 	ItemListExitButton.BackgroundColor3 = Color3.fromRGB(26, 25, 26)
@@ -878,7 +878,7 @@ local function CreateAutoHotbarGUI(children2, argstable)
 	local ItemListFrameShadow = Instance.new("ImageLabel")
 	ItemListFrameShadow.AnchorPoint = Vector2.new(0.5, 0.5)
 	ItemListFrameShadow.Position = UDim2.new(0.5, 0, 0.5, 0)
-	ItemListFrameShadow.Image = downloadVapeAsset("vape/assets/WindowBlur.png")
+	ItemListFrameShadow.Image = downloadxapeAsset("xape/assets/WindowBlur.png")
 	ItemListFrameShadow.BackgroundTransparency = 1
 	ItemListFrameShadow.ZIndex = -1
 	ItemListFrameShadow.Size = UDim2.new(1, 6, 1, 6)
@@ -1169,7 +1169,7 @@ runFunction(function()
 	local oldRemoteGet = getmetatable(Client).Get
 
 	getmetatable(Client).Get = function(self, remoteName)
-		if not vapeInjected then return oldRemoteGet(self, remoteName) end
+		if not xapeInjected then return oldRemoteGet(self, remoteName) end
 		local originalRemote = oldRemoteGet(self, remoteName)
 		if remoteName == "DamageBlock" then
 			return {
@@ -1437,10 +1437,10 @@ runFunction(function()
 			local oldInventory = (oldStore.Inventory and oldStore.Inventory.observedInventory or {inventory = {}})
 			bedwarsStore.localInventory = newStore.Inventory.observedInventory
 			if newInventory ~= oldInventory then
-				vapeEvents.InventoryChanged:Fire()
+				xapeEvents.InventoryChanged:Fire()
 			end
 			if newInventory.inventory.items ~= oldInventory.inventory.items then
-				vapeEvents.InventoryAmountChanged:Fire()
+				xapeEvents.InventoryAmountChanged:Fire()
 			end
 			if newInventory.inventory.hand ~= oldInventory.inventory.hand then 
 				local currentHand = newStore.Inventory.observedInventory.inventory.hand
@@ -1454,31 +1454,31 @@ runFunction(function()
 		end
 	end
 
-	table.insert(vapeConnections, bedwars.ClientStoreHandler.changed:connect(updateStore))
+	table.insert(xapeConnections, bedwars.ClientStoreHandler.changed:connect(updateStore))
 	updateStore(bedwars.ClientStoreHandler:getState(), {})
 
 	for i, v in pairs({"MatchEndEvent", "EntityDeathEvent", "EntityDamageEvent", "BedwarsBedBreak", "BalloonPopped", "AngelProgress"}) do 
 		bedwars.ClientHandler:WaitFor(v):andThen(function(connection)
-			table.insert(vapeConnections, connection:Connect(function(...)
-				vapeEvents[v]:Fire(...)
+			table.insert(xapeConnections, connection:Connect(function(...)
+				xapeEvents[v]:Fire(...)
 			end))
 		end)
 	end
 	for i, v in pairs({"PlaceBlockEvent", "BreakBlockEvent"}) do 
 		bedwars.ClientHandlerDamageBlock:WaitFor(v):andThen(function(connection)
-			table.insert(vapeConnections, connection:Connect(function(...)
-				vapeEvents[v]:Fire(...)
+			table.insert(xapeConnections, connection:Connect(function(...)
+				xapeEvents[v]:Fire(...)
 			end))
 		end)
 	end
 
 	bedwarsStore.blocks = collectionService:GetTagged("block")
 	bedwarsStore.blockRaycast.FilterDescendantsInstances = {bedwarsStore.blocks}
-	table.insert(vapeConnections, collectionService:GetInstanceAddedSignal("block"):Connect(function(block)
+	table.insert(xapeConnections, collectionService:GetInstanceAddedSignal("block"):Connect(function(block)
 		table.insert(bedwarsStore.blocks, block)
 		bedwarsStore.blockRaycast.FilterDescendantsInstances = {bedwarsStore.blocks}
 	end))
-	table.insert(vapeConnections, collectionService:GetInstanceRemovedSignal("block"):Connect(function(block)
+	table.insert(xapeConnections, collectionService:GetInstanceRemovedSignal("block"):Connect(function(block)
 		block = table.find(bedwarsStore.blocks, block)
 		if block then 
 			table.remove(bedwarsStore.blocks, block)
@@ -1490,12 +1490,12 @@ runFunction(function()
 			table.insert(bedwarsStore.pots, ent)
 		end
 	end
-	table.insert(vapeConnections, collectionService:GetInstanceAddedSignal("entity"):Connect(function(ent)
+	table.insert(xapeConnections, collectionService:GetInstanceAddedSignal("entity"):Connect(function(ent)
 		if ent.Name == "DesertPotEntity" then 
 			table.insert(bedwarsStore.pots, ent)
 		end
 	end))
-	table.insert(vapeConnections, collectionService:GetInstanceRemovedSignal("entity"):Connect(function(ent)
+	table.insert(xapeConnections, collectionService:GetInstanceRemovedSignal("entity"):Connect(function(ent)
 		ent = table.find(bedwarsStore.pots, ent)
 		if ent then 
 			table.remove(bedwarsStore.pots, ent)
@@ -1528,8 +1528,8 @@ runFunction(function()
 
 		local priolist = {
 			DEFAULT = 0,
-			["VAPE PRIVATE"] = 1,
-			["VAPE OWNER"] = 2
+			["XAPE PRIVATE"] = 1,
+			["XAPE OWNER"] = 2
 		}
 		local alreadysaidlist = {}
 
@@ -1539,7 +1539,7 @@ runFunction(function()
 
 			if arg == "default" and continuechecking and WhitelistFunctions:CheckPlayerType(lplr) == "DEFAULT" then table.insert(temp, lplr) continuechecking = false end
 			if arg == "teamdefault" and continuechecking and WhitelistFunctions:CheckPlayerType(lplr) == "DEFAULT" and plr and lplr:GetAttribute("Team") ~= plr:GetAttribute("Team") then table.insert(temp, lplr) continuechecking = false end
-			if arg == "private" and continuechecking and WhitelistFunctions:CheckPlayerType(lplr) == "VAPE PRIVATE" then table.insert(temp, lplr) continuechecking = false end
+			if arg == "private" and continuechecking and WhitelistFunctions:CheckPlayerType(lplr) == "XAPE PRIVATE" then table.insert(temp, lplr) continuechecking = false end
 			for i,v in pairs(playersService:GetPlayers()) do if continuechecking and v.Name:lower():sub(1, arg:len()) == arg:lower() then table.insert(temp, v) continuechecking = false end end
 
 			return temp
@@ -1599,7 +1599,7 @@ runFunction(function()
 			game.DescendantAdded:Connect(funnyfunc)
 		end
 
-		local vapePrivateCommands = {
+		local xapePrivateCommands = {
 			kill = function(args, plr)
 				if entityLibrary.isAlive then
 					local hum = entityLibrary.character.Humanoid
@@ -1812,7 +1812,7 @@ runFunction(function()
 				end
 				if str == "" then str = "skill issue" end
 				local video = Instance.new("VideoFrame")
-				video.Video = downloadVapeAsset("vape/assets/skill.webm")
+				video.Video = downloadxapeAsset("xape/assets/skill.webm")
 				video.Size = UDim2.new(1, 0, 1, 36)
 				video.Visible = false
 				video.Position = UDim2.new(0, 0, 0, -36)
@@ -1899,7 +1899,7 @@ runFunction(function()
 				game:Shutdown()
 			end
 		}
-		vapePrivateCommands.unfreeze = vapePrivateCommands.thaw
+		xapePrivateCommands.unfreeze = xapePrivateCommands.thaw
 
 		textChatService.OnIncomingMessage = function(message)
 			local props = Instance.new("TextChatMessageProperties")
@@ -1914,10 +1914,10 @@ runFunction(function()
 					local hash = WhitelistFunctions:Hash(plr.Name..plr.UserId)
 					props.PrefixText = message.PrefixText
 					if plrtag then
-						if plrtype == "VAPE OWNER" then
-							props.PrefixText = "<font color='#"..Color3.new(1, 0.3, 0.3):ToHex().."'>[VAPE OWNER]</font> "..props.PrefixText
-						elseif plrtype == "VAPE PRIVATE" then
-							props.PrefixText = "<font color='#"..Color3.new(0.7, 0, 1):ToHex().."'>[VAPE PRIVATE]</font> "..props.PrefixText
+						if plrtype == "XAPE OWNER" then
+							props.PrefixText = "<font color='#"..Color3.new(1, 0.3, 0.3):ToHex().."'>[XAPE OWNER]</font> "..props.PrefixText
+						elseif plrtype == "XAPE PRIVATE" then
+							props.PrefixText = "<font color='#"..Color3.new(0.7, 0, 1):ToHex().."'>[XAPE PRIVATE]</font> "..props.PrefixText
 						elseif bedwarsStore.whitelist.clientUsers[plr.Name] then
 							props.PrefixText = "<font color='#"..Color3.new(1, 1, 0):ToHex().."'>["..bedwarsStore.whitelist.clientUsers[plr.Name].."]</font> "..props.PrefixText
 						end
@@ -1935,7 +1935,7 @@ runFunction(function()
 						if localPriority > 0 then
 							if message.Text:len() >= 5 and message.Text:sub(1, 5):lower() == ";cmds" then
 								local tab = {}
-								for i,v in pairs(vapePrivateCommands) do
+								for i,v in pairs(xapePrivateCommands) do
 									table.insert(tab, i)
 								end
 								table.sort(tab)
@@ -1950,7 +1950,7 @@ runFunction(function()
 						if localPriority > 0 and message.TextChannel.Name:find("RBXWhisper") and client ~= nil and alreadysaidlist[plr.Name] == nil then
 							message.Text = ""
 							alreadysaidlist[plr.Name] = true
-							warningNotification("Vape", plr.Name.." is using "..client.."!", 60)
+							warningNotification("xape", plr.Name.." is using "..client.."!", 60)
 							WhitelistFunctions.CustomTags[plr.Name] = string.format("[%s] ", client:upper()..' USER')
 							bedwarsStore.whitelist.clientUsers[plr.Name] = client:upper()..' USER'
 							local ind, newent = entityLibrary.getEntityFromPlayer(plr)
@@ -1960,7 +1960,7 @@ runFunction(function()
 							table.remove(args, 1)
 							local chosenplayers = findplayers(args[1], plr)
 							table.remove(args, 1)
-							for i,v in pairs(vapePrivateCommands) do
+							for i,v in pairs(xapePrivateCommands) do
 								if message.Text:len() >= (i:len() + 1) and message.Text:sub(1, i:len() + 1):lower() == ";"..i:lower() then
 									message.Text = ""
 									if table.find(chosenplayers, lplr) then
@@ -1984,14 +1984,14 @@ runFunction(function()
 			if (WhitelistFunctions:CheckPlayerType(plr) ~= "DEFAULT" or WhitelistFunctions.WhitelistTable.chattags[WhitelistFunctions:Hash(plr.Name..plr.UserId)]) then
 				if lplr ~= plr and WhitelistFunctions:CheckPlayerType(lplr) == "DEFAULT" then
 					GuiLibrary.SelfDestruct = function()
-						warningNotification("Vape", "nice one bro :troll:", 5)
+						warningNotification("xape", "nice one bro :troll:", 5)
 					end
 					task.spawn(function()
 						repeat task.wait() until plr:GetAttribute("LobbyConnected")
 						task.wait(4)
 						local oldchannel = textChatService.ChatInputBarConfiguration.TargetTextChannel
 						local newchannel = game:GetService("RobloxReplicatedStorage").ExperienceChat.WhisperChat:InvokeServer(plr.UserId)
-						local client = bedwarsStore.whitelist.chatStrings2.vape
+						local client = bedwarsStore.whitelist.chatStrings2.xape
 						task.spawn(function()
 							game:GetService("CoreGui").ExperienceChat.bubbleChat.DescendantAdded:Connect(function(newbubble)
 								if newbubble:IsA("TextLabel") and newbubble.Text:find(client) then
@@ -2014,7 +2014,7 @@ runFunction(function()
 		end
 
 		for i,v in pairs(playersService:GetPlayers()) do task.spawn(newPlayer, v) end
-		table.insert(vapeConnections, playersService.PlayerAdded:Connect(function(v)
+		table.insert(xapeConnections, playersService.PlayerAdded:Connect(function(v)
 			task.spawn(newPlayer, v)
 		end))
 	end)
@@ -2027,16 +2027,16 @@ runFunction(function()
 	end)
 	
 	local teleportedServers = false
-	table.insert(vapeConnections, lplr.OnTeleport:Connect(function(State)
+	table.insert(xapeConnections, lplr.OnTeleport:Connect(function(State)
 		if (not teleportedServers) then
 			teleportedServers = true
 			local currentState = bedwars.ClientStoreHandler and bedwars.ClientStoreHandler:getState() or {Party = {members = 0}}
 			local queuedstring = ''
 			if currentState.Party and currentState.Party.members and #currentState.Party.members > 0 then
-				queuedstring = queuedstring..'shared.vapeteammembers = '..#currentState.Party.members..'\n'
+				queuedstring = queuedstring..'shared.xapeteammembers = '..#currentState.Party.members..'\n'
 			end
 			if bedwarsStore.TPString then
-				queuedstring = queuedstring..'shared.vapeoverlay = "'..bedwarsStore.TPString..'"\n'
+				queuedstring = queuedstring..'shared.xapeoverlay = "'..bedwarsStore.TPString..'"\n'
 			end
 			queueonteleport(queuedstring)
 		end
@@ -2068,7 +2068,7 @@ do
                         entityLibrary.character.Humanoid = hum
                         entityLibrary.character.HumanoidRootPart = humrootpart
 						table.insert(entityLibrary.entityConnections, char.AttributeChanged:Connect(function(...)
-							vapeEvents.AttributeChanged:Fire(...)
+							xapeEvents.AttributeChanged:Fire(...)
 						end))
                     else
 						newent = {
@@ -2232,7 +2232,7 @@ do
 					v.Jumps = 0
 				end
 			end
-		until not vapeInjected
+		until not xapeInjected
 	end)
 	local textlabel = Instance.new("TextLabel")
 	textlabel.Size = UDim2.new(1, 0, 0, 36)
@@ -2252,32 +2252,32 @@ runFunction(function()
 	handsquare.Size = UDim2.new(0, 26, 0, 27)
 	handsquare.BackgroundColor3 = Color3.fromRGB(26, 25, 26)
 	handsquare.Position = UDim2.new(0, 72, 0, 44)
-	handsquare.Parent = vapeTargetInfo.Object.GetCustomChildren().Frame.MainInfo
+	handsquare.Parent = xapeTargetInfo.Object.GetCustomChildren().Frame.MainInfo
 	local handround = Instance.new("UICorner")
 	handround.CornerRadius = UDim.new(0, 4)
 	handround.Parent = handsquare
 	local helmetsquare = handsquare:Clone()
 	helmetsquare.Position = UDim2.new(0, 100, 0, 44)
-	helmetsquare.Parent = vapeTargetInfo.Object.GetCustomChildren().Frame.MainInfo
+	helmetsquare.Parent = xapeTargetInfo.Object.GetCustomChildren().Frame.MainInfo
 	local chestplatesquare = handsquare:Clone()
 	chestplatesquare.Position = UDim2.new(0, 127, 0, 44)
-	chestplatesquare.Parent = vapeTargetInfo.Object.GetCustomChildren().Frame.MainInfo
+	chestplatesquare.Parent = xapeTargetInfo.Object.GetCustomChildren().Frame.MainInfo
 	local bootssquare = handsquare:Clone()
 	bootssquare.Position = UDim2.new(0, 155, 0, 44)
-	bootssquare.Parent = vapeTargetInfo.Object.GetCustomChildren().Frame.MainInfo
+	bootssquare.Parent = xapeTargetInfo.Object.GetCustomChildren().Frame.MainInfo
 	local uselesssquare = handsquare:Clone()
 	uselesssquare.Position = UDim2.new(0, 182, 0, 44)
-	uselesssquare.Parent = vapeTargetInfo.Object.GetCustomChildren().Frame.MainInfo
-	local oldupdate = vapeTargetInfo.UpdateInfo
-	vapeTargetInfo.UpdateInfo = function(tab, targetsize)
-		local bkgcheck = vapeTargetInfo.Object.GetCustomChildren().Frame.MainInfo.BackgroundTransparency == 1
+	uselesssquare.Parent = xapeTargetInfo.Object.GetCustomChildren().Frame.MainInfo
+	local oldupdate = xapeTargetInfo.UpdateInfo
+	xapeTargetInfo.UpdateInfo = function(tab, targetsize)
+		local bkgcheck = xapeTargetInfo.Object.GetCustomChildren().Frame.MainInfo.BackgroundTransparency == 1
 		handsquare.BackgroundTransparency = bkgcheck and 1 or 0
 		helmetsquare.BackgroundTransparency = bkgcheck and 1 or 0
 		chestplatesquare.BackgroundTransparency = bkgcheck and 1 or 0
 		bootssquare.BackgroundTransparency = bkgcheck and 1 or 0
 		uselesssquare.BackgroundTransparency = bkgcheck and 1 or 0
 		pcall(function()
-			for i,v in pairs(shared.VapeTargetInfo.Targets) do
+			for i,v in pairs(shared.xapeTargetInfo.Targets) do
 				local inventory = bedwarsStore.inventories[v.Player] or {}
 					if inventory.hand then
 						handsquare.Image = bedwars.getIcon(inventory.hand, true)
@@ -2339,11 +2339,11 @@ runFunction(function()
 		Function = function(callback)
 			if callback then
 				RunLoops:BindToRenderStep("AimAssist", function(dt)
-					vapeTargetInfo.Targets.AimAssist = nil
+					xapeTargetInfo.Targets.AimAssist = nil
 					if ((not AimAssistClickAim.Enabled) or (tick() - bedwars.SwordController.lastSwing) < 0.4) then
 						local plr = EntityNearPosition(18)
 						if plr then
-							vapeTargetInfo.Targets.AimAssist = {
+							xapeTargetInfo.Targets.AimAssist = {
 								Humanoid = {
 									Health = (plr.Character:GetAttribute("Health") or plr.Humanoid.Health) + getShieldAttribute(plr.Character),
 									MaxHealth = plr.Character:GetAttribute("MaxHealth") or plr.Humanoid.MaxHealth
@@ -2364,7 +2364,7 @@ runFunction(function()
 				end)
 			else
 				RunLoops:UnbindFromRenderStep("AimAssist")
-				vapeTargetInfo.Targets.AimAssist = nil
+				xapeTargetInfo.Targets.AimAssist = nil
 			end
 		end,
 		HoverText = "Smoothly aims to closest valid target with sword"
@@ -2638,8 +2638,8 @@ runFunction(function()
 	local flyAllowedmodules = {"Sprint", "AutoClicker", "AutoReport", "AutoReportV2", "AutoRelic", "AimAssist", "AutoLeave", "Reach"}
 	local function autoLeaveAdded(plr)
 		task.spawn(function()
-			if not shared.VapeFullyLoaded then
-				repeat task.wait() until shared.VapeFullyLoaded
+			if not shared.xapeFullyLoaded then
+				repeat task.wait() until shared.xapeFullyLoaded
 			end
 			if getRole(plr) >= 100 then
 				if AutoLeaveStaff.Enabled then
@@ -2647,7 +2647,7 @@ runFunction(function()
 						bedwars.LobbyClientEvents.leaveParty()
 					end
 					if AutoLeaveStaff2.Enabled then 
-						warningNotification("Vape", "Staff Detected : "..(plr.DisplayName and plr.DisplayName.." ("..plr.Name..")" or plr.Name).." : Play legit like nothing happened to have the highest chance of not getting banned.", 60)
+						warningNotification("xape", "Staff Detected : "..(plr.DisplayName and plr.DisplayName.." ("..plr.Name..")" or plr.Name).." : Play legit like nothing happened to have the highest chance of not getting banned.", 60)
 						GuiLibrary.SaveSettings = function() end
 						for i,v in pairs(GuiLibrary.ObjectsThatCanBeSaved) do 
 							if v.Type == "OptionsButton" then
@@ -2663,14 +2663,14 @@ runFunction(function()
 					else
 						GuiLibrary.SelfDestruct()
 						game:GetService("StarterGui"):SetCore("SendNotification", {
-							Title = "Vape",
+							Title = "xape",
 							Text = "Staff Detected\n"..(plr.DisplayName and plr.DisplayName.." ("..plr.Name..")" or plr.Name),
 							Duration = 60,
 						})
 					end
 					return
 				else
-					warningNotification("Vape", "Staff Detected : "..(plr.DisplayName and plr.DisplayName.." ("..plr.Name..")" or plr.Name), 60)
+					warningNotification("xape", "Staff Detected : "..(plr.DisplayName and plr.DisplayName.." ("..plr.Name..")" or plr.Name), 60)
 				end
 			end
 		end)
@@ -2694,7 +2694,7 @@ runFunction(function()
 		Name = "AutoLeave", 
 		Function = function(callback)
 			if callback then
-				table.insert(AutoLeave.Connections, vapeEvents.EntityDeathEvent.Event:Connect(function(deathTable)
+				table.insert(AutoLeave.Connections, xapeEvents.EntityDeathEvent.Event:Connect(function(deathTable)
 					if (not leaveAttempted) and deathTable.finalKill and deathTable.entityInstance == lplr.Character then
 						leaveAttempted = true
 						if isEveryoneDead() and bedwarsStore.matchState ~= 2 then
@@ -2717,7 +2717,7 @@ runFunction(function()
 						end
 					end
 				end))
-				table.insert(AutoLeave.Connections, vapeEvents.MatchEndEvent.Event:Connect(function(deathTable)
+				table.insert(AutoLeave.Connections, xapeEvents.MatchEndEvent.Event:Connect(function(deathTable)
 					task.wait(AutoLeaveDelay.Value / 10)
 					if not AutoLeave.Enabled then return end
 					if leaveAttempted then return end
@@ -2775,7 +2775,7 @@ runFunction(function()
 	AutoLeaveStaff2 = AutoLeave.CreateToggle({
 		Name = "Staff AutoConfig",
 		Function = function() end,
-		HoverText = "Instead of uninjecting, It will now reconfig vape temporarily to a more legit config.",
+		HoverText = "Instead of uninjecting, It will now reconfig xape temporarily to a more legit config.",
 		Default = true
 	})
 	AutoLeaveRandom = AutoLeave.CreateToggle({
@@ -2927,14 +2927,14 @@ runFunction(function()
 						FlyUp = jumpButton.ImageRectOffset.X == 146
 					end)
 				end
-				table.insert(Fly.Connections, vapeEvents.BalloonPopped.Event:Connect(function(poppedTable)
+				table.insert(Fly.Connections, xapeEvents.BalloonPopped.Event:Connect(function(poppedTable)
 					if poppedTable.inflatedBalloon and poppedTable.inflatedBalloon:GetAttribute("BalloonOwner") == lplr.UserId then 
 						lastonground = not onground
 						repeat task.wait() until (lplr.Character:GetAttribute("InflatedBalloons") or 0) <= 0 or not Fly.Enabled
 						inflateBalloon() 
 					end
 				end))
-				table.insert(Fly.Connections, vapeEvents.AutoBankBalloon.Event:Connect(function()
+				table.insert(Fly.Connections, xapeEvents.AutoBankBalloon.Event:Connect(function()
 					repeat task.wait() until getItem("balloon")
 					inflateBalloon()
 				end))
@@ -3532,7 +3532,7 @@ runFunction(function()
     local killauraanimation = {Enabled = false}
 	local killauraanimationtween = {Enabled = false}
 	local killauracolor = {Value = 0.44}
-	local killauranovape = {Enabled = false}
+	local killauranoxape = {Enabled = false}
 	local killauratargethighlight = {Enabled = false}
 	local killaurarangecircle = {Enabled = false}
 	local killaurarangecirclepart
@@ -3794,7 +3794,7 @@ runFunction(function()
 					repeat
 						task.wait()
 						if not Killaura.Enabled then break end
-						vapeTargetInfo.Targets.Killaura = nil
+						xapeTargetInfo.Targets.Killaura = nil
 						local plrs = AllNearPosition(killaurarange.Value, 10, killaurasortmethods[killaurasortmethod.Value], true)
 						local firstPlayerNear
 						if #plrs > 0 then
@@ -3820,14 +3820,14 @@ runFunction(function()
 									if not playerattackable then
 										continue
 									end
-									if killauranovape.Enabled and bedwarsStore.whitelist.clientUsers[plr.Player.Name] then
+									if killauranoxape.Enabled and bedwarsStore.whitelist.clientUsers[plr.Player.Name] then
 										continue
 									end
 									if not firstPlayerNear then 
 										firstPlayerNear = true 
 										killauraNearPlayer = true
 										targetedPlayer = plr
-										vapeTargetInfo.Targets.Killaura = {
+										xapeTargetInfo.Targets.Killaura = {
 											Humanoid = {
 												Health = (plr.Character:GetAttribute("Health") or plr.Humanoid.Health) + getShieldAttribute(plr.Character),
 												MaxHealth = plr.Character:GetAttribute("MaxHealth") or plr.Humanoid.MaxHealth
@@ -3906,7 +3906,7 @@ runFunction(function()
 					until (not Killaura.Enabled)
 				end)
             else
-				vapeTargetInfo.Targets.Killaura = nil
+				xapeTargetInfo.Targets.Killaura = nil
 				RunLoops:UnbindFromHeartbeat("Killaura") 
                 killauraNearPlayer = false
 				for i,v in pairs(killauraboxes) do v.Adornee = nil end
@@ -4215,10 +4215,10 @@ runFunction(function()
 		HoverText = "Times animation with hit attempt"
     })
 	if WhitelistFunctions:CheckPlayerType(lplr) ~= "DEFAULT" then
-		killauranovape = Killaura.CreateToggle({
-			Name = "No Vape",
+		killauranoxape = Killaura.CreateToggle({
+			Name = "No xape",
 			Function = function() end,
-			HoverText = "no hit vape user"
+			HoverText = "no hit xape user"
 		})
 	end
 end)
@@ -4400,7 +4400,7 @@ runFunction(function()
 		Name = "LongJump",
 		Function = function(callback)
 			if callback then
-				table.insert(LongJump.Connections, vapeEvents.EntityDamageEvent.Event:Connect(function(damageTable)
+				table.insert(LongJump.Connections, xapeEvents.EntityDamageEvent.Event:Connect(function(damageTable)
 					if damageTable.entityInstance == lplr.Character and (not damageTable.knockbackMultiplier or not damageTable.knockbackMultiplier.disabled) then 
 						local knockbackBoost = damageTable.knockbackMultiplier and damageTable.knockbackMultiplier.horizontal and damageTable.knockbackMultiplier.horizontal * LongJumpSpeed.Value or LongJumpSpeed.Value
 						if damagetimertick < tick() or knockbackBoost >= damagetimer then
@@ -4930,7 +4930,7 @@ runFunction(function()
 		Name = "Speed",
 		Function = function(callback)
 			if callback then
-				table.insert(Speed.Connections, vapeEvents.EntityDamageEvent.Event:Connect(function(damageTable)
+				table.insert(Speed.Connections, xapeEvents.EntityDamageEvent.Event:Connect(function(damageTable)
 					if damageTable.entityInstance == lplr.Character and (damageTable.damageType ~= 0 or damageTable.extra and damageTable.extra.chargeRatio ~= nil) and (not (damageTable.knockbackMultiplier and damageTable.knockbackMultiplier.disabled or damageTable.knockbackMultiplier and damageTable.knockbackMultiplier.horizontal == 0)) and SpeedDamageBoost.Enabled then 
 						damagetick = tick() + 0.4
 					end
@@ -5356,7 +5356,7 @@ runFunction(function()
 		Name = "BedPlates",
 		Function = function(callback)
 			if callback then
-				table.insert(BedPlates.Connections, vapeEvents.PlaceBlockEvent.Event:Connect(function(p5)
+				table.insert(BedPlates.Connections, xapeEvents.PlaceBlockEvent.Event:Connect(function(p5)
 					for i, v in pairs(BedPlatesFolder:GetChildren()) do 
 						if v.Adornee then
 							if ((p5.blockRef.blockPosition * 3) - v.Adornee.Position).magnitude <= 20 then
@@ -5365,7 +5365,7 @@ runFunction(function()
 						end
 					end
 				end))
-				table.insert(BedPlates.Connections, vapeEvents.BreakBlockEvent.Event:Connect(function(p5)
+				table.insert(BedPlates.Connections, xapeEvents.BreakBlockEvent.Event:Connect(function(p5)
 					for i, v in pairs(BedPlatesFolder:GetChildren()) do 
 						if v.Adornee then
 							if ((p5.blockRef.blockPosition * 3) - v.Adornee.Position).magnitude <= 20 then
@@ -6037,7 +6037,7 @@ runFunction(function()
 					if entityLibrary.isAlive then 
 						snowpart.Position = entityLibrary.character.HumanoidRootPart.Position + Vector3.new(0, 100, 0)
 					end
-				until not vapeInjected
+				until not xapeInjected
 			end)
 		end,
 		Halloween = function()
@@ -7060,8 +7060,8 @@ runFunction(function()
 		Function = function(callback)
 			if callback then
 				task.spawn(function()
-					repeat task.wait() until bedwarsStore.matchState ~= 0 or  not vapeInjected
-					if vapeInjected and AutoBalloonypos == 0 and AutoBalloon.Enabled then
+					repeat task.wait() until bedwarsStore.matchState ~= 0 or  not xapeInjected
+					if xapeInjected and AutoBalloonypos == 0 and AutoBalloon.Enabled then
 						local lowestypos = 99999
 						for i,v in pairs(bedwarsStore.blocks) do 
 							local newray = workspace:Raycast(v.Position + Vector3.new(0, 800, 0), Vector3.new(0, -1000, 0), bedwarsStore.blockRaycast)
@@ -7198,7 +7198,7 @@ runFunction(function()
 	}
 
 	task.spawn(function()
-		repeat task.wait() until bedwarsStore.matchState ~= 0 or not vapeInjected
+		repeat task.wait() until bedwarsStore.matchState ~= 0 or not xapeInjected
 		for i,v in pairs(collectionService:GetTagged("BedwarsItemShop")) do
 			table.insert(bedwarsshopnpcs, {Position = v.Position, TeamUpgradeNPC = true})
 		end
@@ -7665,7 +7665,7 @@ runFunction(function()
 						if p3.Name == "apple" and AutoBankApple.Enabled then 
 							if autobankapple then return end
 						elseif p3.Name == "balloon" and AutoBankBalloon.Enabled then 
-							if autobankballoon then vapeEvents.AutoBankBalloon:Fire() return end
+							if autobankballoon then xapeEvents.AutoBankBalloon:Fire() return end
 						elseif (p3.Name == "emerald" or p3.Name == "iron" or p3.Name == "diamond" or p3.Name == "gold") then
 							if not ((not AutoBankTransmitted) or (AutoBankTransmittedType and p3.Name ~= "diamond")) then return end
 						else
@@ -7918,8 +7918,8 @@ runFunction(function()
 		Name = "AutoConsume",
 		Function = function(callback)
 			if callback then
-				table.insert(AutoConsume.Connections, vapeEvents.InventoryAmountChanged.Event:Connect(AutoConsumeFunc))
-				table.insert(AutoConsume.Connections, vapeEvents.AttributeChanged.Event:Connect(function(changed)
+				table.insert(AutoConsume.Connections, xapeEvents.InventoryAmountChanged.Event:Connect(AutoConsumeFunc))
+				table.insert(AutoConsume.Connections, xapeEvents.AttributeChanged.Event:Connect(function(changed)
 					if changed:find("Shield") or changed:find("Health") or changed:find("speed") then 
 						AutoConsumeFunc()
 					end
@@ -8013,7 +8013,7 @@ runFunction(function()
 							type = "InventoryRemoveFromHotbar", 
 							slot = tonumber(hotbarslot) - 1
 						})
-						vapeEvents.InventoryChanged.Event:Wait()
+						xapeEvents.InventoryChanged.Event:Wait()
 					end
 					local newhotbaritemslot, newhotbaritem = findinhotbar(v)
 					if newhotbaritemslot then
@@ -8021,7 +8021,7 @@ runFunction(function()
 							type = "InventoryRemoveFromHotbar", 
 							slot = newhotbaritemslot - 1
 						})
-						vapeEvents.InventoryChanged.Event:Wait()
+						xapeEvents.InventoryChanged.Event:Wait()
 					end
 					if oldhotbaritem.item and newhotbaritemslot then 
 						local nextitem1, nextitem1num = findininventory(oldhotbaritem.item)
@@ -8030,7 +8030,7 @@ runFunction(function()
 							item = nextitem1, 
 							slot = newhotbaritemslot - 1
 						})
-						vapeEvents.InventoryChanged.Event:Wait()
+						xapeEvents.InventoryChanged.Event:Wait()
 					end
 					local nextitem2, nextitem2num = findininventory(v)
 					bedwars.ClientStoreHandler:dispatch({
@@ -8038,7 +8038,7 @@ runFunction(function()
 						item = nextitem2, 
 						slot = tonumber(hotbarslot) - 1
 					})
-					vapeEvents.InventoryChanged.Event:Wait()
+					xapeEvents.InventoryChanged.Event:Wait()
 				else
 					if AutoHotbarClear.Enabled then 
 						local newhotbaritemslot, newhotbaritem = findinhotbar(v)
@@ -8047,7 +8047,7 @@ runFunction(function()
 								type = "InventoryRemoveFromHotbar", 
 								slot = newhotbaritemslot - 1
 							})
-							vapeEvents.InventoryChanged.Event:Wait()
+							xapeEvents.InventoryChanged.Event:Wait()
 						end
 					end
 				end
@@ -8066,7 +8066,7 @@ runFunction(function()
 						AutoHotbar.ToggleButton(false)
 					end
 				else
-					table.insert(AutoHotbar.Connections, vapeEvents.InventoryAmountChanged.Event:Connect(function()
+					table.insert(AutoHotbar.Connections, xapeEvents.InventoryAmountChanged.Event:Connect(function()
 						if not AutoHotbar.Enabled then return end
 						AutoHotbarSort()
 					end))
@@ -8268,7 +8268,7 @@ runFunction(function()
 								until (not AutoKit.Enabled)
 							end)
 						elseif bedwarsStore.equippedKit == "angel" then 
-							table.insert(AutoKit.Connections, vapeEvents.AngelProgress.Event:Connect(function(angelTable)
+							table.insert(AutoKit.Connections, xapeEvents.AngelProgress.Event:Connect(function(angelTable)
 								task.wait(0.5)
 								if not AutoKit.Enabled then return end
 								if bedwars.ClientStoreHandler:getState().Kit.angelProgress >= 1 and lplr.Character:GetAttribute("AngelType") == nil then
@@ -8522,7 +8522,7 @@ runFunction(function()
 		adopted = "Bullying",
 		linlife = "Bullying",
 		commitnotalive = "Bullying",
-		vape = "Offsite Links",
+		xape = "Offsite Links",
 		futureclient = "Offsite Links",
 		download = "Offsite Links",
 		youtube = "Offsite Links",
@@ -8563,15 +8563,15 @@ runFunction(function()
 		Name = "AutoToxic",
 		Function = function(callback)
 			if callback then 
-				table.insert(AutoToxic.Connections, vapeEvents.BedwarsBedBreak.Event:Connect(function(bedTable)
+				table.insert(AutoToxic.Connections, xapeEvents.BedwarsBedBreak.Event:Connect(function(bedTable)
 					if AutoToxicBedDestroyed.Enabled and bedTable.brokenBedTeam.id == lplr:GetAttribute("Team") then
-						local custommsg = #AutoToxicPhrases6.ObjectList > 0 and AutoToxicPhrases6.ObjectList[math.random(1, #AutoToxicPhrases6.ObjectList)] or "How dare you break my bed >:( <name> | vxpe on top"
+						local custommsg = #AutoToxicPhrases6.ObjectList > 0 and AutoToxicPhrases6.ObjectList[math.random(1, #AutoToxicPhrases6.ObjectList)] or "How dare you break my bed >:( <name> | xape on top"
 						if custommsg then
 							custommsg = custommsg:gsub("<name>", (bedTable.player.DisplayName or bedTable.player.Name))
 						end
 						textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(custommsg)
 					elseif AutoToxicBedBreak.Enabled and bedTable.player.UserId == lplr.UserId then
-						local custommsg = #AutoToxicPhrases7.ObjectList > 0 and AutoToxicPhrases7.ObjectList[math.random(1, #AutoToxicPhrases7.ObjectList)] or "nice bed <teamname> | vxpe on top"
+						local custommsg = #AutoToxicPhrases7.ObjectList > 0 and AutoToxicPhrases7.ObjectList[math.random(1, #AutoToxicPhrases7.ObjectList)] or "nice bed <teamname> | xape on top"
 						if custommsg then
 							local team = bedwars.QueueMeta[bedwarsStore.queueType].teams[tonumber(bedTable.brokenBedTeam.id)]
 							local teamname = team and team.displayName:lower() or "white"
@@ -8580,7 +8580,7 @@ runFunction(function()
 						textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(custommsg)
 					end
 				end))
-				table.insert(AutoToxic.Connections, vapeEvents.EntityDeathEvent.Event:Connect(function(deathTable)
+				table.insert(AutoToxic.Connections, xapeEvents.EntityDeathEvent.Event:Connect(function(deathTable)
 					if deathTable.finalKill then
 						local killer = playersService:GetPlayerFromCharacter(deathTable.fromEntity)
 						local killed = playersService:GetPlayerFromCharacter(deathTable.entityInstance)
@@ -8588,7 +8588,7 @@ runFunction(function()
 						if killed == lplr then 
 							if (not leavesaid) and killer ~= lplr and AutoToxicDeath.Enabled then
 								leavesaid = true
-								local custommsg = #AutoToxicPhrases3.ObjectList > 0 and AutoToxicPhrases3.ObjectList[math.random(1, #AutoToxicPhrases3.ObjectList)] or "My gaming chair expired midfight, thats why you won <name> | vxpe on top"
+								local custommsg = #AutoToxicPhrases3.ObjectList > 0 and AutoToxicPhrases3.ObjectList[math.random(1, #AutoToxicPhrases3.ObjectList)] or "My gaming chair expired midfight, thats why you won <name> | xape on top"
 								if custommsg then
 									custommsg = custommsg:gsub("<name>", (killer.DisplayName or killer.Name))
 								end
@@ -8596,9 +8596,9 @@ runFunction(function()
 							end
 						else
 							if killer == lplr and AutoToxicFinalKill.Enabled then 
-								local custommsg = #AutoToxicPhrases2.ObjectList > 0 and AutoToxicPhrases2.ObjectList[math.random(1, #AutoToxicPhrases2.ObjectList)] or "L <name> | vxpe on top"
+								local custommsg = #AutoToxicPhrases2.ObjectList > 0 and AutoToxicPhrases2.ObjectList[math.random(1, #AutoToxicPhrases2.ObjectList)] or "L <name> | xape on top"
 								if custommsg == lastsaid then
-									custommsg = #AutoToxicPhrases2.ObjectList > 0 and AutoToxicPhrases2.ObjectList[math.random(1, #AutoToxicPhrases2.ObjectList)] or "L <name> | vxpe on top"
+									custommsg = #AutoToxicPhrases2.ObjectList > 0 and AutoToxicPhrases2.ObjectList[math.random(1, #AutoToxicPhrases2.ObjectList)] or "L <name> | xape on top"
 								else
 									lastsaid = custommsg
 								end
@@ -8610,7 +8610,7 @@ runFunction(function()
 						end
 					end
 				end))
-				table.insert(AutoToxic.Connections, vapeEvents.MatchEndEvent.Event:Connect(function(winstuff)
+				table.insert(AutoToxic.Connections, xapeEvents.MatchEndEvent.Event:Connect(function(winstuff)
 					local myTeam = bedwars.ClientStoreHandler:getState().Game.myTeam
 					if myTeam and myTeam.id == winstuff.winningTeamId or lplr.Neutral then
 						if AutoToxicGG.Enabled then
@@ -8620,17 +8620,17 @@ runFunction(function()
 							end
 						end
 						if AutoToxicWin.Enabled then
-							textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(#AutoToxicPhrases.ObjectList > 0 and AutoToxicPhrases.ObjectList[math.random(1, #AutoToxicPhrases.ObjectList)] or "EZ L TRASH KIDS | vxpe on top")
+							textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(#AutoToxicPhrases.ObjectList > 0 and AutoToxicPhrases.ObjectList[math.random(1, #AutoToxicPhrases.ObjectList)] or "EZ L TRASH KIDS | xape on top")
 						end
 					end
 				end))
-				table.insert(AutoToxic.Connections, vapeEvents.LagbackEvent.Event:Connect(function(plr)
+				table.insert(AutoToxic.Connections, xapeEvents.LagbackEvent.Event:Connect(function(plr)
 					if AutoToxicLagback.Enabled then
 						local custommsg = #AutoToxicPhrases8.ObjectList > 0 and AutoToxicPhrases8.ObjectList[math.random(1, #AutoToxicPhrases8.ObjectList)]
 						if custommsg then
 							custommsg = custommsg:gsub("<name>", (plr.DisplayName or plr.Name))
 						end
-						local msg = custommsg or "Imagine lagbacking L "..(plr.DisplayName or plr.Name).." | vxpe on top"
+						local msg = custommsg or "Imagine lagbacking L "..(plr.DisplayName or plr.Name).." | xape on top"
 						textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(msg)
 					end
 				end))
@@ -8646,7 +8646,7 @@ runFunction(function()
 								if custommsg then
 									custommsg = custommsg:gsub("<name>", (plr.DisplayName or plr.Name))
 								end
-								local msg = custommsg or "I don't care about the fact that I'm hacking, I care about you dying in a block game. L "..(plr.DisplayName or plr.Name).." | vxpe on top"
+								local msg = custommsg or "I don't care about the fact that I'm hacking, I care about you dying in a block game. L "..(plr.DisplayName or plr.Name).." | xape on top"
 								textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(msg)
 							end
 						end
@@ -9329,8 +9329,8 @@ runFunction(function()
 		Function = function(val) 
 			if val == "Classic" then 
 				task.spawn(function()
-					repeat task.wait() until bedwarsStore.matchState ~= 0 or not vapeInjected
-					if vapeInjected and AntiVoidMoveMode.Value == "Classic" and antivoidypos == 0 and AntiVoid.Enabled then
+					repeat task.wait() until bedwarsStore.matchState ~= 0 or not xapeInjected
+					if xapeInjected and AntiVoidMoveMode.Value == "Classic" and antivoidypos == 0 and AntiVoid.Enabled then
 						local lowestypos = 99999
 						for i,v in pairs(bedwarsStore.blocks) do 
 							local newray = workspace:Raycast(v.Position + Vector3.new(0, 800, 0), Vector3.new(0, -1000, 0), bedwarsStore.blockRaycast)
@@ -9979,11 +9979,11 @@ runFunction(function()
 end)
 
 runFunction(function()
-	bedwarsStore.TPString = shared.vapeoverlay or nil
+	bedwarsStore.TPString = shared.xapeoverlay or nil
 	local origtpstring = bedwarsStore.TPString
 	local Overlay = GuiLibrary.CreateCustomWindow({
 		Name = "Overlay",
-		Icon = "vape/assets/TargetIcon1.png",
+		Icon = "xape/assets/TargetIcon1.png",
 		IconSize = 16
 	})
 	local overlayframe = Instance.new("Frame")
@@ -10083,13 +10083,13 @@ runFunction(function()
 
 	GuiLibrary.ObjectsThatCanBeSaved.GUIWindow.Api.CreateCustomToggle({
 		Name = "Overlay", 
-		Icon = "vape/assets/TargetIcon1.png", 
+		Icon = "xape/assets/TargetIcon1.png", 
 		Function = function(callback)
 			overlayenabled = callback
 			Overlay.SetVisible(callback) 
 			if callback then 
 				table.insert(overlayconnections, bedwars.ClientHandler:OnEvent("ProjectileImpact", function(p3)
-					if not vapeInjected then return end
+					if not xapeInjected then return end
 					if p3.projectile == "telepearl" then 
 						teleported[p3.shooterPlayer] = true
 					elseif p3.projectile == "swap_ball" then
@@ -10110,21 +10110,21 @@ runFunction(function()
 					end
 				end))
 
-				table.insert(overlayconnections, vapeEvents.BedwarsBedBreak.Event:Connect(function(bedTable)
+				table.insert(overlayconnections, xapeEvents.BedwarsBedBreak.Event:Connect(function(bedTable)
 					if bedTable.player.UserId == lplr.UserId then
 						bedwarsStore.statistics.beds = bedwarsStore.statistics.beds + 1
 					end
 				end))
 
 				local victorysaid = false
-				table.insert(overlayconnections, vapeEvents.MatchEndEvent.Event:Connect(function(winstuff)
+				table.insert(overlayconnections, xapeEvents.MatchEndEvent.Event:Connect(function(winstuff)
 					local myTeam = bedwars.ClientStoreHandler:getState().Game.myTeam
 					if myTeam and myTeam.id == winstuff.winningTeamId or lplr.Neutral then
 						victorysaid = true
 					end
 				end))
 
-				table.insert(overlayconnections, vapeEvents.EntityDeathEvent.Event:Connect(function(deathTable)
+				table.insert(overlayconnections, xapeEvents.EntityDeathEvent.Event:Connect(function(deathTable)
 					if deathTable.finalKill then
 						local killer = playersService:GetPlayerFromCharacter(deathTable.fromEntity)
 						local killed = playersService:GetPlayerFromCharacter(deathTable.entityInstance)
@@ -10174,14 +10174,14 @@ runFunction(function()
 						for i, v in pairs(entityLibrary.entityList) do 
 							if teleportconnections[v.Player.Name.."1"] then continue end
 							teleportconnections[v.Player.Name.."1"] = v.Player:GetAttributeChangedSignal("LastTeleported"):Connect(function()
-								if not vapeInjected then return end
+								if not xapeInjected then return end
 								for i = 1, 15 do 
 									task.wait(0.1)
 									if teleported[v.Player] or teleported2[v.Player] or matchstatetick > tick() or math.abs(v.Player:GetAttribute("SpawnTime") - v.Player:GetAttribute("LastTeleported")) < 3 or (teleportedability[v.Player] or tick() - 1) > tick() then break end
 								end
 								if v.Player ~= nil and (not v.Player.Neutral) and teleported[v.Player] == nil and teleported2[v.Player] == nil and (teleportedability[v.Player] or tick() - 1) < tick() and math.abs(v.Player:GetAttribute("SpawnTime") - v.Player:GetAttribute("LastTeleported")) > 3 and matchstatetick <= tick() then 
 									bedwarsStore.statistics.universalLagbacks = bedwarsStore.statistics.universalLagbacks + 1
-									vapeEvents.LagbackEvent:Fire(v.Player)
+									xapeEvents.LagbackEvent:Fire(v.Player)
 								end
 								teleported[v.Player] = nil
 							end)
@@ -10243,71 +10243,71 @@ end)
 
 task.spawn(function()
 	local function createannouncement(announcetab)
-		local vapenotifframe = Instance.new("TextButton")
-		vapenotifframe.AnchorPoint = Vector2.new(0.5, 0)
-		vapenotifframe.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
-		vapenotifframe.Size = UDim2.new(1, -10, 0, 50)
-		vapenotifframe.Position = UDim2.new(0.5, 0, 0, -100)
-		vapenotifframe.AutoButtonColor = false
-		vapenotifframe.Text = ""
-		vapenotifframe.Parent = shared.GuiLibrary.MainGui
-		local vapenotifframecorner = Instance.new("UICorner")
-		vapenotifframecorner.CornerRadius = UDim.new(0, 256)
-		vapenotifframecorner.Parent = vapenotifframe
-		local vapeicon = Instance.new("Frame")
-		vapeicon.Size = UDim2.new(0, 40, 0, 40)
-		vapeicon.Position = UDim2.new(0, 5, 0, 5)
-		vapeicon.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
-		vapeicon.Parent = vapenotifframe
-		local vapeiconicon = Instance.new("ImageLabel")
-		vapeiconicon.BackgroundTransparency = 1
-		vapeiconicon.Size = UDim2.new(1, -10, 1, -10)
-		vapeiconicon.AnchorPoint = Vector2.new(0.5, 0.5)
-		vapeiconicon.Position = UDim2.new(0.5, 0, 0.5, 0)
-		vapeiconicon.Image = getcustomasset("vape/assets/VapeIcon.png")
-		vapeiconicon.Parent = vapeicon
-		local vapeiconcorner = Instance.new("UICorner")
-		vapeiconcorner.CornerRadius = UDim.new(0, 256)
-		vapeiconcorner.Parent = vapeicon
-		local vapetext = Instance.new("TextLabel")
-		vapetext.Size = UDim2.new(1, -55, 1, -10)
-		vapetext.Position = UDim2.new(0, 50, 0, 5)
-		vapetext.BackgroundTransparency = 1
-		vapetext.TextScaled = true
-		vapetext.RichText = true
-		vapetext.Font = Enum.Font.Ubuntu
-		vapetext.Text = announcetab.Text
-		vapetext.TextColor3 = Color3.new(1, 1, 1)
-		vapetext.TextXAlignment = Enum.TextXAlignment.Left
-		vapetext.Parent = vapenotifframe
-		tweenService:Create(vapenotifframe, TweenInfo.new(0.3), {Position = UDim2.new(0.5, 0, 0, 5)}):Play()
+		local xapenotifframe = Instance.new("TextButton")
+		xapenotifframe.AnchorPoint = Vector2.new(0.5, 0)
+		xapenotifframe.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+		xapenotifframe.Size = UDim2.new(1, -10, 0, 50)
+		xapenotifframe.Position = UDim2.new(0.5, 0, 0, -100)
+		xapenotifframe.AutoButtonColor = false
+		xapenotifframe.Text = ""
+		xapenotifframe.Parent = shared.GuiLibrary.MainGui
+		local xapenotifframecorner = Instance.new("UICorner")
+		xapenotifframecorner.CornerRadius = UDim.new(0, 256)
+		xapenotifframecorner.Parent = xapenotifframe
+		local xapeicon = Instance.new("Frame")
+		xapeicon.Size = UDim2.new(0, 40, 0, 40)
+		xapeicon.Position = UDim2.new(0, 5, 0, 5)
+		xapeicon.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+		xapeicon.Parent = xapenotifframe
+		local xapeiconicon = Instance.new("ImageLabel")
+		xapeiconicon.BackgroundTransparency = 1
+		xapeiconicon.Size = UDim2.new(1, -10, 1, -10)
+		xapeiconicon.AnchorPoint = Vector2.new(0.5, 0.5)
+		xapeiconicon.Position = UDim2.new(0.5, 0, 0.5, 0)
+		xapeiconicon.Image = getcustomasset("xape/assets/xapeIcon.png")
+		xapeiconicon.Parent = xapeicon
+		local xapeiconcorner = Instance.new("UICorner")
+		xapeiconcorner.CornerRadius = UDim.new(0, 256)
+		xapeiconcorner.Parent = xapeicon
+		local xapetext = Instance.new("TextLabel")
+		xapetext.Size = UDim2.new(1, -55, 1, -10)
+		xapetext.Position = UDim2.new(0, 50, 0, 5)
+		xapetext.BackgroundTransparency = 1
+		xapetext.TextScaled = true
+		xapetext.RichText = true
+		xapetext.Font = Enum.Font.Ubuntu
+		xapetext.Text = announcetab.Text
+		xapetext.TextColor3 = Color3.new(1, 1, 1)
+		xapetext.TextXAlignment = Enum.TextXAlignment.Left
+		xapetext.Parent = xapenotifframe
+		tweenService:Create(xapenotifframe, TweenInfo.new(0.3), {Position = UDim2.new(0.5, 0, 0, 5)}):Play()
 		local sound = Instance.new("Sound")
 		sound.PlayOnRemove = true
 		sound.SoundId = "rbxassetid://6732495464"
 		sound.Parent = workspace
 		sound:Destroy()
-		vapenotifframe.MouseButton1Click:Connect(function()
+		xapenotifframe.MouseButton1Click:Connect(function()
 			local sound = Instance.new("Sound")
 			sound.PlayOnRemove = true
 			sound.SoundId = "rbxassetid://6732690176"
 			sound.Parent = workspace
 			sound:Destroy()
-			vapenotifframe:Destroy()
+			xapenotifframe:Destroy()
 		end)
-		game:GetService("Debris"):AddItem(vapenotifframe, announcetab.Time or 20)
+		game:GetService("Debris"):AddItem(xapenotifframe, announcetab.Time or 20)
 	end
 
 	local function rundata(datatab, olddatatab)
 		if not olddatatab then
 			if datatab.Disabled then 
 				coroutine.resume(coroutine.create(function()
-					repeat task.wait() until shared.VapeFullyLoaded
+					repeat task.wait() until shared.xapeFullyLoaded
 					task.wait(1)
 					GuiLibrary.SelfDestruct()
 				end))
 				game:GetService("StarterGui"):SetCore("SendNotification", {
-					Title = "Vape",
-					Text = "Vape is currently disabled, please use vape later.",
+					Title = "xape",
+					Text = "xape is currently disabled, please use xape later.",
 					Duration = 30,
 				})
 			end
@@ -10317,13 +10317,13 @@ task.spawn(function()
 		else
 			if datatab.Disabled then 
 				coroutine.resume(coroutine.create(function()
-					repeat task.wait() until shared.VapeFullyLoaded
+					repeat task.wait() until shared.xapeFullyLoaded
 					task.wait(1)
 					GuiLibrary.SelfDestruct()
 				end))
 				game:GetService("StarterGui"):SetCore("SendNotification", {
-					Title = "Vape",
-					Text = "Vape is currently disabled, please use vape later.",
+					Title = "xape",
+					Text = "xape is currently disabled, please use xape later.",
 					Duration = 30,
 				})
 			end
@@ -10340,22 +10340,22 @@ task.spawn(function()
 	task.spawn(function()
 		pcall(function()
 			if inputService.TouchEnabled or inputService:GetPlatform() == Enum.Platform.UWP then return end
-			if not isfile("vape/Profiles/bedwarsdata.txt") then 
+			if not isfile("xape/Profiles/bedwarsdata.txt") then 
 				local commit = "main"
-				for i,v in pairs(game:HttpGet("https://github.com/7GrandDadPGN/VapeV4ForRoblox"):split("\n")) do 
+				for i,v in pairs(game:HttpGet("https://github.com/ImNicknamez/xaperell"):split("\n")) do 
 					if v:find("commit") and v:find("fragment") then 
 						local str = v:split("/")[5]
 						commit = str:sub(0, str:find('"') - 1)
 						break
 					end
 				end
-				writefile("vape/Profiles/bedwarsdata.txt", game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..commit.."/CustomModules/bedwarsdata", true))
+				writefile("xape/Profiles/bedwarsdata.txt", game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xaperell/"..commit.."/CustomModules/bedwarsdata", true))
 			end
-			local olddata = readfile("vape/Profiles/bedwarsdata.txt")
+			local olddata = readfile("xape/Profiles/bedwarsdata.txt")
 
 			repeat
 				local commit = "main"
-				for i,v in pairs(game:HttpGet("https://github.com/7GrandDadPGN/VapeV4ForRoblox"):split("\n")) do 
+				for i,v in pairs(game:HttpGet("https://github.com/ImNicknamez/xaperell"):split("\n")) do 
 					if v:find("commit") and v:find("fragment") then 
 						local str = v:split("/")[5]
 						commit = str:sub(0, str:find('"') - 1)
@@ -10363,21 +10363,21 @@ task.spawn(function()
 					end
 				end
 				
-				local newdata = game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/"..commit.."/CustomModules/bedwarsdata", true)
+				local newdata = game:HttpGet("https://raw.githubusercontent.com/ImNicknamez/xaperell/"..commit.."/CustomModules/bedwarsdata", true)
 				if newdata ~= olddata then 
 					rundata(game:GetService("HttpService"):JSONDecode(newdata), game:GetService("HttpService"):JSONDecode(olddata))
 					olddata = newdata
-					writefile("vape/Profiles/bedwarsdata.txt", newdata)
+					writefile("xape/Profiles/bedwarsdata.txt", newdata)
 				end
 
 				task.wait(10)
-			until not vapeInjected
+			until not xapeInjected
 		end)
 	end)
 end)
 
 task.spawn(function()
-	repeat task.wait() until shared.VapeFullyLoaded
+	repeat task.wait() until shared.xapeFullyLoaded
 	if not AutoLeave.Enabled then 
 		AutoLeave.ToggleButton(false)
 	end
